@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>try{if(localStorage.getItem("sw-theme")==="light")document.documentElement.classList.add("light");}catch(e){}</script>
   <title>Once-Through & Supercritical Steam-Water Chemistry Simulator (IAPWS TGD3-10)</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-    }
-  </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
     body {
       font-family: 'Inter', sans-serif;
+      background-color: #0b0f19;
+      color: #e2e8f0;
     }
     .code-font {
       font-family: 'Fira Code', monospace;
@@ -35,17 +33,26 @@
       height: 8px;
     }
     ::-webkit-scrollbar-track {
-      background: rgba(0,0,0,0.1);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 4px;
-    }
-    .dark ::-webkit-scrollbar-track {
       background: #0f172a;
     }
-    .dark ::-webkit-scrollbar-thumb {
+    ::-webkit-scrollbar-thumb {
       background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .glow-cyan {
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+    }
+    .glow-amber {
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+    }
+    .glow-red {
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+    }
+    .glow-green {
+      box-shadow: 0 0 15px rgba(34, 197, 94, 0.25);
     }
     /* SVG Flow Animation */
     @keyframes flowLine {
@@ -57,30 +64,104 @@
       stroke-dasharray: 6, 6;
       animation: flowLine 1s linear infinite;
     }
+    .card-dark {
+      background: #111827;
+      border: 1px solid #1f2937;
+    }
+
+    /* ================= THEME SWITCH ================= */
+    body, header, section > div, .tab-btn { transition: background-color .25s, color .25s, border-color .25s; }
+    .theme-toggle {
+      display:inline-flex; align-items:center; gap:.5rem; padding:.375rem .75rem;
+      border-radius:.5rem; border:1px solid #334155; background:#1e293b; color:#e2e8f0;
+      font-size:.75rem; font-weight:600; cursor:pointer; white-space:nowrap;
+    }
+    .theme-toggle:hover { border-color:#38bdf8; }
+    .theme-toggle .icon-sun { display:inline; color:#fbbf24; }
+    .theme-toggle .icon-moon { display:none; color:#475569; }
+    html.light .theme-toggle { background:#ffffff; border-color:#cbd5e1; color:#0f172a; }
+    html.light .theme-toggle:hover { border-color:#0284c7; }
+    html.light .theme-toggle .icon-sun { display:none; }
+    html.light .theme-toggle .icon-moon { display:inline; }
+
+    html.light body { background-color:#f1f5f9; color:#1e293b; }
+    html.light ::-webkit-scrollbar-track { background:#e2e8f0; }
+    html.light ::-webkit-scrollbar-thumb { background:#94a3b8; }
+    html.light ::-webkit-scrollbar-thumb:hover { background:#64748b; }
+    html.light .card-dark { background:#ffffff; border-color:#e2e8f0; }
+    html.light .tab-btn.active { color:#0369a1; border-bottom-color:#0284c7; background-color:rgba(2,132,199,.08); }
+
+    /* surfaces */
+    html.light .bg-\[\#0b0f19\] { background-color:#f1f5f9 !important; }
+    html.light .bg-slate-950 { background-color:#f1f5f9 !important; }
+    html.light .bg-slate-900 { background-color:#ffffff !important; }
+    html.light .bg-slate-900\/90 { background-color:rgba(255,255,255,.92) !important; }
+    html.light .bg-slate-800 { background-color:#e2e8f0 !important; }
+    html.light .bg-slate-800\/80, html.light .bg-slate-800\/60, html.light .bg-slate-800\/50 { background-color:#f1f5f9 !important; }
+    html.light .bg-slate-700 { background-color:#cbd5e1 !important; }
+    html.light .bg-slate-600 { background-color:#94a3b8 !important; }
+    html.light .bg-sky-950\/30 { background-color:#e0f2fe !important; }
+    html.light .hover\:bg-slate-800:hover, html.light .hover\:bg-slate-700:hover { background-color:#e2e8f0 !important; }
+    /* borders */
+    html.light .border-slate-800, html.light .border-slate-800\/60, html.light .border-slate-700,
+    html.light .border-slate-700\/80, html.light .border-slate-700\/60 { border-color:#cbd5e1 !important; }
+    html.light .hover\:border-slate-600:hover { border-color:#94a3b8 !important; }
+    html.light .border-sky-800\/40 { border-color:#7dd3fc !important; }
+    /* text */
+    html.light .text-slate-100, html.light .text-slate-200 { color:#0f172a !important; }
+    html.light .text-slate-300 { color:#1e293b !important; }
+    html.light .text-slate-400 { color:#475569 !important; }
+    html.light .text-slate-500 { color:#64748b !important; }
+    html.light .text-slate-600 { color:#94a3b8 !important; }
+    html.light .hover\:text-slate-200:hover { color:#0f172a !important; }
+    html.light .text-sky-200, html.light .text-sky-300 { color:#0369a1 !important; }
+    html.light .text-sky-400 { color:#0284c7 !important; }
+    html.light .text-teal-300 { color:#0f766e !important; }
+    html.light .text-teal-400 { color:#0d9488 !important; }
+    html.light .text-emerald-300 { color:#047857 !important; }
+    html.light .text-emerald-400 { color:#059669 !important; }
+    html.light .text-amber-300 { color:#b45309 !important; }
+    html.light .text-amber-400, html.light .text-amber-400\/80 { color:#b45309 !important; }
+    html.light .text-red-300 { color:#b91c1c !important; }
+    html.light .text-red-400 { color:#dc2626 !important; }
+    html.light .text-purple-300 { color:#7e22ce !important; }
+    html.light .text-purple-400 { color:#9333ea !important; }
+    html.light .text-indigo-300 { color:#4338ca !important; }
+    html.light .text-indigo-400 { color:#4f46e5 !important; }
+    html.light .hover\:text-sky-400:hover, html.light .hover\:text-sky-200:hover { color:#0369a1 !important; }
+    /* gradient title */
+    html.light h1.bg-clip-text { background-image:linear-gradient(to right,#0369a1,#0f766e,#4338ca) !important; }
+    html.light .shadow-xl, html.light .shadow-2xl { box-shadow:0 4px 14px rgba(15,23,42,.08) !important; }
+    /* keep canvas "microscope" panes dark in both themes for contrast of the drawn layers */
+    html.light #canvas-container-1, html.light #canvas-container-2 { background-color:#020617 !important; }
+    /* primary button keeps dark text on bright sky */
+    html.light .bg-sky-500 { color:#ffffff; }
+    html.light .text-slate-950 { color:#ffffff !important; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between overflow-x-hidden bg-slate-50 text-slate-800 dark:bg-[#0b0f19] dark:text-slate-200 transition-colors duration-300">
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
 
   <!-- PASSWORD LOCK OVERLAY -->
-  <div id="password-overlay" class="fixed inset-0 z-50 bg-slate-900/80 dark:bg-[#0b0f19] backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 max-w-md w-full shadow-2xl text-center space-y-6">
-      <div class="w-16 h-16 bg-sky-500/10 border border-sky-500/30 rounded-full flex items-center justify-center mx-auto text-sky-500 dark:text-sky-400 text-2xl">
+  <div id="password-overlay" class="fixed inset-0 z-50 bg-[#0b0f19] flex items-center justify-center p-4">
+    <div class="absolute top-4 right-4"><button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Switch light/dark theme" title="Switch light/dark theme"><i class="fa-solid fa-sun icon-sun"></i><i class="fa-solid fa-moon icon-moon"></i><span class="theme-label">Light mode</span></button></div>
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 max-w-md w-full shadow-2xl text-center space-y-6">
+      <div class="w-16 h-16 bg-sky-500/10 border border-sky-500/30 rounded-full flex items-center justify-center mx-auto text-sky-400 text-2xl">
         <i class="fa-solid fa-lock"></i>
       </div>
       <div>
-        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">Restricted Access</h2>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Please enter the 4-digit passcode to access the Steam-Water Chemistry Simulator.</p>
+        <h2 class="text-xl font-bold text-slate-100">Restricted Access</h2>
+        <p class="text-xs text-slate-400 mt-1">Please enter the 4-digit passcode to access the Steam-Water Chemistry Simulator.</p>
       </div>
       
       <div class="space-y-3">
-        <input type="password" id="passcode-input" maxlength="4" placeholder="••••" class="w-full bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-center text-2xl tracking-widest text-sky-600 dark:text-sky-300 focus:outline-none focus:border-sky-500 font-mono">
-        <p id="passcode-error" class="text-xs text-red-500 dark:text-red-400 hidden"><i class="fa-solid fa-triangle-exclamation"></i> Incorrect passcode. Try 1612.</p>
+        <input type="password" id="passcode-input" maxlength="4" placeholder="••••" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-center text-2xl tracking-widest text-sky-300 focus:outline-none focus:border-sky-500 font-mono">
+        <p id="passcode-error" class="text-xs text-red-400 hidden"><i class="fa-solid fa-triangle-exclamation"></i> Incorrect passcode. Try 1612.</p>
         <button onclick="checkPasscode()" class="w-full py-3 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-sm rounded-xl shadow-lg transition">
           Unlock Simulator
         </button>
       </div>
 
-      <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-200 dark:border-slate-800">
+      <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-800">
         The site is created by Pradeep using Gemini AI &bull; IAPWS TGD3-10
       </div>
     </div>
@@ -90,55 +171,52 @@
   <div id="app-wrapper" class="min-h-screen flex flex-col justify-between opacity-0 transition-opacity duration-500 pointer-events-none">
 
   <!-- TOP HEADER -->
-  <header class="bg-white/90 dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-800 backdrop-blur sticky top-0 z-50 transition-colors duration-300">
+  <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
       <div class="flex items-center space-x-3">
-        <div class="p-2 bg-sky-500/10 border border-sky-500/30 rounded-lg text-sky-500 dark:text-sky-400">
+        <div class="p-2 bg-sky-500/10 border border-sky-500/30 rounded-lg text-sky-400">
           <i class="fa-solid fa-atom text-2xl"></i>
         </div>
         <div>
-          <h1 class="text-xl font-bold bg-gradient-to-r from-sky-500 via-teal-500 to-indigo-500 dark:from-sky-400 dark:via-teal-300 dark:to-indigo-400 bg-clip-text text-transparent">
+          <h1 class="text-xl font-bold bg-gradient-to-r from-sky-400 via-teal-300 to-indigo-400 bg-clip-text text-transparent">
             Once-Through & Supercritical Water Chemistry Simulator
           </h1>
-          <p class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2">
+          <p class="text-xs text-slate-400 flex items-center gap-2">
             <span>IAPWS Technical Guidance Document TGD3-10(2015)</span>
             <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-            <span class="text-emerald-600 dark:text-emerald-400 font-medium">Subcritical & Supercritical Units</span>
+            <span class="text-emerald-400 font-medium">Subcritical & Supercritical Units</span>
           </p>
         </div>
       </div>
-      <div class="flex items-center gap-3 text-xs">
-        <div class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 flex items-center gap-2">
-          <i class="fa-solid fa-layer-group text-sky-500 dark:text-sky-400"></i>
-          <span>Target CACE: <strong class="text-sky-600 dark:text-sky-300">&lt; 0.15 µS/cm</strong></span>
+      <div class="flex flex-wrap items-center justify-center gap-3 text-xs">
+        <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Switch light/dark theme" title="Switch light/dark theme"><i class="fa-solid fa-sun icon-sun"></i><i class="fa-solid fa-moon icon-moon"></i><span class="theme-label">Light mode</span></button>
+        <div class="px-3 py-1.5 bg-slate-800 rounded-lg border border-slate-700 text-slate-300 flex items-center gap-2">
+          <i class="fa-solid fa-layer-group text-sky-400"></i>
+          <span>Target CACE: <strong class="text-sky-300">&lt; 0.15 µS/cm</strong></span>
         </div>
-        <div class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 flex items-center gap-2">
-          <i class="fa-solid fa-gauge-high text-teal-500 dark:text-teal-400"></i>
-          <span>Pressure: <strong class="text-teal-600 dark:text-teal-300">18 - 30+ MPa</strong></span>
+        <div class="px-3 py-1.5 bg-slate-800 rounded-lg border border-slate-700 text-slate-300 flex items-center gap-2">
+          <i class="fa-solid fa-gauge-high text-teal-400"></i>
+          <span>Pressure: <strong class="text-teal-300">18 - 30+ MPa</strong></span>
         </div>
-        <!-- THEME TOGGLE BUTTON -->
-        <button onclick="toggleTheme()" class="p-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-amber-400 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition" title="Toggle Light/Dark View">
-          <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
-        </button>
       </div>
     </div>
 
     <!-- MAIN NAVIGATION TABS -->
-    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto border-t border-slate-200 dark:border-slate-800/60 no-scrollbar">
-      <button onclick="switchTab('tab-simulator')" id="btn-tab-simulator" class="tab-btn active px-4 py-3 text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto border-t border-slate-800/60 no-scrollbar">
+      <button onclick="switchTab('tab-simulator')" id="btn-tab-simulator" class="tab-btn active px-4 py-3 text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
         <i class="fa-solid fa-microscope"></i> 1. Tube Simulation & Volatile Basics
       </button>
-      <button onclick="switchTab('tab-advisor')" id="btn-tab-advisor" class="tab-btn px-4 py-3 text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+      <button onclick="switchTab('tab-advisor')" id="btn-tab-advisor" class="tab-btn px-4 py-3 text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
         <i class="fa-solid fa-diagram-project"></i> 2. Schematic & Dosing Advisor
       </button>
-      <button onclick="switchTab('tab-deepdive')" id="btn-tab-deepdive" class="tab-btn px-4 py-3 text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+      <button onclick="switchTab('tab-deepdive')" id="btn-tab-deepdive" class="tab-btn px-4 py-3 text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
         <i class="fa-solid fa-fire-burner"></i> 3. Once-Through & Supercritical Deep Dive
       </button>
-      <button onclick="switchTab('tab-glossary')" id="btn-tab-glossary" class="tab-btn px-4 py-3 text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+      <button onclick="switchTab('tab-glossary')" id="btn-tab-glossary" class="tab-btn px-4 py-3 text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
         <i class="fa-solid fa-book-bookmark"></i> 4. IAPWS Glossary
       </button>
-      <button onclick="switchTab('tab-ai-expert')" id="btn-tab-ai-expert" class="tab-btn px-4 py-3 text-xs sm:text-sm font-medium text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-200 flex items-center gap-2 whitespace-nowrap font-bold">
-        <i class="fa-solid fa-robot text-sky-500 dark:text-sky-400"></i> 5. AI Chemistry Expert (Gemini)
+      <button onclick="switchTab('tab-ai-expert')" id="btn-tab-ai-expert" class="tab-btn px-4 py-3 text-xs sm:text-sm font-medium text-sky-400 hover:text-sky-200 flex items-center gap-2 whitespace-nowrap font-bold">
+        <i class="fa-solid fa-robot text-sky-400"></i> 5. AI Chemistry Expert (Gemini)
       </button>
     </nav>
   </header>
@@ -153,80 +231,80 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         <!-- Controls & Parameter Tweaks -->
-        <div class="lg:col-span-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-xl space-y-4">
-          <h2 class="text-base font-bold text-slate-900 dark:text-slate-100 border-b border-slate-200 dark:border-slate-800 pb-3 flex items-center gap-2">
-            <i class="fa-solid fa-gamepad text-sky-500 dark:text-sky-400"></i> Regime Selection & Parameters
+        <div class="lg:col-span-4 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-4">
+          <h2 class="text-base font-bold text-slate-100 border-b border-slate-800 pb-3 flex items-center gap-2">
+            <i class="fa-solid fa-gamepad text-sky-400"></i> Regime Selection & Parameters
           </h2>
 
           <!-- Regime Selector Buttons -->
           <div>
-            <label class="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-2">Select Volatile Water Chemistry Regime:</label>
+            <label class="text-xs font-semibold text-slate-400 block mb-2">Select Volatile Water Chemistry Regime:</label>
             <div class="space-y-2">
               <button onclick="selectSimRegime('OT')" id="btn-sim-ot" class="w-full text-left p-3 rounded-lg border border-teal-500/50 bg-teal-500/10 hover:bg-teal-500/20 transition flex justify-between items-center">
                 <div>
-                  <div class="font-bold text-sm text-teal-700 dark:text-teal-300">OT - Oxygenated Treatment</div>
-                  <div class="text-[11px] text-slate-500 dark:text-slate-400">O₂: 30-150 µg/kg | CACE &lt; 0.15 µS/cm</div>
+                  <div class="font-bold text-sm text-teal-300">OT - Oxygenated Treatment</div>
+                  <div class="text-[11px] text-slate-400">O₂: 30-150 µg/kg | CACE &lt; 0.15 µS/cm</div>
                 </div>
-                <i class="fa-solid fa-circle-check text-teal-600 dark:text-teal-400 text-lg"></i>
+                <i class="fa-solid fa-circle-check text-teal-400 text-lg"></i>
               </button>
 
-              <button onclick="selectSimRegime('AVTO')" id="btn-sim-avto" class="w-full text-left p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex justify-between items-center">
+              <button onclick="selectSimRegime('AVTO')" id="btn-sim-avto" class="w-full text-left p-3 rounded-lg border border-slate-700 bg-slate-800/60 hover:bg-slate-800 transition flex justify-between items-center">
                 <div>
-                  <div class="font-bold text-sm text-sky-700 dark:text-sky-300">AVT(O) - All-Volatile Oxidizing</div>
-                  <div class="text-[11px] text-slate-500 dark:text-slate-400">O₂: 3-30 µg/kg | No Hydrazine</div>
+                  <div class="font-bold text-sm text-sky-300">AVT(O) - All-Volatile Oxidizing</div>
+                  <div class="text-[11px] text-slate-400">O₂: 3-30 µg/kg | No Hydrazine</div>
                 </div>
-                <i class="fa-solid fa-circle text-slate-300 dark:text-slate-600 text-lg"></i>
+                <i class="fa-solid fa-circle text-slate-600 text-lg"></i>
               </button>
 
-              <button onclick="selectSimRegime('AVTR')" id="btn-sim-avtr" class="w-full text-left p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex justify-between items-center">
+              <button onclick="selectSimRegime('AVTR')" id="btn-sim-avtr" class="w-full text-left p-3 rounded-lg border border-slate-700 bg-slate-800/60 hover:bg-slate-800 transition flex justify-between items-center">
                 <div>
-                  <div class="font-bold text-sm text-purple-700 dark:text-purple-300">AVT(R) - All-Volatile Reducing</div>
-                  <div class="text-[11px] text-slate-500 dark:text-slate-400">O₂ &lt; 5 µg/kg | Hydrazine Dosed</div>
+                  <div class="font-bold text-sm text-purple-300">AVT(R) - All-Volatile Reducing</div>
+                  <div class="text-[11px] text-slate-400">O₂ &lt; 5 µg/kg | Hydrazine Dosed</div>
                 </div>
-                <i class="fa-solid fa-circle text-slate-300 dark:text-slate-600 text-lg"></i>
+                <i class="fa-solid fa-circle text-slate-600 text-lg"></i>
               </button>
             </div>
           </div>
 
           <!-- Dynamic Metrics -->
-          <div class="bg-slate-100 dark:bg-slate-800/80 rounded-lg p-3.5 space-y-2 text-xs border border-slate-200 dark:border-slate-700">
-            <div class="flex justify-between border-b border-slate-200 dark:border-slate-700/60 pb-1.5">
-              <span class="text-slate-500 dark:text-slate-400">Primary Oxide Layer:</span>
-              <span id="sim-oxide-type" class="font-bold text-emerald-600 dark:text-emerald-400 chemical-formula">α-Fe₂O₃ (Hematite)</span>
+          <div class="bg-slate-800/80 rounded-lg p-3.5 space-y-2 text-xs border border-slate-700">
+            <div class="flex justify-between border-b border-slate-700/60 pb-1.5">
+              <span class="text-slate-400">Primary Oxide Layer:</span>
+              <span id="sim-oxide-type" class="font-bold text-emerald-400 chemical-formula">α-Fe₂O₃ (Hematite)</span>
             </div>
-            <div class="flex justify-between border-b border-slate-200 dark:border-slate-700/60 pb-1.5">
-              <span class="text-slate-500 dark:text-slate-400">Iron Transport / Release:</span>
-              <span id="sim-fe-rate" class="font-bold text-sky-600 dark:text-sky-400">&lt; 0.5 µg/kg (Minimal)</span>
+            <div class="flex justify-between border-b border-slate-700/60 pb-1.5">
+              <span class="text-slate-400">Iron Transport / Release:</span>
+              <span id="sim-fe-rate" class="font-bold text-sky-400">&lt; 0.5 µg/kg (Minimal)</span>
             </div>
-            <div class="flex justify-between border-b border-slate-200 dark:border-slate-700/60 pb-1.5">
-              <span class="text-slate-500 dark:text-slate-400">FAC Corrosion Risk:</span>
-              <span id="sim-fac-risk" class="font-bold text-emerald-600 dark:text-emerald-400">Negligible</span>
+            <div class="flex justify-between border-b border-slate-700/60 pb-1.5">
+              <span class="text-slate-400">FAC Corrosion Risk:</span>
+              <span id="sim-fac-risk" class="font-bold text-emerald-400">Negligible</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-slate-500 dark:text-slate-400">Boiler ΔP Growth:</span>
-              <span id="sim-dp-growth" class="font-bold text-teal-600 dark:text-teal-300">Zero / Smooth Layer</span>
+              <span class="text-slate-400">Boiler ΔP Growth:</span>
+              <span id="sim-dp-growth" class="font-bold text-teal-300">Zero / Smooth Layer</span>
             </div>
           </div>
 
-          <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-200 dark:border-slate-800 pt-3">
-            <strong class="text-slate-700 dark:text-slate-200">Simulated Comparison:</strong> Below canvas contrasts conditioned boiler tube inner walls against unconditioned raw pure water ($\text{pH} \approx 7.0$).
+          <div class="text-[11px] text-slate-400 leading-relaxed border-t border-slate-800 pt-3">
+            <strong class="text-slate-200">Simulated Comparison:</strong> Below canvas contrasts conditioned boiler tube inner walls against unconditioned raw pure water ($\text{pH} \approx 7.0$).
           </div>
         </div>
 
         <!-- Rendered Dual-Canvas Simulation -->
-        <div class="lg:col-span-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-xl flex flex-col justify-between">
+        <div class="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl flex flex-col justify-between">
           <div class="flex justify-between items-center mb-3">
-            <h3 class="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
-              <i class="fa-solid fa-microscope text-teal-500 dark:text-teal-400"></i> Dual Tube Wall Comparison: With vs Without Dosing
+            <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+              <i class="fa-solid fa-microscope text-teal-400"></i> Dual Tube Wall Comparison: With vs Without Dosing
             </h3>
-            <span class="text-xs text-slate-500 dark:text-slate-400 code-font">IAPWS Real-Time Physics Engine</span>
+            <span class="text-xs text-slate-400 code-font">IAPWS Real-Time Physics Engine</span>
           </div>
 
           <!-- Dual Canvas Containers -->
           <div class="space-y-4">
             
             <!-- CANVAS 1: WITH SELECTED DOSING -->
-            <div class="bg-slate-900 dark:bg-slate-950 rounded-lg border border-teal-500/40 p-3 relative">
+            <div class="bg-slate-950 rounded-lg border border-teal-500/40 p-3 relative">
               <div class="flex justify-between items-center mb-1.5 text-xs">
                 <span class="font-bold text-emerald-400 flex items-center gap-2">
                   <i class="fa-solid fa-circle-check"></i> 1. WITH SELECTED CHEMICAL DOSING (<span id="canvas-regime-label" class="chemical-formula">OT Regime</span>)
@@ -239,7 +317,7 @@
             </div>
 
             <!-- CANVAS 2: WITHOUT DOSING (UNCONDITIONED) -->
-            <div class="bg-slate-900 dark:bg-slate-950 rounded-lg border border-red-500/40 p-3 relative">
+            <div class="bg-slate-950 rounded-lg border border-red-500/40 p-3 relative">
               <div class="flex justify-between items-center mb-1.5 text-xs">
                 <span class="font-bold text-red-400 flex items-center gap-2">
                   <i class="fa-solid fa-triangle-exclamation"></i> 2. UNCONDITIONED PURE WATER / WITHOUT DOSING (pH ~ 7.0)
@@ -255,25 +333,25 @@
 
           <!-- Canvas Legend -->
           <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-4 text-center text-xs">
-            <div class="p-2 bg-slate-100 dark:bg-slate-800/60 rounded border border-slate-200 dark:border-slate-700">
-              <span class="inline-block w-3 h-3 rounded bg-slate-500 dark:bg-slate-600 mr-1"></span>
-              <span class="text-slate-700 dark:text-slate-300 font-medium">Steel Pipe</span>
+            <div class="p-2 bg-slate-800/60 rounded border border-slate-700">
+              <span class="inline-block w-3 h-3 rounded bg-slate-600 mr-1"></span>
+              <span class="text-slate-300 font-medium">Steel Pipe</span>
             </div>
-            <div class="p-2 bg-slate-100 dark:bg-slate-800/60 rounded border border-slate-200 dark:border-slate-700">
+            <div class="p-2 bg-slate-800/60 rounded border border-slate-700">
               <span class="inline-block w-3 h-3 rounded bg-amber-700 mr-1"></span>
-              <span class="text-slate-700 dark:text-slate-300 font-medium chemical-formula">Fe₃O₄</span>
+              <span class="text-slate-300 font-medium chemical-formula">Fe₃O₄</span>
             </div>
-            <div class="p-2 bg-slate-100 dark:bg-slate-800/60 rounded border border-slate-200 dark:border-slate-700">
+            <div class="p-2 bg-slate-800/60 rounded border border-slate-700">
               <span class="inline-block w-3 h-3 rounded bg-red-500 mr-1"></span>
-              <span class="text-slate-700 dark:text-slate-300 font-medium chemical-formula">α-Fe₂O₃</span>
+              <span class="text-slate-300 font-medium chemical-formula">α-Fe₂O₃</span>
             </div>
-            <div class="p-2 bg-slate-100 dark:bg-slate-800/60 rounded border border-slate-200 dark:border-slate-700">
-              <span class="inline-block w-3 h-3 rounded-full bg-sky-500 dark:bg-sky-400 mr-1"></span>
-              <span class="text-slate-700 dark:text-slate-300 font-medium">Conditioned Flow</span>
+            <div class="p-2 bg-slate-800/60 rounded border border-slate-700">
+              <span class="inline-block w-3 h-3 rounded-full bg-sky-400 mr-1"></span>
+              <span class="text-slate-300 font-medium">Conditioned Flow</span>
             </div>
-            <div class="p-2 bg-slate-100 dark:bg-slate-800/60 rounded border border-slate-200 dark:border-slate-700 col-span-2 sm:col-span-1">
+            <div class="p-2 bg-slate-800/60 rounded border border-slate-700 col-span-2 sm:col-span-1">
               <span class="inline-block w-3 h-3 rounded-full bg-amber-400 mr-1"></span>
-              <span class="text-slate-700 dark:text-slate-300 font-medium">Released Fe Particulates</span>
+              <span class="text-slate-300 font-medium">Released Fe Particulates</span>
             </div>
           </div>
         </div>
@@ -281,16 +359,16 @@
       </div>
 
       <!-- Bottom Dynamic Panel: BASICS OF SELECTED VOLATILE REGIME -->
-      <div id="basics-detail-panel" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-xl space-y-4">
+      <div id="basics-detail-panel" class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl space-y-4">
         
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-200 dark:border-slate-800 pb-3 gap-2">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-3 gap-2">
           <div>
-            <h2 class="text-lg font-bold text-sky-600 dark:text-sky-300 flex items-center gap-2">
-              <i class="fa-solid fa-book-open text-sky-500 dark:text-sky-400"></i> Basics of Selected Volatile Regime: <span id="detail-regime-title" class="text-slate-900 dark:text-slate-100">Oxygenated Treatment (OT)</span>
+            <h2 class="text-lg font-bold text-sky-300 flex items-center gap-2">
+              <i class="fa-solid fa-book-open text-sky-400"></i> Basics of Selected Volatile Regime: <span id="detail-regime-title" class="text-slate-100">Oxygenated Treatment (OT)</span>
             </h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Specific chemical mechanics, dosing injection points, and supercritical boiler application details aligned with IAPWS TGD3-10(2015).</p>
+            <p class="text-xs text-slate-400">Specific chemical mechanics, dosing injection points, and supercritical boiler application details aligned with IAPWS TGD3-10(2015).</p>
           </div>
-          <span id="detail-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/30">
+          <span id="detail-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-teal-500/20 text-teal-300 border border-teal-500/30">
             PREFERRED FOR SUPERCRITICAL
           </span>
         </div>
@@ -298,53 +376,53 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
           
           <!-- Box 1: What is it? -->
-          <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700/80 space-y-2">
-            <div class="font-bold text-sky-600 dark:text-sky-300 uppercase tracking-wider flex items-center gap-1.5">
+          <div class="p-4 bg-slate-800/50 rounded-lg border border-slate-700/80 space-y-2">
+            <div class="font-bold text-sky-300 uppercase tracking-wider flex items-center gap-1.5">
               <i class="fa-solid fa-circle-question"></i> 1. What is it?
             </div>
-            <p id="detail-what" class="text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p id="detail-what" class="text-slate-300 leading-relaxed">
               Controlled addition of high-purity gaseous Oxygen (<span class="chemical-formula">O<sub>2</sub></span>) (30 - 150 µg/kg) and small amounts of Ammonia (<span class="chemical-formula">NH<sub>3</sub></span>) into ultra-pure feedwater (<span class="chemical-formula">CACE &lt; 0.15 µS/cm</span>).
             </p>
-            <div id="detail-eq-1" class="bg-slate-900 dark:bg-slate-950 p-2 rounded text-[11px] font-mono text-teal-300 border border-slate-800">
+            <div id="detail-eq-1" class="bg-slate-950 p-2 rounded text-[11px] font-mono text-teal-300 border border-slate-800">
               2Fe₃O₄ + ½ O₂ → 3 α-Fe₂O₃
             </div>
           </div>
 
           <!-- Box 2: Where is it dosed? -->
-          <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700/80 space-y-2">
-            <div class="font-bold text-sky-600 dark:text-sky-300 uppercase tracking-wider flex items-center gap-1.5">
+          <div class="p-4 bg-slate-800/50 rounded-lg border border-slate-700/80 space-y-2">
+            <div class="font-bold text-sky-300 uppercase tracking-wider flex items-center gap-1.5">
               <i class="fa-solid fa-location-dot"></i> 2. Where is it dosed?
             </div>
-            <p id="detail-where" class="text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p id="detail-where" class="text-slate-300 leading-relaxed">
               Oxygen injected at <strong>Condensate Polisher Outlet (CPO)</strong> or <strong>Deaerator Outlet / Feed Pump Inlet</strong>. Ammonia is injected at CPO.
             </p>
-            <div id="detail-eq-2" class="bg-slate-900 dark:bg-slate-950 p-2 rounded text-[11px] font-mono text-sky-300 border border-slate-800">
+            <div id="detail-eq-2" class="bg-slate-950 p-2 rounded text-[11px] font-mono text-sky-300 border border-slate-800">
               NH₃ + H₂O ⇌ NH₄⁺ + OH⁻
             </div>
           </div>
 
           <!-- Box 3: How is it dosed? -->
-          <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700/80 space-y-2">
-            <div class="font-bold text-sky-600 dark:text-sky-300 uppercase tracking-wider flex items-center gap-1.5">
+          <div class="p-4 bg-slate-800/50 rounded-lg border border-slate-700/80 space-y-2">
+            <div class="font-bold text-sky-300 uppercase tracking-wider flex items-center gap-1.5">
               <i class="fa-solid fa-syringe"></i> 3. How is it dosed?
             </div>
-            <p id="detail-how" class="text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p id="detail-how" class="text-slate-300 leading-relaxed">
               High-purity medical grade Oxygen (99.99%) fed from gas cylinder racks using mass flow controllers into stainless steel spargers directly in the pipe center line.
             </p>
-            <div id="detail-eq-3" class="bg-slate-900 dark:bg-slate-950 p-2 rounded text-[11px] font-mono text-indigo-300 border border-slate-800">
+            <div id="detail-eq-3" class="bg-slate-950 p-2 rounded text-[11px] font-mono text-indigo-300 border border-slate-800">
               Target DO: 30 - 150 µg/kg
             </div>
           </div>
 
           <!-- Box 4: Effect & Oxide Mechanism -->
-          <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700/80 space-y-2">
-            <div class="font-bold text-sky-600 dark:text-sky-300 uppercase tracking-wider flex items-center gap-1.5">
+          <div class="p-4 bg-slate-800/50 rounded-lg border border-slate-700/80 space-y-2">
+            <div class="font-bold text-sky-300 uppercase tracking-wider flex items-center gap-1.5">
               <i class="fa-solid fa-shield-halved"></i> 4. Effect & Oxide Layer
             </div>
-            <p id="detail-effect" class="text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p id="detail-effect" class="text-slate-300 leading-relaxed">
               Converts porous Magnetite into extremely dense, smooth Ferric Oxide Hydrate / Hematite (<span class="chemical-formula">α-Fe<sub>2</sub>O<sub>3</sub></span>). Dissolution rate drops to &lt; 0.5 µg/kg.
             </p>
-            <div id="detail-eq-4" class="bg-slate-900 dark:bg-slate-950 p-2 rounded text-[11px] font-mono text-emerald-300 border border-slate-800">
+            <div id="detail-eq-4" class="bg-slate-950 p-2 rounded text-[11px] font-mono text-emerald-300 border border-slate-800">
               Fe Release &lt; 0.5 µg/kg
             </div>
           </div>
@@ -352,15 +430,70 @@
         </div>
 
         <!-- Extra Application Criteria Banner -->
-        <div id="detail-app-banner" class="bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-4 text-xs space-y-1">
-          <div class="font-bold text-amber-600 dark:text-amber-400 flex items-center gap-2">
+        <div id="detail-app-banner" class="bg-slate-950 border border-slate-800 rounded-lg p-4 text-xs space-y-1">
+          <div class="font-bold text-amber-400 flex items-center gap-2">
             <i class="fa-solid fa-triangle-exclamation"></i> Primary Application & Strict Limitations for Once-Through / Supercritical Boilers:
           </div>
-          <p id="detail-app-desc" class="text-slate-600 dark:text-slate-300 leading-relaxed">
+          <p id="detail-app-desc" class="text-slate-300 leading-relaxed">
             Standard regime for all modern supercritical once-through boilers with 100% condensate polishing and all-ferrous feedwater metallurgy. <strong>CRITICAL RULE:</strong> CACE MUST remain strictly &lt; 0.15 µS/cm; if CACE exceeds 0.15 µS/cm, oxygen injection must immediately cease to avoid severe localized pitting.
           </p>
         </div>
 
+      </div>
+
+      <!-- WHY HEMATITE / MAGNETITE -->
+      <div id="why-oxide-panel" class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl space-y-4">
+        <div class="border-b border-slate-800 pb-3">
+          <h2 class="text-lg font-bold text-sky-300 flex items-center gap-2">
+            <i class="fa-solid fa-circle-question text-sky-400"></i> Why is Hematite or Magnetite Preferred?
+          </h2>
+          <p class="text-xs text-slate-400">Reasoning from IAPWS TGD3-10(2015) Sections 3, 4, 6.2 and 6.3 &mdash; the preferred oxide depends on the feedwater metallurgy and the chemistry regime.</p>
+        </div>
+
+        <!-- Dynamic reason for the currently selected regime -->
+        <div class="bg-slate-950 border border-slate-800 rounded-lg p-4 text-xs space-y-2">
+          <div class="font-bold text-emerald-400 flex items-center gap-2">
+            <i class="fa-solid fa-lightbulb"></i> Reason for the selected regime: <span id="why-regime-title" class="text-slate-100"></span>
+          </div>
+          <p id="why-regime-text" class="text-slate-300 leading-relaxed"></p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-slate-800/50 rounded-lg border border-red-500/30 space-y-2">
+            <div class="font-bold text-red-400 flex items-center gap-2"><span class="inline-block w-3 h-3 rounded bg-red-500"></span> Why Hematite / FeOOH film (OT, AVT(O)) is preferred on all-ferrous systems</div>
+            <ul class="list-disc pl-4 space-y-1 text-slate-300 leading-relaxed">
+              <li><strong>Very low solubility:</strong> the ferric oxide/oxyhydroxide (FeOOH on magnetite, trending to <span class="chemical-formula">&alpha;-Fe<sub>2</sub>O<sub>3</sub></span>) hardly dissolves in flowing high-purity water, so iron release falls to <strong>&lt; 1 &micro;g/kg</strong> (OT) or &lt; 2 &micro;g/kg (AVT(O)).</li>
+              <li><strong>Protects the single-phase flow regions:</strong> the film passivates carbon steel feedwater piping, economizers and LP evaporators, the places where single-phase FAC has caused fatalities (Section 6.3).</li>
+              <li><strong>Not strongly pH-dependent:</strong> in the absence of contaminant anions, corrosion is suppressed to a very low level across pH 7&ndash;10, so protection does not rely on high ammonia.</li>
+              <li><strong>Less iron transport &rarr; cleaner boiler:</strong> fewer corrosion products reach the evaporator, reducing deposits, under-deposit corrosion (UDC) and boiler &Delta;P growth.</li>
+              <li><strong>Condition:</strong> needs ultra-pure water (CACE &lt; 0.15 &micro;S/cm for OT) and all-ferrous feedwater metallurgy; stop O<sub>2</sub> if CACE &gt; 0.3 &micro;S/cm (many plants use 0.2&ndash;0.25).</li>
+            </ul>
+          </div>
+
+          <div class="p-4 bg-slate-800/50 rounded-lg border border-amber-500/30 space-y-2">
+            <div class="font-bold text-amber-400 flex items-center gap-2"><span class="inline-block w-3 h-3 rounded bg-amber-700"></span> Why Magnetite (AVT(R)) is still used in some plants</div>
+            <ul class="list-disc pl-4 space-y-1 text-slate-300 leading-relaxed">
+              <li><strong>Copper-alloy protection:</strong> mixed-metallurgy feedwater heaters need reducing conditions (AVT(R)) to limit copper corrosion and copper transport to the boiler and HP turbine (Table 2).</li>
+              <li><strong>Magnetite is the natural base oxide</strong> on carbon steel (<span class="chemical-formula">3Fe + 4H<sub>2</sub>O &rarr; Fe<sub>3</sub>O<sub>4</sub> + 4H<sub>2</sub></span>) and is semi-protective, forming in any case beneath the ferric film.</li>
+              <li><strong>Its solubility depends strongly on pH:</strong> raising pH (at 25 &deg;C) from 8.7 to 9.6 lowers magnetite solubility at 200 &deg;C about ten-fold, so the higher the pH the better.</li>
+              <li><strong>But pH is capped at 9.1&ndash;9.3</strong> with copper alloys, so magnetite protection is limited: feedwater Fe &lt; 2 &micro;g/kg is the optimum, and FAC risk remains higher.</li>
+              <li><strong>Not suited to HRSGs / all-ferrous units:</strong> AVT(O) is recommended instead because of single-phase FAC concerns and Fe &gt; 2 &micro;g/kg.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border border-slate-700 rounded-lg overflow-hidden">
+            <thead class="bg-slate-800 text-slate-300">
+              <tr><th class="p-2 border-b border-slate-700">Regime</th><th class="p-2 border-b border-slate-700">Dominant oxide</th><th class="p-2 border-b border-slate-700">Feedwater Fe (IAPWS)</th><th class="p-2 border-b border-slate-700">Best suited for</th></tr>
+            </thead>
+            <tbody class="text-slate-300">
+              <tr><td class="p-2 border-b border-slate-800 font-bold text-teal-300">OT</td><td class="p-2 border-b border-slate-800">Ferric film (hematite / FeOOH) over magnetite</td><td class="p-2 border-b border-slate-800">&lt; 1 &micro;g/kg</td><td class="p-2 border-b border-slate-800">All-ferrous units with polisher, CACE &lt; 0.15</td></tr>
+              <tr><td class="p-2 border-b border-slate-800 font-bold text-sky-300">AVT(O)</td><td class="p-2 border-b border-slate-800">Magnetite with ferric (FeOOH) surface layer</td><td class="p-2 border-b border-slate-800">&lt; 2 &micro;g/kg</td><td class="p-2 border-b border-slate-800">All-ferrous feedwater, HRSGs (no reducing agent)</td></tr>
+              <tr><td class="p-2 font-bold text-purple-300">AVT(R)</td><td class="p-2">Magnetite (semi-protective)</td><td class="p-2">&lt; 2 &micro;g/kg (best case)</td><td class="p-2">Mixed Cu-alloy metallurgy only</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
     </section>
@@ -372,12 +505,12 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         <!-- Parameter Inputs -->
-        <div class="lg:col-span-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-xl space-y-4">
-          <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
-            <h2 class="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
-              <i class="fa-solid fa-sliders text-sky-500 dark:text-sky-400"></i> Water Chemistry Inputs
+        <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <h2 class="text-base font-bold text-slate-100 flex items-center gap-2">
+              <i class="fa-solid fa-sliders text-sky-400"></i> Water Chemistry Inputs
             </h2>
-            <button onclick="resetDefaults()" class="text-xs text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 flex items-center gap-1 transition">
+            <button onclick="resetDefaults()" class="text-xs text-slate-400 hover:text-sky-400 flex items-center gap-1 transition">
               <i class="fa-solid fa-rotate-left"></i> Reset OT Defaults
             </button>
           </div>
@@ -388,13 +521,13 @@
             <!-- CACE -->
             <div>
               <div class="flex justify-between mb-1">
-                <label class="text-slate-700 dark:text-slate-300 font-medium">Cation Conductivity (CACE at EI):</label>
-                <span id="val-cace" class="code-font text-sky-600 dark:text-sky-400 font-bold">0.08 µS/cm</span>
+                <label class="text-slate-300 font-medium">Cation Conductivity (CACE at EI):</label>
+                <span id="val-cace" class="code-font text-sky-400 font-bold">0.08 µS/cm</span>
               </div>
-              <input type="range" id="input-cace" min="0.02" max="0.60" step="0.01" value="0.08" oninput="updateAdvisor()" class="w-full accent-sky-500 bg-slate-200 dark:bg-slate-800 rounded cursor-pointer">
-              <div class="flex justify-between text-[10px] text-slate-400 mt-0.5">
+              <input type="range" id="input-cace" min="0.02" max="0.60" step="0.01" value="0.08" oninput="updateAdvisor()" class="w-full accent-sky-400 bg-slate-800 rounded cursor-pointer">
+              <div class="flex justify-between text-[10px] text-slate-500 mt-0.5">
                 <span>0.02 (Ultra-pure)</span>
-                <span class="text-amber-600 dark:text-amber-400 font-semibold">OT Limit: 0.15</span>
+                <span class="text-amber-400 font-semibold">OT Limit: 0.15</span>
                 <span>0.60 (Contaminated)</span>
               </div>
             </div>
@@ -402,13 +535,13 @@
             <!-- Dissolved Oxygen -->
             <div>
               <div class="flex justify-between mb-1">
-                <label class="text-slate-700 dark:text-slate-300 font-medium">Dissolved Oxygen (DO at EI):</label>
-                <span id="val-do" class="code-font text-sky-600 dark:text-sky-400 font-bold">50 µg/kg</span>
+                <label class="text-slate-300 font-medium">Dissolved Oxygen (DO at EI):</label>
+                <span id="val-do" class="code-font text-sky-400 font-bold">50 µg/kg</span>
               </div>
-              <input type="range" id="input-do" min="1" max="250" step="1" value="50" oninput="updateAdvisor()" class="w-full accent-sky-500 bg-slate-200 dark:bg-slate-800 rounded cursor-pointer">
-              <div class="flex justify-between text-[10px] text-slate-400 mt-0.5">
+              <input type="range" id="input-do" min="1" max="250" step="1" value="50" oninput="updateAdvisor()" class="w-full accent-sky-400 bg-slate-800 rounded cursor-pointer">
+              <div class="flex justify-between text-[10px] text-slate-500 mt-0.5">
                 <span>&lt; 5 (AVT-R)</span>
-                <span class="text-emerald-600 dark:text-emerald-400 font-medium">30 - 150 (OT Range)</span>
+                <span class="text-emerald-400 font-medium">30 - 150 (OT Range)</span>
                 <span>&gt; 150 (High)</span>
               </div>
             </div>
@@ -416,11 +549,11 @@
             <!-- pH at 25°C -->
             <div>
               <div class="flex justify-between mb-1">
-                <label class="text-slate-700 dark:text-slate-300 font-medium">pH at 25°C (Feedwater):</label>
-                <span id="val-ph" class="code-font text-sky-600 dark:text-sky-400 font-bold">9.20</span>
+                <label class="text-slate-300 font-medium">pH at 25°C (Feedwater):</label>
+                <span id="val-ph" class="code-font text-sky-400 font-bold">9.20</span>
               </div>
-              <input type="range" id="input-ph" min="8.0" max="10.0" step="0.05" value="9.20" oninput="updateAdvisor()" class="w-full accent-sky-500 bg-slate-200 dark:bg-slate-800 rounded cursor-pointer">
-              <div class="flex justify-between text-[10px] text-slate-400 mt-0.5">
+              <input type="range" id="input-ph" min="8.0" max="10.0" step="0.05" value="9.20" oninput="updateAdvisor()" class="w-full accent-sky-400 bg-slate-800 rounded cursor-pointer">
+              <div class="flex justify-between text-[10px] text-slate-500 mt-0.5">
                 <span>8.0 (Low)</span>
                 <span>OT Target: 8.0 - 9.5</span>
                 <span>10.0 (High)</span>
@@ -430,30 +563,30 @@
             <!-- Ammonia Dosing -->
             <div>
               <div class="flex justify-between mb-1">
-                <label class="text-slate-700 dark:text-slate-300 font-medium">Ammonia Dosing (<span class="chemical-formula">NH<sub>3</sub></span>):</label>
-                <span id="val-nh3" class="code-font text-sky-600 dark:text-sky-400 font-bold">400 µg/kg</span>
+                <label class="text-slate-300 font-medium">Ammonia Dosing (<span class="chemical-formula">NH<sub>3</sub></span>):</label>
+                <span id="val-nh3" class="code-font text-sky-400 font-bold">400 µg/kg</span>
               </div>
-              <input type="range" id="input-nh3" min="0" max="2000" step="20" value="400" oninput="updateAdvisor()" class="w-full accent-sky-500 bg-slate-200 dark:bg-slate-800 rounded cursor-pointer">
+              <input type="range" id="input-nh3" min="0" max="2000" step="20" value="400" oninput="updateAdvisor()" class="w-full accent-sky-400 bg-slate-800 rounded cursor-pointer">
             </div>
 
             <!-- Hydrazine / Reducing Agent -->
             <div>
               <div class="flex justify-between mb-1">
-                <label class="text-slate-700 dark:text-slate-300 font-medium">Hydrazine Dosing (<span class="chemical-formula">N<sub>2</sub>H<sub>4</sub></span>):</label>
-                <span id="val-n2h4" class="code-font text-sky-600 dark:text-sky-400 font-bold">0 µg/kg</span>
+                <label class="text-slate-300 font-medium">Hydrazine Dosing (<span class="chemical-formula">N<sub>2</sub>H<sub>4</sub></span>):</label>
+                <span id="val-n2h4" class="code-font text-sky-400 font-bold">0 µg/kg</span>
               </div>
-              <input type="range" id="input-n2h4" min="0" max="100" step="2" value="0" oninput="updateAdvisor()" class="w-full accent-sky-500 bg-slate-200 dark:bg-slate-800 rounded cursor-pointer">
-              <p class="text-[10px] text-amber-600 dark:text-amber-400/80 italic mt-0.5"><i class="fa-solid fa-triangle-exclamation"></i> Hydrazine strictly prohibited in Oxygenated Treatment (OT).</p>
+              <input type="range" id="input-n2h4" min="0" max="100" step="2" value="0" oninput="updateAdvisor()" class="w-full accent-sky-400 bg-slate-800 rounded cursor-pointer">
+              <p class="text-[10px] text-amber-400/80 italic mt-0.5"><i class="fa-solid fa-triangle-exclamation"></i> Hydrazine strictly prohibited in Oxygenated Treatment (OT).</p>
             </div>
 
             <!-- System Metallurgy -->
             <div>
-              <label class="text-slate-700 dark:text-slate-300 font-medium block mb-1.5">Feedwater Metallurgy:</label>
+              <label class="text-slate-300 font-medium block mb-1.5">Feedwater Metallurgy:</label>
               <div class="grid grid-cols-2 gap-2">
-                <button type="button" id="btn-metal-ferrous" onclick="setMetallurgy('ferrous')" class="py-2 px-3 border border-sky-500 bg-sky-500/10 text-sky-700 dark:text-sky-300 rounded text-xs font-medium text-center hover:bg-sky-500/20 transition">
+                <button type="button" id="btn-metal-ferrous" onclick="setMetallurgy('ferrous')" class="py-2 px-3 border border-sky-500 bg-sky-500/10 text-sky-300 rounded text-xs font-medium text-center hover:bg-sky-500/20 transition">
                   <i class="fa-solid fa-shield-halved"></i> All-Ferrous
                 </button>
-                <button type="button" id="btn-metal-copper" onclick="setMetallurgy('copper')" class="py-2 px-3 border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded text-xs font-medium text-center hover:border-slate-400 transition">
+                <button type="button" id="btn-metal-copper" onclick="setMetallurgy('copper')" class="py-2 px-3 border border-slate-700 bg-slate-800 text-slate-400 rounded text-xs font-medium text-center hover:border-slate-600 transition">
                   <i class="fa-solid fa-coins"></i> Mixed Cu-Alloys
                 </button>
               </div>
@@ -463,25 +596,25 @@
         </div>
 
         <!-- Diagnostic Verdict & Recommendations -->
-        <div class="lg:col-span-7 flex flex-col justify-between bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-xl space-y-4">
+        <div class="lg:col-span-7 flex flex-col justify-between bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-4">
           <div>
-            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3 mb-3">
-              <h2 class="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
-                <i class="fa-solid fa-user-doctor text-teal-500 dark:text-teal-400"></i> Automated Diagnostic & Dosing Verdict
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-3">
+              <h2 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                <i class="fa-solid fa-user-doctor text-teal-400"></i> Automated Diagnostic & Dosing Verdict
               </h2>
-              <span id="status-badge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30">
+              <span id="status-badge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
                 REGIME VALID
               </span>
             </div>
 
             <!-- Identified Regime Banner -->
-            <div id="regime-box" class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 mb-4 flex items-start gap-4">
-              <div id="regime-icon" class="p-3 bg-sky-500/20 text-sky-600 dark:text-sky-400 rounded-lg text-xl flex-shrink-0">
+            <div id="regime-box" class="p-4 rounded-lg bg-slate-800/80 border border-slate-700 mb-4 flex items-start gap-4">
+              <div id="regime-icon" class="p-3 bg-sky-500/20 text-sky-400 rounded-lg text-xl flex-shrink-0">
                 <i class="fa-solid fa-wind"></i>
               </div>
               <div>
-                <h3 id="regime-title" class="font-bold text-slate-900 dark:text-slate-100 text-sm sm:text-base">Oxygenated Treatment (OT)</h3>
-                <p id="regime-desc" class="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+                <h3 id="regime-title" class="font-bold text-slate-100 text-sm sm:text-base">Oxygenated Treatment (OT)</h3>
+                <p id="regime-desc" class="text-xs text-slate-300 mt-1 leading-relaxed">
                   Ideal regime for once-through / supercritical units with all-ferrous metallurgy and low cation conductivity (<span class="chemical-formula">CACE &lt; 0.15 µS/cm</span>). Forms protective Hematite (<span class="chemical-formula">&alpha;-Fe<sub>2</sub>O<sub>3</sub></span>) film.
                 </p>
               </div>
@@ -489,16 +622,16 @@
 
             <!-- Action Items List -->
             <div class="space-y-2">
-              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Dosing Method & Corrective Actions:</h4>
-              <ul id="action-items" class="space-y-2 text-xs text-slate-700 dark:text-slate-200">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Dosing Method & Corrective Actions:</h4>
+              <ul id="action-items" class="space-y-2 text-xs text-slate-200">
                 <!-- Dynamic via JS -->
               </ul>
             </div>
           </div>
 
           <!-- Key Chemistry Rules Callout -->
-          <div class="bg-sky-50 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-800/40 rounded-lg p-3 text-xs text-sky-800 dark:text-sky-300 flex items-center gap-3">
-            <i class="fa-solid fa-circle-info text-sky-500 dark:text-sky-400 text-lg flex-shrink-0"></i>
+          <div class="bg-sky-950/30 border border-sky-800/40 rounded-lg p-3 text-xs text-sky-300 flex items-center gap-3">
+            <i class="fa-solid fa-circle-info text-sky-400 text-lg flex-shrink-0"></i>
             <span><strong>IAPWS Golden Rule for OT:</strong> Oxygen injection MUST be immediately stopped if CACE exceeds <strong>0.15 µS/cm</strong> to prevent severe localized pit corrosion under high oxygen!</span>
           </div>
         </div>
@@ -506,18 +639,18 @@
       </div>
 
       <!-- Interactive Plant P&ID Schematic Diagram -->
-      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-xl relative overflow-hidden">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 border-b border-slate-200 dark:border-slate-800 pb-3">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl relative overflow-hidden">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 border-b border-slate-800 pb-3">
           <div>
-            <h3 class="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
-              <i class="fa-solid fa-sitemap text-indigo-500 dark:text-indigo-400"></i> Interactive Plant Flow Diagram (P&ID) & Dosing Nodes
+            <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+              <i class="fa-solid fa-sitemap text-indigo-400"></i> Interactive Plant Flow Diagram (P&ID) & Dosing Nodes
             </h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Visual mapping of active dosing injection locations (<span class="text-sky-600 dark:text-sky-400">NH<sub>3</sub></span>, <span class="text-teal-600 dark:text-teal-400">O<sub>2</sub></span>, <span class="text-purple-600 dark:text-purple-400">N<sub>2</sub>H<sub>4</sub></span>) and continuous sample monitoring points.</p>
+            <p class="text-xs text-slate-400">Visual mapping of active dosing injection locations (<span class="text-sky-400">NH<sub>3</sub></span>, <span class="text-teal-400">O<sub>2</sub></span>, <span class="text-purple-400">N<sub>2</sub>H<sub>4</sub></span>) and continuous sample monitoring points.</p>
           </div>
           <div class="flex items-center gap-4 text-xs">
-            <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300"><span class="w-3 h-3 rounded-full bg-sky-500 inline-block"></span> Ammonia Point</span>
-            <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300"><span class="w-3 h-3 rounded-full bg-teal-400 inline-block"></span> Oxygen Point</span>
-            <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300"><span class="w-3 h-3 rounded-full bg-purple-500 inline-block"></span> Hydrazine Point</span>
+            <span class="flex items-center gap-1.5 text-slate-300"><span class="w-3 h-3 rounded-full bg-sky-500 inline-block"></span> Ammonia Point</span>
+            <span class="flex items-center gap-1.5 text-slate-300"><span class="w-3 h-3 rounded-full bg-teal-400 inline-block"></span> Oxygen Point</span>
+            <span class="flex items-center gap-1.5 text-slate-300"><span class="w-3 h-3 rounded-full bg-purple-500 inline-block"></span> Hydrazine Point</span>
           </div>
         </div>
 
@@ -527,95 +660,95 @@
             
             <defs>
               <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#cbd5e1" stroke-width="0.5" class="dark:stroke-[#1e293b]"/>
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.5"/>
               </pattern>
             </defs>
 
-            <rect width="1000" height="320" fill="#f8fafc" rx="8" class="dark:fill-[#0f172a]"/>
+            <rect width="1000" height="320" fill="#0f172a" rx="8"/>
             <rect width="1000" height="320" fill="url(#grid)" rx="8"/>
 
             <!-- PIPING PATHWAYS -->
-            <path d="M 80 220 L 160 220 L 250 220 L 380 220 L 520 220 L 650 220 L 760 140 L 880 140 L 880 220 Z" fill="none" stroke="#94a3b8" stroke-width="4" class="dark:stroke-[#334155]"/>
-            <path d="M 80 220 L 160 220 L 250 220 L 380 220 L 520 220 L 650 220 L 760 140 L 880 140" fill="none" stroke="#0284c7" stroke-width="2.5" class="dark:stroke-[#38bdf8] animate-flow"/>
+            <path d="M 80 220 L 160 220 L 250 220 L 380 220 L 520 220 L 650 220 L 760 140 L 880 140 L 880 220 Z" fill="none" stroke="#334155" stroke-width="4"/>
+            <path d="M 80 220 L 160 220 L 250 220 L 380 220 L 520 220 L 650 220 L 760 140 L 880 140" fill="none" stroke="#38bdf8" stroke-width="2.5" class="animate-flow"/>
 
             <!-- Attemperation Line -->
-            <path id="path-attemperation" d="M 380 220 L 380 70 L 740 70 L 740 120" fill="none" stroke="#d97706" stroke-width="2" stroke-dasharray="4,4" class="dark:stroke-[#f59e0b]"/>
-            <text x="560" y="62" fill="#b45309" font-size="10" text-anchor="middle" font-weight="bold" class="dark:fill-[#fbbf24]">Attemperation Spray Line (CACE &lt; 0.15 µS/cm Required)</text>
+            <path id="path-attemperation" d="M 380 220 L 380 70 L 740 70 L 740 120" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,4"/>
+            <text x="560" y="62" fill="#fbbf24" font-size="10" text-anchor="middle" font-weight="bold">Attemperation Spray Line (CACE &lt; 0.15 µS/cm Required)</text>
 
             <!-- PROCESS COMPONENTS -->
 
             <!-- 1. Condenser -->
             <g transform="translate(40, 180)">
-              <rect width="80" height="80" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2" class="dark:fill-[#1e293b] dark:stroke-[#475569]"/>
-              <text x="40" y="38" fill="#1e293b" font-weight="bold" text-anchor="middle" font-size="11" class="dark:fill-[#e2e8f0]">Condenser</text>
-              <text x="40" y="54" fill="#64748b" text-anchor="middle" font-size="9" class="dark:fill-[#94a3b8]">Hotwell</text>
+              <rect width="80" height="80" rx="6" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+              <text x="40" y="38" fill="#e2e8f0" font-weight="bold" text-anchor="middle" font-size="11">Condenser</text>
+              <text x="40" y="54" fill="#94a3b8" text-anchor="middle" font-size="9">Hotwell</text>
             </g>
 
             <!-- 2. CPU / CPO -->
             <g transform="translate(260, 180)">
-              <rect width="90" height="80" rx="6" fill="#e2e8f0" stroke="#0284c7" stroke-width="2" class="dark:fill-[#1e293b] dark:stroke-[#38bdf8]"/>
-              <text x="45" y="35" fill="#0284c7" font-weight="bold" text-anchor="middle" font-size="11" class="dark:fill-[#38bdf8]">CPU / CPO</text>
-              <text x="45" y="50" fill="#64748b" text-anchor="middle" font-size="9" class="dark:fill-[#94a3b8]">Polisher</text>
-              <text x="45" y="64" fill="#059669" text-anchor="middle" font-size="8" class="dark:fill-[#34d399]">Deep Bed Exch.</text>
+              <rect width="90" height="80" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+              <text x="45" y="35" fill="#38bdf8" font-weight="bold" text-anchor="middle" font-size="11">CPU / CPO</text>
+              <text x="45" y="50" fill="#94a3b8" text-anchor="middle" font-size="9">Polisher</text>
+              <text x="45" y="64" fill="#34d399" text-anchor="middle" font-size="8">Deep Bed Exch.</text>
             </g>
 
             <!-- 3. Deaerator / Feed Pump -->
             <g transform="translate(460, 180)">
-              <rect width="100" height="80" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2" class="dark:fill-[#1e293b] dark:stroke-[#475569]"/>
-              <text x="50" y="35" fill="#1e293b" font-weight="bold" text-anchor="middle" font-size="11" class="dark:fill-[#e2e8f0]">Feed Pump /</text>
-              <text x="50" y="50" fill="#1e293b" font-weight="bold" text-anchor="middle" font-size="11" class="dark:fill-[#e2e8f0]">Deaerator</text>
-              <text x="50" y="66" fill="#64748b" text-anchor="middle" font-size="9" class="dark:fill-[#94a3b8]">FW Tank</text>
+              <rect width="100" height="80" rx="6" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+              <text x="50" y="35" fill="#e2e8f0" font-weight="bold" text-anchor="middle" font-size="11">Feed Pump /</text>
+              <text x="50" y="50" fill="#e2e8f0" font-weight="bold" text-anchor="middle" font-size="11">Deaerator</text>
+              <text x="50" y="66" fill="#94a3b8" text-anchor="middle" font-size="9">FW Tank</text>
             </g>
 
             <!-- 4. Supercritical Once-Through Boiler -->
             <g transform="translate(660, 100)">
-              <rect width="120" height="120" rx="8" fill="#e2e8f0" stroke="#d97706" stroke-width="2.5" class="dark:fill-[#1e293b] dark:stroke-[#f59e0b]"/>
-              <text x="60" y="30" fill="#b45309" font-weight="bold" text-anchor="middle" font-size="12" class="dark:fill-[#fbbf24]">Supercritical</text>
-              <text x="60" y="46" fill="#b45309" font-weight="bold" text-anchor="middle" font-size="12" class="dark:fill-[#fbbf24]">Once-Through</text>
-              <text x="60" y="62" fill="#1e293b" text-anchor="middle" font-size="10" class="dark:fill-[#e2e8f0]">Boiler Pass</text>
-              <path d="M 20 80 Q 40 70 60 80 T 100 80" fill="none" stroke="#dc2626" stroke-width="2" class="dark:stroke-[#ef4444]"/>
-              <text x="60" y="98" fill="#dc2626" text-anchor="middle" font-size="9" font-weight="bold" class="dark:fill-[#f87171]">Phase Transition Zone</text>
+              <rect width="120" height="120" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2.5"/>
+              <text x="60" y="30" fill="#fbbf24" font-weight="bold" text-anchor="middle" font-size="12">Supercritical</text>
+              <text x="60" y="46" fill="#fbbf24" font-weight="bold" text-anchor="middle" font-size="12">Once-Through</text>
+              <text x="60" y="62" fill="#e2e8f0" text-anchor="middle" font-size="10">Boiler Pass</text>
+              <path d="M 20 80 Q 40 70 60 80 T 100 80" fill="none" stroke="#ef4444" stroke-width="2"/>
+              <text x="60" y="98" fill="#f87171" text-anchor="middle" font-size="9" font-weight="bold">Phase Transition Zone</text>
             </g>
 
             <!-- 5. Turbine -->
             <g transform="translate(840, 100)">
-              <polygon points="10,20 80,40 80,120 10,140" fill="#e2e8f0" stroke="#6366f1" stroke-width="2" class="dark:fill-[#1e293b] dark:stroke-[#818cf8]"/>
-              <text x="45" y="75" fill="#4f46e5" font-weight="bold" text-anchor="middle" font-size="11" class="dark:fill-[#a5b4fc]">Turbines</text>
+              <polygon points="10,20 80,40 80,120 10,140" fill="#1e293b" stroke="#818cf8" stroke-width="2"/>
+              <text x="45" y="75" fill="#a5b4fc" font-weight="bold" text-anchor="middle" font-size="11">Turbines</text>
             </g>
 
             <!-- DOSING NODES -->
             <g id="node-nh3" transform="translate(370, 220)">
-              <line x1="0" y1="0" x2="0" y2="50" stroke="#0284c7" stroke-width="2" stroke-dasharray="2,2" class="dark:stroke-[#38bdf8]"/>
+              <line x1="0" y1="0" x2="0" y2="50" stroke="#38bdf8" stroke-width="2" stroke-dasharray="2,2"/>
               <circle cx="0" cy="50" r="14" fill="#0284c7" stroke="#38bdf8" stroke-width="2"/>
               <text x="0" y="54" fill="#ffffff" font-weight="bold" font-size="9" text-anchor="middle">NH₃</text>
-              <text x="0" y="76" fill="#0284c7" font-size="9" font-weight="bold" text-anchor="middle" class="dark:fill-[#38bdf8]">Ammonia Dosing</text>
+              <text x="0" y="76" fill="#38bdf8" font-size="9" font-weight="bold" text-anchor="middle">Ammonia Dosing</text>
             </g>
 
             <g id="node-o2" transform="translate(610, 220)">
-              <line x1="0" y1="0" x2="0" y2="50" stroke="#0d9488" stroke-width="2" stroke-dasharray="2,2" class="dark:stroke-[#2dd4bf]"/>
+              <line x1="0" y1="0" x2="0" y2="50" stroke="#2dd4bf" stroke-width="2" stroke-dasharray="2,2"/>
               <circle cx="0" cy="50" r="14" fill="#0d9488" stroke="#2dd4bf" stroke-width="2"/>
               <text x="0" y="54" fill="#ffffff" font-weight="bold" font-size="9" text-anchor="middle">O₂</text>
-              <text x="0" y="76" fill="#0d9488" font-size="9" font-weight="bold" text-anchor="middle" class="dark:fill-[#2dd4bf]">Oxygen Injection (OT)</text>
+              <text x="0" y="76" fill="#2dd4bf" font-size="9" font-weight="bold" text-anchor="middle">Oxygen Injection (OT)</text>
             </g>
 
             <g id="node-n2h4" transform="translate(500, 220)">
-              <line x1="0" y1="0" x2="0" y2="-40" stroke="#9333ea" stroke-width="2" stroke-dasharray="2,2" class="dark:stroke-[#c084fc]"/>
+              <line x1="0" y1="0" x2="0" y2="-40" stroke="#c084fc" stroke-width="2" stroke-dasharray="2,2"/>
               <circle cx="0" cy="-40" r="14" fill="#7e22ce" stroke="#c084fc" stroke-width="2"/>
               <text x="0" y="-36" fill="#ffffff" font-weight="bold" font-size="8" text-anchor="middle">N₂H₄</text>
-              <text x="0" y="-60" fill="#9333ea" font-size="9" font-weight="bold" text-anchor="middle" class="dark:fill-[#c084fc]">Hydrazine (AVT-R)</text>
+              <text x="0" y="-60" fill="#c084fc" font-size="9" font-weight="bold" text-anchor="middle">Hydrazine (AVT-R)</text>
             </g>
 
             <!-- SAMPLES -->
             <g transform="translate(380, 180)">
-              <circle cx="0" cy="0" r="8" fill="#e2e8f0" stroke="#0284c7" stroke-width="2" class="dark:fill-[#1e293b] dark:stroke-[#38bdf8]"/>
-              <text x="0" y="3" fill="#0284c7" font-size="8" font-weight="bold" text-anchor="middle" class="dark:fill-[#38bdf8]">S1</text>
-              <text x="0" y="-14" fill="#64748b" font-size="8" text-anchor="middle" class="dark:fill-[#94a3b8]">CPO CACE</text>
+              <circle cx="0" cy="0" r="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+              <text x="0" y="3" fill="#38bdf8" font-size="8" font-weight="bold" text-anchor="middle">S1</text>
+              <text x="0" y="-14" fill="#94a3b8" font-size="8" text-anchor="middle">CPO CACE</text>
             </g>
 
             <g transform="translate(640, 220)">
-              <circle cx="0" cy="0" r="8" fill="#e2e8f0" stroke="#d97706" stroke-width="2" class="dark:fill-[#1e293b] dark:stroke-[#f59e0b]"/>
-              <text x="0" y="3" fill="#b45309" font-size="8" font-weight="bold" text-anchor="middle" class="dark:fill-[#fbbf24]">EI</text>
-              <text x="0" y="-14" fill="#b45309" font-size="8" text-anchor="middle" class="dark:fill-[#fbbf24]">EI Sample Point</text>
+              <circle cx="0" cy="0" r="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+              <text x="0" y="3" fill="#fbbf24" font-size="8" font-weight="bold" text-anchor="middle">EI</text>
+              <text x="0" y="-14" fill="#fbbf24" font-size="8" text-anchor="middle">EI Sample Point</text>
             </g>
 
           </svg>
@@ -627,12 +760,12 @@
     <!-- ==================== TAB 3: ONCE-THROUGH DEEP DIVE ==================== -->
     <section id="tab-deepdive" class="space-y-6 hidden">
       
-      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-xl space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl space-y-6">
         <div>
-          <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
-            <i class="fa-solid fa-fire-burner text-amber-500 dark:text-amber-400"></i> Supercritical & Once-Through Unit Requirements
+          <h2 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+            <i class="fa-solid fa-fire-burner text-amber-400"></i> Supercritical & Once-Through Unit Requirements
           </h2>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p class="text-xs text-slate-400 mt-1">
             In once-through boilers, water is pumped through heating circuits in a single continuous pass without recirculation or steam drum separation.
           </p>
         </div>
@@ -640,40 +773,40 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
           
           <div class="space-y-4">
-            <div class="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
-              <h3 class="font-bold text-amber-600 dark:text-amber-300 text-sm flex items-center gap-2">
+            <div class="p-4 bg-slate-800/60 rounded-lg border border-slate-700 space-y-2">
+              <h3 class="font-bold text-amber-300 text-sm flex items-center gap-2">
                 <i class="fa-solid fa-triangle-exclamation"></i> Phase Transition Zone (PTZ) Risks
               </h3>
-              <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p class="text-slate-300 leading-relaxed">
                 As supercritical fluid transitions from dense water-like state to steam-like fluid (around 374°C, 22.1 MPa), any dissolved salts (<span class="chemical-formula">NaCl</span>, <span class="chemical-formula">Na<sub>2</sub>SO<sub>4</sub></span>) lose solubility instantly and precipitate onto tube walls. Maintaining CACE &lt; 0.15 µS/cm prevents concentration of corrosive acids in the PTZ.
               </p>
             </div>
 
-            <div class="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
-              <h3 class="font-bold text-sky-600 dark:text-sky-300 text-sm flex items-center gap-2">
+            <div class="p-4 bg-slate-800/60 rounded-lg border border-slate-700 space-y-2">
+              <h3 class="font-bold text-sky-300 text-sm flex items-center gap-2">
                 <i class="fa-solid fa-filter"></i> Condensate Polishing Unit (CPU) Mandate
               </h3>
-              <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p class="text-slate-300 leading-relaxed">
                 100% deep-bed condensate polishing is mandatory for once-through units operating on Oxygenated Treatment. CPU removes ionic impurities and corrosion products continuously, safeguarding against sudden condenser tube leaks.
               </p>
             </div>
           </div>
 
           <div class="space-y-4">
-            <div class="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
-              <h3 class="font-bold text-teal-600 dark:text-teal-300 text-sm flex items-center gap-2">
+            <div class="p-4 bg-slate-800/60 rounded-lg border border-slate-700 space-y-2">
+              <h3 class="font-bold text-teal-300 text-sm flex items-center gap-2">
                 <i class="fa-solid fa-arrow-trend-down"></i> Boiler Differential Pressure (ΔP) Control
               </h3>
-              <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p class="text-slate-300 leading-relaxed">
                 Under AVT(R), porous magnetite deposits form "ripple" topography on the inner tube wall under high water flow velocities (&gt; 2 m/s). This increases hydraulic roughness, forcing plant derating due to high feed pump discharge pressure. OT forms smooth hematite, curing ripple growth.
               </p>
             </div>
 
-            <div class="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
-              <h3 class="font-bold text-indigo-600 dark:text-indigo-300 text-sm flex items-center gap-2">
+            <div class="p-4 bg-slate-800/60 rounded-lg border border-slate-700 space-y-2">
+              <h3 class="font-bold text-indigo-300 text-sm flex items-center gap-2">
                 <i class="fa-solid fa-shower"></i> Superheater Attemperation Spray Water
               </h3>
-              <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p class="text-slate-300 leading-relaxed">
                 Spray water taken from feedwater for steam temperature control is injected directly into superheated steam. Any non-volatile chemical or salt present in feedwater passes directly into high-pressure turbine blades.
               </p>
             </div>
@@ -687,44 +820,44 @@
     <!-- ==================== TAB 4: IAPWS GLOSSARY ==================== -->
     <section id="tab-glossary" class="space-y-6 hidden">
       
-      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-xl space-y-4">
-        <div class="border-b border-slate-200 dark:border-slate-800 pb-3">
-          <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
-            <i class="fa-solid fa-book-bookmark text-sky-500 dark:text-sky-400"></i> IAPWS TGD3-10 Glossary & Terms
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl space-y-4">
+        <div class="border-b border-slate-800 pb-3">
+          <h2 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+            <i class="fa-solid fa-book-bookmark text-sky-400"></i> IAPWS TGD3-10 Glossary & Terms
           </h2>
-          <p class="text-xs text-slate-500 dark:text-slate-400">Standard acronyms and technical definitions.</p>
+          <p class="text-xs text-slate-400">Standard acronyms and technical definitions.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           
-          <div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded border border-slate-200 dark:border-slate-700/80">
-            <strong class="text-sky-600 dark:text-sky-300 font-bold block mb-1">CACE (Conductivity After Cation Exchange)</strong>
-            <span class="text-slate-600 dark:text-slate-300">Also known as Cation Conductivity. Measures conductivity after sample passes through an acidic cation resin exchanger ($H^+$ form). Indicates presence of corrosive anions ($\text{Cl}^-$, $\text{SO}_4^{2-}$). OT Target: &lt; 0.15 µS/cm.</span>
+          <div class="p-3 bg-slate-800/50 rounded border border-slate-700/80">
+            <strong class="text-sky-300 font-bold block mb-1">CACE (Conductivity After Cation Exchange)</strong>
+            <span class="text-slate-300">Also known as Cation Conductivity. Measures conductivity after sample passes through an acidic cation resin exchanger ($H^+$ form). Indicates presence of corrosive anions ($\text{Cl}^-$, $\text{SO}_4^{2-}$). OT Target: &lt; 0.15 µS/cm.</span>
           </div>
 
-          <div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded border border-slate-200 dark:border-slate-700/80">
-            <strong class="text-teal-600 dark:text-teal-300 font-bold block mb-1">OT (Oxygenated Treatment)</strong>
-            <span class="text-slate-600 dark:text-slate-300">Treatment regime using high-purity water, ammonia, and 30–150 µg/kg oxygen addition to establish a highly protective Hematite ($\alpha\text{-Fe}_2\text{O}_3$) oxide film.</span>
+          <div class="p-3 bg-slate-800/50 rounded border border-slate-700/80">
+            <strong class="text-teal-300 font-bold block mb-1">OT (Oxygenated Treatment)</strong>
+            <span class="text-slate-300">Treatment regime using high-purity water, ammonia, and 30–150 µg/kg oxygen addition to establish a highly protective Hematite ($\alpha\text{-Fe}_2\text{O}_3$) oxide film.</span>
           </div>
 
-          <div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded border border-slate-200 dark:border-slate-700/80">
-            <strong class="text-purple-600 dark:text-purple-300 font-bold block mb-1">AVT(R) (All-Volatile Treatment Reducing)</strong>
-            <span class="text-slate-600 dark:text-slate-300">Ammonia treatment with reducing agent (hydrazine) added to eliminate oxygen (&lt; 5 µg/kg). Primary for mixed copper metallurgy systems.</span>
+          <div class="p-3 bg-slate-800/50 rounded border border-slate-700/80">
+            <strong class="text-purple-300 font-bold block mb-1">AVT(R) (All-Volatile Treatment Reducing)</strong>
+            <span class="text-slate-300">Ammonia treatment with reducing agent (hydrazine) added to eliminate oxygen (&lt; 5 µg/kg). Primary for mixed copper metallurgy systems.</span>
           </div>
 
-          <div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded border border-slate-200 dark:border-slate-700/80">
-            <strong class="text-sky-600 dark:text-sky-300 font-bold block mb-1">AVT(O) (All-Volatile Treatment Oxidizing)</strong>
-            <span class="text-slate-600 dark:text-slate-300">Ammonia treatment without reducing agent, maintaining ambient dissolved oxygen between 3–30 µg/kg.</span>
+          <div class="p-3 bg-slate-800/50 rounded border border-slate-700/80">
+            <strong class="text-sky-300 font-bold block mb-1">AVT(O) (All-Volatile Treatment Oxidizing)</strong>
+            <span class="text-slate-300">Ammonia treatment without reducing agent, maintaining ambient dissolved oxygen between 3–30 µg/kg.</span>
           </div>
 
-          <div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded border border-slate-200 dark:border-slate-700/80">
-            <strong class="text-amber-600 dark:text-amber-300 font-bold block mb-1">PTZ (Phase Transition Zone)</strong>
-            <span class="text-slate-600 dark:text-slate-300">The region in once-through boilers where liquid water transitions to steam. Highly vulnerable to impurity concentration.</span>
+          <div class="p-3 bg-slate-800/50 rounded border border-slate-700/80">
+            <strong class="text-amber-300 font-bold block mb-1">PTZ (Phase Transition Zone)</strong>
+            <span class="text-slate-300">The region in once-through boilers where liquid water transitions to steam. Highly vulnerable to impurity concentration.</span>
           </div>
 
-          <div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded border border-slate-200 dark:border-slate-700/80">
-            <strong class="text-emerald-600 dark:text-emerald-300 font-bold block mb-1">FAC (Flow-Accelerated Corrosion)</strong>
-            <span class="text-slate-600 dark:text-slate-300">Dissolution of protective oxide layer caused by fluid flow turbulence, leading to sudden pipe wall thinning. Completely eliminated under OT.</span>
+          <div class="p-3 bg-slate-800/50 rounded border border-slate-700/80">
+            <strong class="text-emerald-300 font-bold block mb-1">FAC (Flow-Accelerated Corrosion)</strong>
+            <span class="text-slate-300">Dissolution of protective oxide layer caused by fluid flow turbulence, leading to sudden pipe wall thinning. Completely eliminated under OT.</span>
           </div>
 
         </div>
@@ -734,49 +867,49 @@
 
     <!-- ==================== TAB 5: AI EXPERT ==================== -->
     <section id="tab-ai-expert" class="space-y-6 hidden">
-      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-xl space-y-4">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-200 dark:border-slate-800 pb-3 gap-2">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-3 gap-2">
           <div>
-            <h2 class="text-lg font-bold text-sky-600 dark:text-sky-300 flex items-center gap-2">
-              <i class="fa-solid fa-robot text-sky-500 dark:text-sky-400"></i> Gemini AI Power Plant Chemistry Expert
+            <h2 class="text-lg font-bold text-sky-300 flex items-center gap-2">
+              <i class="fa-solid fa-robot text-sky-400"></i> Gemini AI Power Plant Chemistry Expert
             </h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Ask questions grounded in IAPWS TGD3-10(2015) Technical Guidelines.</p>
+            <p class="text-xs text-slate-400">Ask questions grounded in IAPWS TGD3-10(2015) Technical Guidelines.</p>
           </div>
-          <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-500/30">Powered by Gemini API</span>
+          <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30">Powered by Gemini API</span>
         </div>
 
-        <div class="bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-3 text-xs flex flex-col sm:flex-row items-center gap-3">
-          <div class="flex items-center gap-2 text-slate-700 dark:text-slate-300 flex-shrink-0">
-            <i class="fa-solid fa-key text-amber-500 dark:text-amber-400"></i>
+        <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs flex flex-col sm:flex-row items-center gap-3">
+          <div class="flex items-center gap-2 text-slate-300 flex-shrink-0">
+            <i class="fa-solid fa-key text-amber-400"></i>
             <span>Gemini API Key:</span>
           </div>
-          <input type="password" id="ai-key-input" value="AQ.Ab8RN6IDDD6lH3FJazl7-fU_nDhcIP_1YGQyv6Nnxtx1MxIZMg" class="flex-grow w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-3 py-1.5 text-xs text-sky-600 dark:text-sky-300 font-mono focus:outline-none focus:border-sky-500">
-          <span class="text-[10px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1 flex-shrink-0">
+          <input type="password" id="ai-key-input" value="AQ.Ab8RN6IDDD6lH3FJazl7-fU_nDhcIP_1YGQyv6Nnxtx1MxIZMg" class="flex-grow w-full bg-slate-900 border border-slate-700 rounded px-3 py-1.5 text-xs text-sky-300 font-mono focus:outline-none focus:border-sky-400">
+          <span class="text-[10px] text-emerald-400 flex items-center gap-1 flex-shrink-0">
             <i class="fa-solid fa-circle-check"></i> Configured
           </span>
         </div>
 
         <div>
-          <label class="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-2">Suggested Quick Questions:</label>
+          <label class="text-xs font-semibold text-slate-400 block mb-2">Suggested Quick Questions:</label>
           <div class="flex flex-wrap gap-2 text-xs">
-            <button onclick="setAiQuery('When should oxygen injection be stopped on Oxygenated Treatment (OT)?')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-lg transition text-left">🛑 When to stop oxygen on OT?</button>
-            <button onclick="setAiQuery('Why is AVT(R) not recommended for supercritical once-through boilers with all-ferrous metallurgy?')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-lg transition text-left">⚠️ Why avoid AVT(R) in once-through?</button>
+            <button onclick="setAiQuery('When should oxygen injection be stopped on Oxygenated Treatment (OT)?')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-lg transition text-left">🛑 When to stop oxygen on OT?</button>
+            <button onclick="setAiQuery('Why is AVT(R) not recommended for supercritical once-through boilers with all-ferrous metallurgy?')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-lg transition text-left">⚠️ Why avoid AVT(R) in once-through?</button>
           </div>
         </div>
 
         <div class="space-y-3">
-          <textarea id="ai-query-input" rows="3" placeholder="Type your steam-water chemistry question here..." class="w-full bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-3 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:border-sky-500"></textarea>
+          <textarea id="ai-query-input" rows="3" placeholder="Type your steam-water chemistry question here..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 focus:outline-none focus:border-sky-500"></textarea>
           
           <div class="flex justify-between items-center">
-            <span class="text-[11px] text-slate-400">Answers based on IAPWS TGD3-10 guidelines.</span>
+            <span class="text-[11px] text-slate-500">Answers based on IAPWS TGD3-10 guidelines.</span>
             <button onclick="askGeminiAi()" id="btn-ai-submit" class="px-5 py-2.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs rounded-lg shadow-lg flex items-center gap-2 transition">
               <i class="fa-solid fa-paper-plane"></i> Ask Chemistry Expert
             </button>
           </div>
         </div>
 
-        <div id="ai-response-box" class="bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-4 text-xs leading-relaxed text-slate-700 dark:text-slate-300 space-y-2 min-h-[140px] whitespace-pre-wrap">
-          <i class="text-slate-400">Your AI response will appear here after asking a question...</i>
+        <div id="ai-response-box" class="bg-slate-950 border border-slate-800 rounded-lg p-4 text-xs leading-relaxed text-slate-300 space-y-2 min-h-[140px] whitespace-pre-wrap">
+          <i class="text-slate-500">Your AI response will appear here after asking a question...</i>
         </div>
       </div>
     </section>
@@ -784,13 +917,13 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-4 mt-8 transition-colors duration-300">
+  <footer class="bg-slate-900 border-t border-slate-800 py-4 mt-8">
     <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-2">
       <div>
         <span>Steam-Water Chemistry Interactive Lab</span> &bull; 
         <span>IAPWS TGD3-10(2015) Technical Standard</span>
       </div>
-      <div class="text-sky-600 dark:text-sky-400 font-medium">
+      <div class="text-sky-400 font-medium">
         The site is created by Pradeep using Gemini AI
       </div>
     </div>
@@ -799,6 +932,18 @@
   </div>
 
   <!-- INTERACTIVE LOGIC & ANIMATION ENGINE -->
+  <script>
+    function applyThemeLabel() {
+      const light = document.documentElement.classList.contains('light');
+      document.querySelectorAll('.theme-label').forEach(el => el.textContent = light ? 'Dark mode' : 'Light mode');
+    }
+    function toggleTheme() {
+      const light = document.documentElement.classList.toggle('light');
+      try { localStorage.setItem('sw-theme', light ? 'light' : 'dark'); } catch (e) {}
+      applyThemeLabel();
+    }
+    document.addEventListener('DOMContentLoaded', applyThemeLabel);
+  </script>
   <script>
     function checkPasscode() {
       const val = document.getElementById('passcode-input').value;
@@ -821,19 +966,6 @@
       if (e.key === 'Enter') { checkPasscode(); }
     });
 
-    // Theme Switcher Logic
-    function toggleTheme() {
-      const htmlEl = document.documentElement;
-      const themeIcon = document.getElementById('theme-icon');
-      if (htmlEl.classList.contains('dark')) {
-        htmlEl.classList.remove('dark');
-        themeIcon.className = "fa-solid fa-sun text-sm";
-      } else {
-        htmlEl.classList.add('dark');
-        themeIcon.className = "fa-solid fa-moon text-sm";
-      }
-    }
-
     // Global Application State
     let currentMetallurgy = 'ferrous';
     let simRegime = 'OT';
@@ -846,9 +978,10 @@
     // Basics Dictionary Data for Dynamic Tab Updates
     const regimeData = {
       'OT': {
+        why: 'Oxygen converts the outer magnetite into a dense, low-solubility ferric film (FeOOH / hematite). It resists flow-accelerated dissolution in single-phase regions, keeps feedwater iron below ~1 µg/kg, and stays protective without needing a high pH. That is why hematite is preferred for all-ferrous once-through units with a polisher and CACE < 0.15 µS/cm.',
         title: 'Oxygenated Treatment (OT)',
         badge: 'PREFERRED FOR SUPERCRITICAL',
-        badgeClass: 'px-3 py-1 rounded-full text-xs font-bold bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/30',
+        badgeClass: 'px-3 py-1 rounded-full text-xs font-bold bg-teal-500/20 text-teal-300 border border-teal-500/30',
         what: 'Controlled addition of gaseous <strong>Oxygen (<span class="chemical-formula">O<sub>2</sub></span>)</strong> (30 - 150 µg/kg) and small amounts of Ammonia (<span class="chemical-formula">NH<sub>3</sub></span>) into ultra-pure feedwater (<span class="chemical-formula">CACE &lt; 0.15 µS/cm</span>).',
         where: 'Oxygen injected at <strong>Condensate Polisher Outlet (CPO)</strong> or <strong>Deaerator Outlet / Feed Pump Inlet</strong>. Ammonia is injected at CPO.',
         how: 'High-purity gaseous Oxygen (99.99%) fed through mass flow controllers using stainless steel spargers directly in pipe centerline. Liquid Ammonia injected via metering pumps.',
@@ -860,9 +993,10 @@
         appDesc: 'Standard regime for modern supercritical once-through boilers with 100% condensate polishing and all-ferrous metallurgy. <strong>CRITICAL RULE:</strong> CACE MUST remain strictly &lt; 0.15 µS/cm; if CACE exceeds 0.15 µS/cm, oxygen injection must immediately cease.'
       },
       'AVTO': {
+        why: 'With no reducing agent and some oxygen (~5-10 µg/kg), a thin ferric layer forms on top of magnetite. This is better than pure magnetite for single-phase FAC and is the preferred AVT for all-ferrous systems and HRSGs (iron < 2 µg/kg), but with less oxidizing power than OT.',
         title: 'All-Volatile Treatment Oxidizing - AVT(O)',
         badge: 'STANDARD SUBCRITICAL / OT STARTUP',
-        badgeClass: 'px-3 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-500/30',
+        badgeClass: 'px-3 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30',
         what: 'Ammonia (<span class="chemical-formula">NH<sub>3</sub></span>) dosing into feedwater <strong>without adding any reducing agent</strong> (hydrazine). Background oxygen stays between 3 to 30 µg/kg from ambient air ingress.',
         where: 'Ammonia injected at <strong>Condensate Polisher Outlet (CPO)</strong> or Condensate Pump Discharge.',
         how: 'Liquid aqueous ammonia ($\text{NH}_4\text{OH}$, 1-5% solution) fed via positive-displacement metering pumps controlled automatically by flow and feedback pH / direct conductivity meters.',
@@ -874,13 +1008,14 @@
         appDesc: 'Used in subcritical drum boilers and during commissioning/startup of once-through boilers before full condensate polishing purity (CACE &lt; 0.15 µS/cm) is achieved for OT transition.'
       },
       'AVTR': {
+        why: 'Magnetite is preferred here only because hydrazine-reducing conditions protect copper alloys in mixed-metallurgy heaters. Magnetite solubility depends strongly on pH (pH 8.7 to 9.6 cuts solubility at 200 °C about ten-fold), but copper limits pH to 9.1-9.3, so protection is weaker and FAC risk is higher than with a hematite film.',
         title: 'All-Volatile Treatment Reducing - AVT(R)',
         badge: 'MIXED COPPER METALLURGY ONLY',
-        badgeClass: 'px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-500/30',
+        badgeClass: 'px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30',
         what: 'Ammonia dosing combined with a <strong>reducing agent / oxygen scavenger</strong> (Hydrazine <span class="chemical-formula">N<sub>2</sub>H<sub>4</sub></span>) to maintain dissolved oxygen near zero (&lt; 5 µg/kg).',
         where: 'Ammonia dosed at CPO. Hydrazine injected at <strong>Deaerator Outlet or Boiler Feed Pump Suction</strong>.',
         how: 'Dilute Hydrazine solution injected via positive displacement pumps targeting residual concentration of 10-20 µg/kg at economizer inlet to react with residual DO.',
-        effect: 'Maintains porous Magnetite (<span class="chemical-formula">Fe<sub>3</sub>O<sub>4</sub></span>). <strong class="text-amber-600 dark:text-amber-400">High FAC Risk</strong> in single-phase and two-phase wet steam lines. High iron transport (3-10 µg/kg).',
+        effect: 'Maintains porous Magnetite (<span class="chemical-formula">Fe<sub>3</sub>O<sub>4</sub></span>). <strong class="text-amber-400">High FAC Risk</strong> in single-phase and two-phase wet steam lines. High iron transport (3-10 µg/kg).',
         eq1: 'N₂H₄ + O₂ → N₂ ↑ + 2H₂O',
         eq2: '6Fe₂O₃ + N₂H₄ → 4Fe₃O₄ + N₂ ↑ + 2H₂O',
         eq3: 'DO Limit: < 5 µg/kg',
@@ -925,15 +1060,15 @@
       const submitBtn = document.getElementById('btn-ai-submit');
 
       if (!apiKey || !query) {
-        responseBox.innerHTML = '<span class="text-amber-500 dark:text-amber-400">Please provide both an API key and a question.</span>';
+        responseBox.innerHTML = '<span class="text-amber-400">Please provide both an API key and a question.</span>';
         return;
       }
 
-      responseBox.innerHTML = '<span class="text-sky-500 dark:text-sky-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Consulting Gemini AI...</span>';
+      responseBox.innerHTML = '<span class="text-sky-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Consulting Gemini AI...</span>';
       submitBtn.disabled = true;
 
       try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -947,13 +1082,13 @@
         if (data.candidates && data.candidates[0].content.parts[0].text) {
           responseBox.innerText = data.candidates[0].content.parts[0].text;
         } else if (data.error) {
-          responseBox.innerHTML = `<span class="text-red-500 dark:text-red-400">API Error: ${data.error.message}</span>`;
+          responseBox.innerHTML = `<span class="text-red-400">API Error: ${data.error.message}</span>`;
         } else {
-          responseBox.innerHTML = '<span class="text-red-500 dark:text-red-400">Invalid API response format. Please verify your key.</span>';
+          responseBox.innerHTML = '<span class="text-red-400">Invalid API response format. Please verify your key.</span>';
         }
       } catch (err) {
         submitBtn.disabled = false;
-        responseBox.innerHTML = `<span class="text-red-500 dark:text-red-400">Network Error: ${err.message}</span>`;
+        responseBox.innerHTML = `<span class="text-red-400">Network Error: ${err.message}</span>`;
       }
     }
 
@@ -964,11 +1099,11 @@
       const btnCopper = document.getElementById('btn-metal-copper');
 
       if (type === 'ferrous') {
-        btnFerrous.className = "py-2 px-3 border border-sky-500 bg-sky-500/10 text-sky-700 dark:text-sky-300 rounded text-xs font-medium text-center hover:bg-sky-500/20 transition";
-        btnCopper.className = "py-2 px-3 border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded text-xs font-medium text-center hover:border-slate-400 transition";
+        btnFerrous.className = "py-2 px-3 border border-sky-500 bg-sky-500/10 text-sky-300 rounded text-xs font-medium text-center hover:bg-sky-500/20 transition";
+        btnCopper.className = "py-2 px-3 border border-slate-700 bg-slate-800 text-slate-400 rounded text-xs font-medium text-center hover:border-slate-600 transition";
       } else {
-        btnCopper.className = "py-2 px-3 border border-amber-500 bg-amber-500/10 text-amber-700 dark:text-amber-300 rounded text-xs font-medium text-center transition";
-        btnFerrous.className = "py-2 px-3 border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded text-xs font-medium text-center hover:border-slate-400 transition";
+        btnCopper.className = "py-2 px-3 border border-amber-500 bg-amber-500/10 text-amber-300 rounded text-xs font-medium text-center hover:border-amber-slate-600 transition";
+        btnFerrous.className = "py-2 px-3 border border-slate-700 bg-slate-800 text-slate-400 rounded text-xs font-medium text-center hover:border-slate-600 transition";
       }
       updateAdvisor();
     }
@@ -1012,78 +1147,78 @@
 
       // 1. Critical CACE Alert Rule
       if (cace > 0.15) {
-        badge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/30";
+        badge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/30 glow-red";
         badge.innerText = "CRITICAL HIGH CACE RISK";
 
         regimeTitle.innerText = "CONTAMINATED FEEDWATER - OXYGEN PROHIBITED";
-        regimeTitle.className = "font-bold text-red-600 dark:text-red-400 text-sm sm:text-base";
+        regimeTitle.className = "font-bold text-red-400 text-sm sm:text-base";
         regimeDesc.innerText = `CACE (${cace} µS/cm) exceeds the strict IAPWS limit of 0.15 µS/cm for Oxygenated Treatment. Oxygen injection under high cation conductivity causes rapid severe localized pitting in Once-Through boiler tubes!`;
-        regimeIcon.className = "p-3 bg-red-500/20 text-red-600 dark:text-red-400 rounded-lg text-xl flex-shrink-0";
+        regimeIcon.className = "p-3 bg-red-500/20 text-red-400 rounded-lg text-xl flex-shrink-0";
         regimeIcon.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i>`;
 
-        actions.push(`<li class="flex items-start gap-2 text-red-600 dark:text-red-300 font-semibold"><i class="fa-solid fa-ban text-red-500 dark:text-red-400 mt-0.5"></i> <span><strong>IMMEDIATE ACTION:</strong> Stop Oxygen (O₂) dosing immediately! Switch to AVT(O) or AVT(R).</span></li>`);
-        actions.push(`<li class="flex items-start gap-2 text-slate-700 dark:text-slate-300"><i class="fa-solid fa-filter text-sky-500 dark:text-sky-400 mt-0.5"></i> <span>Inspect Condensate Polishing Unit (CPU) for ion exhaustion or resin bypass.</span></li>`);
-        actions.push(`<li class="flex items-start gap-2 text-slate-700 dark:text-slate-300"><i class="fa-solid fa-magnifying-glass text-amber-500 dark:text-amber-400 mt-0.5"></i> <span>Check condenser tubes for cooling water ingress / leak.</span></li>`);
+        actions.push(`<li class="flex items-start gap-2 text-red-300 font-semibold"><i class="fa-solid fa-ban text-red-400 mt-0.5"></i> <span><strong>IMMEDIATE ACTION:</strong> Stop Oxygen (O₂) dosing immediately! Switch to AVT(O) or AVT(R).</span></li>`);
+        actions.push(`<li class="flex items-start gap-2 text-slate-300"><i class="fa-solid fa-filter text-sky-400 mt-0.5"></i> <span>Inspect Condensate Polishing Unit (CPU) for ion exhaustion or resin bypass.</span></li>`);
+        actions.push(`<li class="flex items-start gap-2 text-slate-300"><i class="fa-solid fa-magnifying-glass text-amber-400 mt-0.5"></i> <span>Check condenser tubes for cooling water ingress / leak.</span></li>`);
       } 
       // 2. OT Regime Validation
       else if (doVal >= 30 && doVal <= 150 && n2h4 === 0 && currentMetallurgy === 'ferrous') {
-        badge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30";
+        badge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 glow-green";
         badge.innerText = "OPTIMAL OT REGIME";
 
         regimeTitle.innerText = "Oxygenated Treatment (OT) - Ideal for Once-Through";
-        regimeTitle.className = "font-bold text-emerald-700 dark:text-emerald-300 text-sm sm:text-base";
+        regimeTitle.className = "font-bold text-emerald-300 text-sm sm:text-base";
         regimeDesc.innerHTML = `Purity is optimal (<span class="chemical-formula">CACE &le; 0.15 µS/cm</span>). Oxygen promotes dense Hematite (<span class="chemical-formula">&alpha;-Fe<sub>2</sub>O<sub>3</sub></span>) film formation, minimizing iron transport (&lt; 0.5 µg/kg) and preventing pressure drop growth.`;
-        regimeIcon.className = "p-3 bg-teal-500/20 text-teal-600 dark:text-teal-400 rounded-lg text-xl flex-shrink-0";
+        regimeIcon.className = "p-3 bg-teal-500/20 text-teal-400 rounded-lg text-xl flex-shrink-0";
         regimeIcon.innerHTML = `<i class="fa-solid fa-shield-halved"></i>`;
 
-        actions.push(`<li class="flex items-start gap-2 text-emerald-700 dark:text-emerald-300"><i class="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400 mt-0.5"></i> <span>Maintain Oxygen injection at 30 - 150 µg/kg at Condensate Polisher Outlet (CPO) or Feed Pump Inlet.</span></li>`);
-        actions.push(`<li class="flex items-start gap-2 text-slate-700 dark:text-slate-300"><i class="fa-solid fa-flask text-sky-500 dark:text-sky-400 mt-0.5"></i> <span>Dose Ammonia at CPO to maintain pH 8.0 - 9.5 (optimal 8.5 - 9.0 for low chemical consumption).</span></li>`);
-        actions.push(`<li class="flex items-start gap-2 text-slate-700 dark:text-slate-300"><i class="fa-solid fa-lock text-purple-500 dark:text-purple-400 mt-0.5"></i> <span>Keep Hydrazine dosing locked at 0 µg/kg.</span></li>`);
+        actions.push(`<li class="flex items-start gap-2 text-emerald-300"><i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i> <span>Maintain Oxygen injection at 30 - 150 µg/kg at Condensate Polisher Outlet (CPO) or Feed Pump Inlet.</span></li>`);
+        actions.push(`<li class="flex items-start gap-2 text-slate-300"><i class="fa-solid fa-flask text-sky-400 mt-0.5"></i> <span>Dose Ammonia at CPO to maintain pH 8.0 - 9.5 (optimal 8.5 - 9.0 for low chemical consumption).</span></li>`);
+        actions.push(`<li class="flex items-start gap-2 text-slate-300"><i class="fa-solid fa-lock text-purple-400 mt-0.5"></i> <span>Keep Hydrazine dosing locked at 0 µg/kg.</span></li>`);
       }
       // 3. Hydrazine Conflict in OT / AVTO
       else if (n2h4 > 0 && doVal >= 30) {
-        badge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-500/30";
+        badge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 glow-amber";
         badge.innerText = "CHEMICAL CONFLICT";
 
         regimeTitle.innerText = "Hydrazine / Oxygen Mutual Destruction";
-        regimeTitle.className = "font-bold text-amber-700 dark:text-amber-300 text-sm sm:text-base";
+        regimeTitle.className = "font-bold text-amber-300 text-sm sm:text-base";
         regimeDesc.innerText = `Simultaneous dosing of Hydrazine (${n2h4} µg/kg) and Oxygen (${doVal} µg/kg) results in rapid chemical reaction, wasting chemicals and preventing oxygen passivation.`;
-        regimeIcon.className = "p-3 bg-amber-500/20 text-amber-600 dark:text-amber-400 rounded-lg text-xl flex-shrink-0";
+        regimeIcon.className = "p-3 bg-amber-500/20 text-amber-400 rounded-lg text-xl flex-shrink-0";
         regimeIcon.innerHTML = `<i class="fa-solid fa-skull-crossbones"></i>`;
 
-        actions.push(`<li class="flex items-start gap-2 text-amber-700 dark:text-amber-300"><i class="fa-solid fa-triangle-exclamation text-amber-600 dark:text-amber-400 mt-0.5"></i> <span>Stop Hydrazine dosing if operating on Oxygenated Treatment (OT).</span></li>`);
-        actions.push(`<li class="flex items-start gap-2 text-slate-700 dark:text-slate-300"><i class="fa-solid fa-arrows-split-up-and-left text-sky-500 dark:text-sky-400 mt-0.5"></i> <span>Choose either AVT(R) [O₂ &lt; 5 µg/kg + N₂H₄] or OT [30-150 µg/kg O₂ + 0 N₂H₄].</span></li>`);
+        actions.push(`<li class="flex items-start gap-2 text-amber-300"><i class="fa-solid fa-triangle-exclamation text-amber-400 mt-0.5"></i> <span>Stop Hydrazine dosing if operating on Oxygenated Treatment (OT).</span></li>`);
+        actions.push(`<li class="flex items-start gap-2 text-slate-300"><i class="fa-solid fa-arrows-split-up-and-left text-sky-400 mt-0.5"></i> <span>Choose either AVT(R) [O₂ &lt; 5 µg/kg + N₂H₄] or OT [30-150 µg/kg O₂ + 0 N₂H₄].</span></li>`);
       }
       // 4. AVT(R) Case
       else if (doVal < 5 && n2h4 > 0) {
-        badge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-500/30";
+        badge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30";
         badge.innerText = "AVT(R) REGIME";
 
         regimeTitle.innerText = "All-Volatile Treatment Reducing - AVT(R)";
-        regimeTitle.className = "font-bold text-purple-700 dark:text-purple-300 text-sm sm:text-base";
+        regimeTitle.className = "font-bold text-purple-300 text-sm sm:text-base";
         regimeDesc.innerText = "Hydrazine reduces dissolved oxygen to < 5 µg/kg, forming Magnetite oxide. Higher risk of FAC (Flow-Accelerated Corrosion) in single/two-phase wet steam regions of once-through boilers.";
-        regimeIcon.className = "p-3 bg-purple-500/20 text-purple-600 dark:text-purple-400 rounded-lg text-xl flex-shrink-0";
+        regimeIcon.className = "p-3 bg-purple-500/20 text-purple-400 rounded-lg text-xl flex-shrink-0";
         regimeIcon.innerHTML = `<i class="fa-solid fa-droplet-slash"></i>`;
 
-        actions.push(`<li class="flex items-start gap-2 text-slate-700 dark:text-slate-300"><i class="fa-solid fa-circle-info text-sky-500 dark:text-sky-400 mt-0.5"></i> <span>Dose Ammonia to maintain pH 9.2 - 9.6 to protect against FAC.</span></li>`);
-        actions.push(`<li class="flex items-start gap-2 text-slate-700 dark:text-slate-300"><i class="fa-solid fa-vial text-purple-500 dark:text-purple-400 mt-0.5"></i> <span>Maintain Hydrazine residual (10-20 µg/kg) at Feed Pump Inlet.</span></li>`);
+        actions.push(`<li class="flex items-start gap-2 text-slate-300"><i class="fa-solid fa-circle-info text-sky-400 mt-0.5"></i> <span>Dose Ammonia to maintain pH 9.2 - 9.6 to protect against FAC.</span></li>`);
+        actions.push(`<li class="flex items-start gap-2 text-slate-300"><i class="fa-solid fa-vial text-purple-400 mt-0.5"></i> <span>Maintain Hydrazine residual (10-20 µg/kg) at Feed Pump Inlet.</span></li>`);
         if (currentMetallurgy === 'ferrous') {
-          actions.push(`<li class="flex items-start gap-2 text-teal-700 dark:text-teal-300"><i class="fa-solid fa-arrow-right text-teal-600 dark:text-teal-400 mt-0.5"></i> <span><strong>Recommendation:</strong> Since metallurgy is All-Ferrous, convert system to OT for superior tube protection!</span></li>`);
+          actions.push(`<li class="flex items-start gap-2 text-teal-300"><i class="fa-solid fa-arrow-right text-teal-400 mt-0.5"></i> <span><strong>Recommendation:</strong> Since metallurgy is All-Ferrous, convert system to OT for superior tube protection!</span></li>`);
         }
       }
       // 5. Default / AVT(O) State
       else {
-        badge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300";
+        badge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-slate-700 text-slate-300";
         badge.innerText = "AVT(O) REGIME";
 
         regimeTitle.innerText = "All-Volatile Treatment Oxidizing - AVT(O)";
-        regimeTitle.className = "font-bold text-sky-600 dark:text-sky-300 text-sm sm:text-base";
+        regimeTitle.className = "font-bold text-sky-300 text-sm sm:text-base";
         regimeDesc.innerText = "Ammonia alkalization without reducing agent and background oxygen from feedwater air ingress.";
-        regimeIcon.className = "p-3 bg-sky-500/20 text-sky-600 dark:text-sky-400 rounded-lg text-xl flex-shrink-0";
+        regimeIcon.className = "p-3 bg-sky-500/20 text-sky-400 rounded-lg text-xl flex-shrink-0";
         regimeIcon.innerHTML = `<i class="fa-solid fa-wind"></i>`;
 
-        actions.push(`<li class="flex items-start gap-2 text-slate-700 dark:text-slate-300"><i class="fa-solid fa-check text-sky-500 dark:text-sky-400 mt-0.5"></i> <span>Ensure pH is maintained between 9.2 and 9.6 via Ammonia dosing.</span></li>`);
-        actions.push(`<li class="flex items-start gap-2 text-slate-700 dark:text-slate-300"><i class="fa-solid fa-gauge text-teal-600 dark:text-teal-400 mt-0.5"></i> <span>If CACE &lt; 0.15 µS/cm, consider increasing Oxygen to 30-150 µg/kg to establish full OT.</span></li>`);
+        actions.push(`<li class="flex items-start gap-2 text-slate-300"><i class="fa-solid fa-check text-sky-400 mt-0.5"></i> <span>Ensure pH is maintained between 9.2 and 9.6 via Ammonia dosing.</span></li>`);
+        actions.push(`<li class="flex items-start gap-2 text-slate-300"><i class="fa-solid fa-gauge text-teal-400 mt-0.5"></i> <span>If CACE &lt; 0.15 µS/cm, consider increasing Oxygen to 30-150 µg/kg to establish full OT.</span></li>`);
       }
 
       actionItems.innerHTML = actions.join('');
@@ -1110,52 +1245,52 @@
 
       [btnOt, btnAvto, btnAvtr].forEach(btn => {
         if (btn) {
-          btn.className = "w-full text-left p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex justify-between items-center";
-          btn.querySelector('i').className = "fa-solid fa-circle text-slate-300 dark:text-slate-600 text-lg";
+          btn.className = "w-full text-left p-3 rounded-lg border border-slate-700 bg-slate-800/60 hover:bg-slate-800 transition flex justify-between items-center";
+          btn.querySelector('i').className = "fa-solid fa-circle text-slate-600 text-lg";
         }
       });
 
       if (regime === 'OT') {
         if (btnOt) {
           btnOt.className = "w-full text-left p-3 rounded-lg border border-teal-500/50 bg-teal-500/10 hover:bg-teal-500/20 transition flex justify-between items-center";
-          btnOt.querySelector('i').className = "fa-solid fa-circle-check text-teal-600 dark:text-teal-400 text-lg";
+          btnOt.querySelector('i').className = "fa-solid fa-circle-check text-teal-400 text-lg";
         }
         simOxideType.innerHTML = "α-Fe₂O₃ (Hematite)";
-        simOxideType.className = "font-bold text-emerald-600 dark:text-emerald-400 chemical-formula";
+        simOxideType.className = "font-bold text-emerald-400 chemical-formula";
         simFeRate.innerText = "< 0.5 µg/kg (Minimal)";
-        simFeRate.className = "font-bold text-sky-600 dark:text-sky-400";
+        simFeRate.className = "font-bold text-sky-400";
         simFacRisk.innerText = "Negligible";
-        simFacRisk.className = "font-bold text-emerald-600 dark:text-emerald-400";
+        simFacRisk.className = "font-bold text-emerald-400";
         simDpGrowth.innerText = "Zero / Smooth Layer";
-        simDpGrowth.className = "font-bold text-teal-600 dark:text-teal-300";
+        simDpGrowth.className = "font-bold text-teal-300";
         canvasRegimeLabel.innerText = "OT Regime (O₂ Dosed)";
       } else if (regime === 'AVTO') {
         if (btnAvto) {
           btnAvto.className = "w-full text-left p-3 rounded-lg border border-sky-500/50 bg-sky-500/10 hover:bg-sky-500/20 transition flex justify-between items-center";
-          btnAvto.querySelector('i').className = "fa-solid fa-circle-check text-sky-600 dark:text-sky-400 text-lg";
+          btnAvto.querySelector('i').className = "fa-solid fa-circle-check text-sky-400 text-lg";
         }
         simOxideType.innerHTML = "Fe₃O₄ / Dual Layer";
-        simOxideType.className = "font-bold text-sky-600 dark:text-sky-300 chemical-formula";
+        simOxideType.className = "font-bold text-sky-300 chemical-formula";
         simFeRate.innerText = "1.0 - 2.0 µg/kg (Low)";
-        simFeRate.className = "font-bold text-sky-600 dark:text-sky-300";
+        simFeRate.className = "font-bold text-sky-300";
         simFacRisk.innerText = "Low";
-        simFacRisk.className = "font-bold text-sky-600 dark:text-sky-400";
+        simFacRisk.className = "font-bold text-sky-400";
         simDpGrowth.innerText = "Moderate";
-        simDpGrowth.className = "font-bold text-amber-600 dark:text-amber-300";
+        simDpGrowth.className = "font-bold text-amber-300";
         canvasRegimeLabel.innerText = "AVT(O) Regime (NH₃ Dosed)";
       } else {
         if (btnAvtr) {
           btnAvtr.className = "w-full text-left p-3 rounded-lg border border-purple-500/50 bg-purple-500/10 hover:bg-purple-500/20 transition flex justify-between items-center";
-          btnAvtr.querySelector('i').className = "fa-solid fa-circle-check text-purple-600 dark:text-purple-400 text-lg";
+          btnAvtr.querySelector('i').className = "fa-solid fa-circle-check text-purple-400 text-lg";
         }
         simOxideType.innerHTML = "Porous Fe₃O₄ (Magnetite)";
-        simOxideType.className = "font-bold text-amber-600 dark:text-amber-400 chemical-formula";
+        simOxideType.className = "font-bold text-amber-400 chemical-formula";
         simFeRate.innerText = "3.0 - 10.0 µg/kg (High)";
-        simFeRate.className = "font-bold text-amber-600 dark:text-amber-400";
+        simFeRate.className = "font-bold text-amber-400";
         simFacRisk.innerText = "High in Single/Two Phase";
-        simFacRisk.className = "font-bold text-red-600 dark:text-red-400";
+        simFacRisk.className = "font-bold text-red-400";
         simDpGrowth.innerText = "High (Rippled Oxide)";
-        simDpGrowth.className = "font-bold text-red-600 dark:text-red-400";
+        simDpGrowth.className = "font-bold text-red-400";
         canvasRegimeLabel.innerText = "AVT(R) Regime (Hydrazine Dosed)";
       }
 
@@ -1186,6 +1321,8 @@
       document.getElementById('detail-eq-4').innerText = data.eq4;
 
       document.getElementById('detail-app-desc').innerHTML = data.appDesc;
+      const wt=document.getElementById('why-regime-title'); if(wt) wt.innerText = data.title;
+      const wx=document.getElementById('why-regime-text'); if(wx) wx.innerText = data.why;
     }
 
     // Canvas Resize Observer setup
