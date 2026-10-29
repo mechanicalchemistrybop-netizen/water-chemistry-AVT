@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>try{if(localStorage.getItem("sw-theme")==="light")document.documentElement.classList.add("light");}catch(e){}</script>
+  <script>try{if(localStorage.getItem("sw-theme")!=="dark")document.documentElement.classList.add("light");}catch(e){document.documentElement.classList.add("light");}</script>
   <title>Once-Through & Supercritical Steam-Water Chemistry Simulator (IAPWS TGD3-10)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -393,6 +393,91 @@ body.nav-collapsed .nav-home-caption{font-size:.58rem;opacity:1;transform:none;d
 @media(prefers-reduced-motion:reduce){.ai-question-card,.ai-q-arrow,.nav-brand-mark,.nav-home-caption{transition:none!important}}
 </style>
 
+
+<style id="light-theme-consistency-fix">
+/* Consistent light theme across every module: readable text, clean cards and comfortable contrast. */
+html.light { color-scheme: light; }
+html.light body {
+  color: var(--ink) !important;
+  background-color: #eef3f9 !important;
+  background-image: radial-gradient(70rem 40rem at 8% -10%, rgba(10,95,194,.075), transparent 62%),
+                    radial-gradient(55rem 32rem at 100% 0%, rgba(8,118,107,.055), transparent 60%),
+                    linear-gradient(180deg,#f7f9fd 0%,#eef3f9 60%,#f7faff 100%) !important;
+  background-attachment: fixed !important;
+}
+html.light #app-wrapper { color: var(--ink); }
+html.light #side-menu {
+  background: rgba(255,255,255,.94) !important;
+  border-color: #d4dfed !important;
+  box-shadow: 0 18px 48px -34px rgba(27,54,93,.38) !important;
+}
+html.light header.sticky, html.light #theme-dock {
+  background: rgba(255,255,255,.92) !important;
+  border-color: #d4dfed !important;
+  box-shadow: 0 10px 28px -22px rgba(27,54,93,.45) !important;
+}
+html.light .view-panel { color: var(--ink); }
+html.light .bg-slate-950, html.light .bg-slate-900, html.light .bg-slate-800,
+html.light .bg-slate-800\/50, html.light .bg-slate-800\/60, html.light .bg-slate-800\/80 {
+  color: var(--ink) !important;
+}
+html.light .bg-slate-900 { background-color: rgba(255,255,255,.94) !important; }
+html.light .bg-slate-800 { background-color: #e6edf6 !important; }
+html.light .bg-slate-800\/50 { background-color: rgba(228,237,248,.68) !important; }
+html.light .bg-slate-800\/60 { background-color: rgba(228,237,248,.76) !important; }
+html.light .bg-slate-800\/80 { background-color: rgba(228,237,248,.88) !important; }
+html.light .bg-slate-950 { background-color: #f4f7fc !important; }
+html.light .border-slate-700, html.light .border-slate-800, html.light .border-slate-800\/60 {
+  border-color: #d3deed !important;
+}
+html.light .text-slate-100, html.light .text-slate-200 { color: #17263c !important; }
+html.light .text-slate-300 { color: #263c57 !important; }
+html.light .text-slate-400 { color: #4a607b !important; }
+html.light .text-slate-500, html.light .text-slate-600 { color: #62758d !important; }
+html.light input, html.light select, html.light textarea {
+  background-color: #fff !important;
+  border-color: #c7d5e7 !important;
+  color: #17263c !important;
+}
+html.light input::placeholder, html.light textarea::placeholder { color: #71839a !important; opacity: 1; }
+html.light option { background: #fff; color: #17263c; }
+html.light table { color: #17263c; }
+html.light th { color: #1c3550; }
+html.light td { border-color: #d9e2ef; }
+html.light .plant-card, html.light .ai-quick-panel, html.light .ai-question-card,
+html.light .pf-item, html.light .cw-chip, html.light .card-dark {
+  box-shadow: 0 8px 22px -20px rgba(25,50,85,.42);
+}
+html.light .plant-card { background: linear-gradient(145deg,#fff 0%,#f8fbff 100%) !important; }
+html.light .ai-question-card { background: rgba(255,255,255,.9) !important; color: #17263c !important; }
+html.light .ai-question-card:hover { background: #f0f7ff !important; }
+html.light .ai-quick-panel { background: linear-gradient(135deg,#f8fbff,#edf5fb) !important; }
+html.light #ai-query-input, html.light #ai-key-input, html.light #ai-response-box {
+  background: #fff !important; color: #17263c !important; border-color: #c7d5e7 !important;
+}
+html.light #qj { background: rgba(255,255,255,.98) !important; color: #17263c !important; box-shadow: 0 30px 80px -35px rgba(25,50,85,.55) !important; }
+html.light #qj::backdrop { background: rgba(23,38,60,.2); }
+html.light #qj li { color: #415873; }
+html.light #qj li.on { background: #e6f1ff; color: #17263c; }
+html.light #password-overlay { background: rgba(239,244,250,.97) !important; }
+html.light #password-overlay .bg-slate-900 { background: rgba(255,255,255,.98) !important; }
+html.light #password-overlay .text-slate-950 { color: #fff !important; }
+html.light .dm-anim-track { background: #f0f6fd !important; border-color: #bfd0e4 !important; }
+html.light .dm-dose-tab { color: #3c536c; }
+html.light .dm-dose-tab.active { color: #086d55 !important; background: #e8f7f1 !important; }
+html.light .dm-detail-box { background-color: rgba(255,255,255,.85) !important; border-color: #d3deed !important; color: #223952 !important; }
+html.light .pf-wrap { background: #f2f6fc !important; border: 1px solid #d9e3ef; }
+html.light .pf-item { background: rgba(255,255,255,.88) !important; color: #344c68 !important; }
+html.light footer { background: rgba(255,255,255,.92) !important; border-color: #d5dfeb !important; }
+html.light .theme-toggle { color: #233b55 !important; background: #fff !important; border-color: #ccd9e9 !important; }
+html.light .text-slate-950 { color: #fff !important; }
+/* The DM animation's midnight fill is intentionally replaced for light mode while keeping animated particles vivid. */
+html.light .dm-anim-track { box-shadow: inset 0 1px 0 #fff; }
+@media (prefers-reduced-motion: reduce) {
+  html.light *, html.light *::before, html.light *::after { scroll-behavior: auto !important; }
+}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
 
@@ -416,8 +501,9 @@ body.nav-collapsed .nav-home-caption{font-size:.58rem;opacity:1;transform:none;d
         </button>
       </div>
 
-      <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-800">
-        The site is created by Pradeep using Gemini AI &bull; IAPWS TGD3-10
+      <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-800 leading-relaxed">
+        <span>Designed, developed and maintained by <strong class="text-sky-400">@pradeep</strong></span><br>
+        <span class="text-slate-400">Built with AI assistance &bull; IAPWS TGD3-10</span>
       </div>
     </div>
   </div>
@@ -1417,19 +1503,21 @@ body.nav-collapsed .nav-home-caption{font-size:.58rem;opacity:1;transform:none;d
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
           <div class="flex flex-wrap justify-between items-center gap-2"><h2 class="text-base font-bold text-slate-100"><i class="fa-solid fa-diagram-project text-emerald-400 mr-2"></i>DM Plant process path & chemical injection points</h2><span class="text-xs text-slate-500">Hover over a process block for a short description; select a stage to explore its chemicals</span></div>
-          <div class="overflow-x-auto rounded-lg border border-slate-800 bg-slate-950 p-3">
+          <div class="dm-process-diagram overflow-x-auto rounded-lg border border-slate-800 bg-slate-950 p-3">
             <svg viewBox="0 0 1200 470" class="w-full min-w-[900px]" role="img" aria-label="DM plant process flow with grouped chemical dosing points and hover descriptions">
               <defs><marker id="dmArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6CC4E8"/></marker></defs>
               <style>
-                .dm-node{cursor:help;transition:filter .15s,stroke-width .15s}
-                .dm-node:hover{filter:brightness(1.35);stroke-width:3}
-                .dm-tip{opacity:0;pointer-events:none;transition:opacity .15s}
-                .dm-node:hover .dm-tip,.dm-node:focus .dm-tip{opacity:1}
+                .dm-node,.dm-dose-node{cursor:help;transition:filter .15s,stroke-width .15s}
+                .dm-node:hover,.dm-dose-node:hover{filter:brightness(1.08)}
+                .dm-tip,.dm-dose-tip{opacity:0;pointer-events:none;transition:opacity .18s ease}
+                .dm-node:hover .dm-tip,.dm-node:focus .dm-tip,.dm-dose-node:hover .dm-dose-tip,.dm-dose-node:focus .dm-dose-tip{opacity:1}
                 .dm-label{font-size:12px;fill:#E8F0F2;text-anchor:middle}
-                .dm-tipbox{fill:#0f172a;stroke:#62D393;stroke-width:1.2}
-                .dm-tiptext{font-size:10px;fill:#dbeafe;text-anchor:middle}
+                .dm-tipbox,.dm-dose-tipbox{fill:#0f172a;stroke:#62D393;stroke-width:1.2}
+                .dm-tiptext,.dm-dose-tiptext{font-size:10px;fill:#dbeafe;text-anchor:middle}
                 .dm-dose-title{font-size:11px;font-weight:700;fill:#fff;text-anchor:middle}
                 .dm-dose-detail{font-size:9.5px;fill:#e2e8f0;text-anchor:middle}
+                .dm-dose-node:focus{outline:none}
+                .dm-dose-node:focus-visible rect:first-of-type{stroke-width:3}
               </style>
               <!-- Process flow -->
               <path d="M120 165 H165 M280 165 H325 M440 165 H485 M600 165 H645 M760 165 H805 M920 165 H965 M1080 165 H1120" fill="none" stroke="#6CC4E8" stroke-width="3" class="dm-flowline" marker-end="url(#dmArrow)"/>
@@ -1473,24 +1561,40 @@ body.nav-collapsed .nav-home-caption{font-size:.58rem;opacity:1;transform:none;d
                 <text class="dm-label" x="1157" y="158">DM</text><text class="dm-label" x="1157" y="176">water</text>
                 <g class="dm-tip"><rect class="dm-tipbox" x="1080" y="215" width="115" height="38" rx="5"/><text class="dm-tiptext" x="1137" y="230">Stores treated</text><text class="dm-tiptext" x="1137" y="243">make-up water</text></g>
               </g>
-              <!-- Group 1: injection point is on the feed pipe immediately BEFORE UF membrane -->
-              <path d="M145 55 V165" stroke="#4ECDB8" stroke-width="2.5" stroke-dasharray="4 5" fill="none"/>
-              <rect x="15" y="8" width="260" height="47" rx="6" fill="#064e3b" stroke="#4ECDB8" stroke-width="1.5"/>
-              <text class="dm-dose-title" x="145" y="22">UF INLET DOSING · HYPO + HCl</text>
-              <text class="dm-dose-detail" x="145" y="35">Hypo: oxidises organic / biological fouling</text>
-              <text class="dm-dose-detail" x="145" y="47">HCl: acid cleaning of acid-soluble deposits</text>
-              <!-- Group 2: three dosing chemicals on RO feed immediately BEFORE cartridge filter -->
-              <path d="M465 80 V165" stroke="#F2B44A" stroke-width="2.5" stroke-dasharray="4 5" fill="none"/>
-              <rect x="315" y="8" width="300" height="72" rx="6" fill="#78350f" stroke="#F2B44A" stroke-width="1.5"/>
-              <text class="dm-dose-title" x="465" y="23">RO FEED DOSING · BEFORE CF</text>
-              <text class="dm-dose-detail" x="465" y="38">Antiscalant: delays scale formation</text>
-              <text class="dm-dose-detail" x="465" y="51">Antioxidant: removes residual oxidant</text>
-              <text class="dm-dose-detail" x="465" y="64">HCl: acid / pH conditioning, where required</text>
+              <!-- UF inlet injection point: chemical names stay visible; explanations appear on hover/focus. -->
+              <g class="dm-dose-node" tabindex="0" role="group" aria-label="UF inlet dosing: Hypo and HCl. Hover for chemical functions.">
+                <path d="M145 55 V165" stroke="#4ECDB8" stroke-width="2.5" stroke-dasharray="4 5" fill="none"/>
+                <rect x="15" y="8" width="260" height="47" rx="6" fill="#064e3b" stroke="#4ECDB8" stroke-width="1.5"/>
+                <text class="dm-dose-title" x="145" y="29">UF INLET · HYPO + HCl</text>
+                <g class="dm-dose-tip">
+                  <rect class="dm-dose-tipbox" x="15" y="59" width="260" height="51" rx="5"/>
+                  <text class="dm-dose-tiptext" x="145" y="79">Hypo: oxidant for biological / organic control</text>
+                  <text class="dm-dose-tiptext" x="145" y="95">HCl: acid cleaning of acid-soluble deposits</text>
+                </g>
+              </g>
+              <!-- RO feed injection point: explanations appear only while hovering/focusing the dosing block. -->
+              <g class="dm-dose-node" tabindex="0" role="group" aria-label="RO feed dosing before cartridge filter: antiscalant, antioxidant and HCl where required. Hover for chemical functions.">
+                <path d="M465 55 V165" stroke="#F2B44A" stroke-width="2.5" stroke-dasharray="4 5" fill="none"/>
+                <rect x="315" y="8" width="300" height="47" rx="6" fill="#78350f" stroke="#F2B44A" stroke-width="1.5"/>
+                <text class="dm-dose-title" x="465" y="22">RO FEED · BEFORE CF</text>
+                <text class="dm-dose-title" x="465" y="38" style="font-size:9.5px">ANTISCALANT · ANTIOXIDANT · HCl</text>
+                <g class="dm-dose-tip">
+                  <rect class="dm-dose-tipbox" x="315" y="59" width="300" height="60" rx="5"/>
+                  <text class="dm-dose-tiptext" x="465" y="76">Antiscalant: delays scale formation</text>
+                  <text class="dm-dose-tiptext" x="465" y="92">Antioxidant: removes residual oxidant</text>
+                  <text class="dm-dose-tiptext" x="465" y="108">HCl: acid / pH conditioning, where required</text>
+                </g>
+              </g>
               <!-- Caustic on RO permeate header -->
-              <path d="M862 205 V280" stroke="#BC9CF0" stroke-width="2.5" stroke-dasharray="4 5" fill="none"/>
-              <rect x="782" y="280" width="160" height="47" rx="6" fill="#3b2760" stroke="#BC9CF0" stroke-width="1.5"/>
-              <text class="dm-dose-title" x="862" y="296">CAUSTIC (NaOH)</text>
-              <text class="dm-dose-detail" x="862" y="310">Raises permeate pH as required</text>
+              <g class="dm-dose-node" tabindex="0" role="group" aria-label="Caustic sodium hydroxide dosing on RO permeate header. Hover for function.">
+                <path d="M862 205 V280" stroke="#BC9CF0" stroke-width="2.5" stroke-dasharray="4 5" fill="none"/>
+                <rect x="782" y="280" width="160" height="47" rx="6" fill="#3b2760" stroke="#BC9CF0" stroke-width="1.5"/>
+                <text class="dm-dose-title" x="862" y="305">CAUSTIC (NaOH)</text>
+                <g class="dm-dose-tip">
+                  <rect class="dm-dose-tipbox" x="782" y="333" width="160" height="28" rx="5"/>
+                  <text class="dm-dose-tiptext" x="862" y="351">Raises permeate pH as required</text>
+                </g>
+              </g>
               <g font-size="11" text-anchor="middle" fill="#9CA3AF">
                 <text x="600" y="365">CF = cartridge filter · Hover over any process block for a one-line description.</text>
                 <text x="600" y="386" fill="#F2B44A">Dotted dosing lines connect to the process pipe before UF and before the cartridge filter.</text>
@@ -3135,8 +3239,9 @@ $('cw-qr').onclick=()=>{qi=0;sc=0;$('cw-qs').textContent=0;$('cw-qt').textConten
         <span>Steam-Water Chemistry Interactive Lab</span> &bull; 
         <span>IAPWS TGD3-10(2015) Technical Standard</span>
       </div>
-      <div class="text-sky-400 font-medium">
-        The site is created by Pradeep using Gemini AI
+      <div class="flex flex-col items-center sm:items-end gap-0.5 font-medium">
+        <span class="text-slate-700">Designed, developed and maintained by <strong class="text-sky-600">@pradeep</strong></span>
+        <span class="text-slate-500">Built with AI assistance</span>
       </div>
     </div>
   </footer>
@@ -4092,25 +4197,33 @@ const foot=document.querySelector('.nav-foot');if(foot){const b=document.createE
 })();
 </script>
 
-
+<script id="dm-chemical-svg-hover-labels">
 (function(){
-  const dmSvg=document.querySelector('#view-dm svg');
-  if(!dmSvg) return;
-  dmSvg.querySelectorAll('g').forEach(g=>{
-    const texts=Array.from(g.querySelectorAll(':scope > text'));
-    if(texts.length>1 && g.querySelector(':scope > rect')){
-      const lines=texts.map(t=>(t.textContent||'').replace(/\\s+/g,' ').trim()).filter(Boolean);
-      if(lines.length>1){
-        let title=g.querySelector(':scope > title');
-        if(!title){title=document.createElementNS('http://www.w3.org/2000/svg','title');g.insertBefore(title,g.firstChild);}
-        title.textContent=lines.join(' — ');
-        texts.slice(1).forEach(t=>t.style.display='none');
-        g.style.cursor='help';
+  const dmSvg = document.querySelector('#view-dm svg');
+  if (!dmSvg) return;
+  dmSvg.querySelectorAll('g').forEach(function(g){
+    /* Dosing nodes manage their own hover-only descriptions; keep all visible chemical-name lines. */
+    if (g.classList.contains('dm-dose-node')) return;
+    const texts = Array.from(g.querySelectorAll(':scope > text'));
+    if (texts.length > 1 && g.querySelector(':scope > rect')) {
+      const lines = texts.map(function(t){ return (t.textContent || '').replace(/\s+/g, ' ').trim(); }).filter(Boolean);
+      if (lines.length > 1) {
+        let title = g.querySelector(':scope > title');
+        if (!title) {
+          title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+          g.insertBefore(title, g.firstChild);
+        }
+        title.textContent = lines.join(' — ');
+        g.setAttribute('aria-label', title.textContent);
+        g.setAttribute('tabindex', '0');
+        /* Keep every SVG label line visible; the title supplies an additional native tooltip. */
+        texts.forEach(function(t){ t.style.removeProperty('display'); });
+        g.style.cursor = 'help';
       }
     }
   });
 })();
-
+</script>
 
 <style id="dm-layout-and-sidebar-motion-fix">
 /* DM chemical explorer: use the full available horizontal canvas */
@@ -4319,6 +4432,24 @@ body.nav-collapsed #side-menu .nav-item:hover .nav-tip{opacity:1;transform:trans
   }
 })();
 </script>
+
+<style id="dm-diagram-light-mode-contrast">
+/* In light mode, use readable ink on pale diagram surfaces while preserving color-coded injection locations. */
+html.light #view-dm .dm-process-diagram{background:#f4f8fc!important;border-color:#cbd8e7!important}
+html.light #view-dm .dm-process-diagram svg .dm-node rect:not(.dm-tipbox),
+html.light #view-dm .dm-process-diagram svg .dm-dose-node rect:not(.dm-dose-tipbox){fill:#eaf1f8!important}
+html.light #view-dm .dm-process-diagram svg .dm-label{fill:#19344e!important;font-weight:650}
+html.light #view-dm .dm-process-diagram svg .dm-dose-title{fill:#182c43!important;font-weight:800}
+html.light #view-dm .dm-process-diagram svg .dm-tipbox,
+html.light #view-dm .dm-process-diagram svg .dm-dose-tipbox{fill:#ffffff!important;stroke:#6f8ca8!important;stroke-width:1.3}
+html.light #view-dm .dm-process-diagram svg .dm-tiptext,
+html.light #view-dm .dm-process-diagram svg .dm-dose-tiptext{fill:#1d344c!important;font-weight:600}
+html.light #view-dm .dm-process-diagram svg .dm-dose-tip{filter:drop-shadow(0 3px 6px rgba(15,35,58,.15))}
+html.light #view-dm .dm-process-diagram svg text[fill="#9CA3AF"]{fill:#536b83!important}
+html.light #view-dm .dm-process-diagram svg text[fill="#F2B44A"]{fill:#8a5b00!important}
+html.light #view-dm .dm-process-diagram svg text[fill="#4ECDB8"]{fill:#087e71!important}
+@media (max-width: 640px){#view-dm .dm-dose-tiptext{font-size:9px}}
+</style>
 
 </body>
 </html>
