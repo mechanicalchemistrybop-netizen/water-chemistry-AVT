@@ -27,6 +27,47 @@
       color: #38bdf8;
       background-color: rgba(56, 189, 248, 0.08);
     }
+    
+    /* Modern UI Enhancements */
+    body {
+      background: radial-gradient(circle at top left, var(--panel-2) 0%, var(--bg) 40%, var(--bg) 100%);
+      background-attachment: fixed;
+    }
+    .view-panel {
+      animation: fadeInZoom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes fadeInZoom {
+      from { opacity: 0; transform: scale(0.98) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .plant-card {
+      background: linear-gradient(145deg, var(--panel) 0%, var(--bg) 100%);
+      border: 1px solid var(--line);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .plant-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      border-color: var(--accent);
+      box-shadow: 0 12px 30px color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+    .cw-chip {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+    .cw-chip:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 30%, transparent);
+    }
+    /* Better Header Glassmorphism */
+    header.sticky {
+      background: color-mix(in srgb, var(--panel) 75%, transparent) !important;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 50%, transparent) !important;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+
     /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
@@ -237,6 +278,13 @@ html .text-teal-400{color:var(--teal) !important}
     #app-wrapper { transition:padding-left .25s; }
     @media (min-width:1024px){ #app-wrapper { padding-left:16rem; } body.nav-collapsed #app-wrapper { padding-left:4.5rem; } }
     body.nav-collapsed #side-menu { width:4.5rem; }
+    .nav-short { display:none; font-size:.7rem; font-weight:800; letter-spacing:.02em; text-align:center; width:100%; }
+    body.nav-collapsed .nav-ico { display:none !important; }
+    body.nav-collapsed .nav-foot .nav-ico { display:grid !important; }
+    body.nav-collapsed .nav-short { display:block; }
+    body.nav-collapsed .nav-item { justify-content:center; gap:0; border-radius:8px; }
+    body.nav-collapsed .nav-item .nav-tip { left:calc(100% + .55rem); }
+
     body.nav-collapsed .nav-label, body.nav-collapsed .nav-brand-text { display:none; }
     body.nav-collapsed .nav-collapse-icon { transform:rotate(180deg); }
     .nav-brand { display:flex; align-items:center; gap:.875rem; padding:1.1rem 1.125rem; border-bottom:1px solid var(--line); }
@@ -289,6 +337,12 @@ html .text-teal-400{color:var(--teal) !important}
     html .bg-red-500\/10 { background-color:color-mix(in srgb, var(--red) 10%, transparent) !important; }
     html .bg-slate-950 { background-color:var(--inset) !important; }
     html .accent-sky-400 { accent-color:var(--sky) !important; }
+  
+    /* Color Theme Palettes */
+    body[data-theme="slate"] { --bg:#0f172a; --panel:#1e293b; --panel-2:#334155; --inset:#0b1120; --sidebar:#0b1120; --accent:#38bdf8; --sky:#38bdf8; }
+    body[data-theme="emerald"] { --bg:#022c22; --panel:#064e3b; --panel-2:#047857; --inset:#021510; --sidebar:#021510; --accent:#34d399; --sky:#34d399; --teal:#10b981; }
+    body[data-theme="amber"] { --bg:#1c1917; --panel:#292524; --panel-2:#44403c; --inset:#0c0a09; --sidebar:#0c0a09; --accent:#fbbf24; --sky:#fbbf24; --amber:#f59e0b; }
+
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
@@ -330,17 +384,23 @@ html .text-teal-400{color:var(--teal) !important}
     </div>
     <nav id="nav-scroll">
       <div class="nav-list">
-        <button class="nav-item active" data-view="view-avt" onclick="showView('view-avt')">
-          <span class="nav-ico"><i class="fa-solid fa-atom"></i></span><span class="nav-label">AVT Method</span><span class="nav-tip">AVT Method</span>
+        <button class="nav-item active" data-view="view-home" onclick="showView('view-home')">
+          <span class="nav-ico"><i class="fa-solid fa-house"></i></span><span class="nav-short">HOME</span><span class="nav-label">Plant Home</span><span class="nav-tip">Plant Home</span>
+        </button>
+        <button class="nav-item" data-view="view-avt" onclick="showView('view-avt')">
+          <span class="nav-ico"><i class="fa-solid fa-industry"></i></span><span class="nav-short">AVT</span><span class="nav-label">AVT Method</span><span class="nav-tip">AVT Method</span>
         </button>
         <button class="nav-item" data-view="view-dm" onclick="showView('view-dm')">
-          <span class="nav-ico"><i class="fa-solid fa-filter"></i></span><span class="nav-label">Dosing in DM Plant</span><span class="nav-tip">Dosing in DM Plant</span>
+          <span class="nav-ico"><i class="fa-solid fa-droplets"></i></span><span class="nav-short">DM</span><span class="nav-label">Dosing in DM Plant</span><span class="nav-tip">Dosing in DM Plant</span>
         </button>
         <button class="nav-item" data-view="view-pt" onclick="showView('view-pt')">
-          <span class="nav-ico"><i class="fa-solid fa-droplet"></i></span><span class="nav-label">Dosing in PT Plant</span><span class="nav-tip">Dosing in PT Plant</span>
+          <span class="nav-ico"><i class="fa-solid fa-water"></i></span><span class="nav-short">PT</span><span class="nav-label">Dosing in PT Plant</span><span class="nav-tip">Dosing in PT Plant</span>
         </button>
         <button class="nav-item" data-view="view-cw" onclick="showView('view-cw')">
-          <span class="nav-ico"><i class="fa-solid fa-fan"></i></span><span class="nav-label">Dosing in CWT</span><span class="nav-tip">Dosing in CWT</span>
+          <span class="nav-ico"><i class="fa-solid fa-fan"></i></span><span class="nav-short">CWT</span><span class="nav-label">Dosing in CWT</span><span class="nav-tip">Dosing in CWT</span>
+        </button>
+        <button class="nav-item" data-view="view-ai" onclick="showView('view-ai')">
+          <span class="nav-ico"><i class="fa-solid fa-robot"></i></span><span class="nav-short">AI</span><span class="nav-label">AI Chemistry Expert</span><span class="nav-tip">AI Chemistry Expert</span>
         </button>
       </div>
     </nav>
@@ -352,6 +412,105 @@ html .text-teal-400{color:var(--teal) !important}
   </aside>
   <div id="nav-backdrop" onclick="closeNav()"></div>
   <button id="nav-fab" type="button" onclick="document.body.classList.toggle('nav-open')" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+
+  
+  <!-- ============ VIEW HOME: PLANT DASHBOARD ============ -->
+  <div id="view-home" class="view-panel">
+    <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+        <div class="flex items-center space-x-3">
+          <div class="p-2 bg-sky-500/10 border border-sky-500/30 rounded-lg text-sky-400"><i class="fa-solid fa-industry text-2xl"></i></div>
+          <div>
+            <h1 class="text-xl font-bold text-slate-100">Supercritical Thermal Power Plant </h1>
+            <p class="text-xs text-slate-400">Integrated Plant Chemistry &amp; Chemical Dosing Master Dashboard</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 flex-wrap">
+          <div class="flex items-center gap-1.5 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
+            <span class="text-slate-400"><i class="fa-solid fa-palette text-sky-400"></i> Theme:</span>
+            <select id="color-theme-select-home" onchange="changeColorTheme(this.value)" class="bg-transparent text-sky-300 font-semibold focus:outline-none">
+              <option value="dark">Midnight Dark</option>
+              <option value="slate">Slate Navy</option>
+              <option value="emerald">Emerald Plant</option>
+              <option value="amber">Industrial Amber</option>
+            </select>
+          </div>
+          <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Switch light/dark theme"><i class="fa-solid fa-sun icon-sun"></i><i class="fa-solid fa-moon icon-moon"></i><span class="theme-label">Light mode</span></button>
+        </div>
+      </div>
+    </header>
+    
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full space-y-6">
+      
+      <!-- Interactive Plant P&ID Schematic Hero Card -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+        <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+          <div>
+            <h2 class="text-lg font-bold text-sky-300 flex items-center gap-2">
+              <i class="fa-solid fa-sitemap text-sky-400"></i> Plant-Wide P&amp;ID &amp; Chemical Dosing Master Schematic
+            </h2>
+            <p class="text-xs text-slate-400">Click any plant area or dosing hotspot below for smooth animated navigation to the respective module.</p>
+          </div>
+          <div class="flex flex-wrap gap-3 text-xs">
+            <span class="flex items-center gap-1.5 text-slate-300"><span class="w-3 h-3 rounded-full bg-indigo-500 inline-block"></span> PT Plant</span>
+            <span class="flex items-center gap-1.5 text-slate-300"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> DM Plant</span>
+            <span class="flex items-center gap-1.5 text-slate-300"><span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span> CWT Plant</span>
+            <span class="flex items-center gap-1.5 text-slate-300"><span class="w-3 h-3 rounded-full bg-sky-400 inline-block"></span> AVT / Steam-Water</span>
+          </div>
+        </div>
+
+        <!-- Water flow and dosing points -->
+        <div class="pf-wrap w-full overflow-x-auto rounded-xl p-4 border border-slate-800"><svg viewBox="0 0 1340 520" class="w-full min-w-[960px] h-auto" role="img" aria-label="Plant water flow and chemical dosing points"><defs><marker id="pfa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" class="pf-arrow"/></marker></defs>
+<text x="40" y="24" class="pf-h">1 · WATER PREPARATION</text><text x="40" y="200" class="pf-h">2 · BOILER – TURBINE – CONDENSER CYCLE</text><text x="40" y="372" class="pf-h">3 · COOLING WATER LOOP</text>
+<path d="M190 75 H248" class="pf-flow pf-raw" marker-end="url(#pfa)"/><path d="M450 75 H508" class="pf-flow pf-raw" marker-end="url(#pfa)"/><path d="M690 75 H758" class="pf-flow pf-raw" marker-end="url(#pfa)"/><path d="M960 75 H1028" class="pf-flow pf-dm" marker-end="url(#pfa)"/><path d="M1125 110 V150 H1245 V213" class="pf-flow pf-dm" marker-end="url(#pfa)"/><text x="1140" y="142" class="pf-l">DM make-up</text><path d="M600 110 V150 H18 V445 H58" class="pf-flow pf-raw" marker-end="url(#pfa)"/><text x="250" y="142" class="pf-l">CW make-up</text><path d="M1180 247 H1152" class="pf-flow pf-fw" marker-end="url(#pfa)"/><path d="M1020 247 H992" class="pf-flow pf-fw" marker-end="url(#pfa)"/><path d="M860 247 H832" class="pf-flow pf-fw" marker-end="url(#pfa)"/><path d="M700 247 H672" class="pf-flow pf-fw" marker-end="url(#pfa)"/><path d="M540 247 H512" class="pf-flow pf-fw" marker-end="url(#pfa)"/><path d="M380 247 H352" class="pf-flow pf-fw" marker-end="url(#pfa)"/><path d="M220 247 H192" class="pf-flow pf-steam" marker-end="url(#pfa)"/><text x="150" y="238" class="pf-l">Main steam</text><path d="M125 215 V185 H1215 V213" class="pf-flow pf-steam" marker-end="url(#pfa)"/><text x="560" y="177" class="pf-l">Turbine exhaust steam</text><path d="M250 457 H318" class="pf-flow pf-cw" marker-end="url(#pfa)"/><path d="M430 457 H1285 V281" class="pf-flow pf-cw" marker-end="url(#pfa)"/><text x="760" y="449" class="pf-l">CW supply</text><path d="M1215 281 V395 H155 V408" class="pf-flow pf-cw" marker-end="url(#pfa)"/><text x="760" y="387" class="pf-l">CW return</text><g class="pf-n pf-src"><rect x="40" y="40" width="150" height="70" rx="12" class="pf-box"/><text x="115.0" y="73.0" text-anchor="middle" class="pf-t">Raw water</text><text x="115.0" y="89.0" text-anchor="middle" class="pf-s">River / reservoir</text></g><g class="pf-n "><rect x="250" y="40" width="200" height="70" rx="12" class="pf-box"/><text x="350.0" y="73.0" text-anchor="middle" class="pf-t">PT Plant</text><text x="350.0" y="89.0" text-anchor="middle" class="pf-s">Clarifier · filters</text></g><g class="pf-n "><rect x="510" y="40" width="180" height="70" rx="12" class="pf-box"/><text x="600.0" y="73.0" text-anchor="middle" class="pf-t">Clarified tank</text><text x="600.0" y="89.0" text-anchor="middle" class="pf-s">Service / feed water</text></g><g class="pf-n "><rect x="760" y="40" width="200" height="70" rx="12" class="pf-box"/><text x="860.0" y="73.0" text-anchor="middle" class="pf-t">DM Plant</text><text x="860.0" y="89.0" text-anchor="middle" class="pf-s">ACF · SAC · SBA · MB</text></g><g class="pf-n pf-dmn"><rect x="1030" y="40" width="190" height="70" rx="12" class="pf-box"/><text x="1125.0" y="73.0" text-anchor="middle" class="pf-t">DM water tank</text><text x="1125.0" y="89.0" text-anchor="middle" class="pf-s">Ultrapure make-up</text></g><g class="pf-n "><rect x="60" y="215" width="130" height="64" rx="12" class="pf-box"/><text x="125.0" y="245.0" text-anchor="middle" class="pf-t">Turbine</text><text x="125.0" y="261.0" text-anchor="middle" class="pf-s">HP · IP · LP</text></g><g class="pf-n "><rect x="220" y="215" width="130" height="64" rx="12" class="pf-box"/><text x="285.0" y="245.0" text-anchor="middle" class="pf-t">Boiler</text><text x="285.0" y="261.0" text-anchor="middle" class="pf-s">Once-through</text></g><g class="pf-n "><rect x="380" y="215" width="130" height="64" rx="12" class="pf-box"/><text x="445.0" y="245.0" text-anchor="middle" class="pf-t">HPH + Eco</text><text x="445.0" y="261.0" text-anchor="middle" class="pf-s">Feed heating</text></g><g class="pf-n "><rect x="540" y="215" width="130" height="64" rx="12" class="pf-box"/><text x="605.0" y="245.0" text-anchor="middle" class="pf-t">Feed pump</text><text x="605.0" y="261.0" text-anchor="middle" class="pf-s">BFP</text></g><g class="pf-n "><rect x="700" y="215" width="130" height="64" rx="12" class="pf-box"/><text x="765.0" y="245.0" text-anchor="middle" class="pf-t">Deaerator</text><text x="765.0" y="261.0" text-anchor="middle" class="pf-s">O₂ removal</text></g><g class="pf-n "><rect x="860" y="215" width="130" height="64" rx="12" class="pf-box"/><text x="925.0" y="245.0" text-anchor="middle" class="pf-t">LP heaters</text><text x="925.0" y="261.0" text-anchor="middle" class="pf-s">Condensate</text></g><g class="pf-n "><rect x="1020" y="215" width="130" height="64" rx="12" class="pf-box"/><text x="1085.0" y="245.0" text-anchor="middle" class="pf-t">Cond. pump</text><text x="1085.0" y="261.0" text-anchor="middle" class="pf-s">CEP</text></g><g class="pf-n "><rect x="1180" y="215" width="130" height="64" rx="12" class="pf-box"/><text x="1245.0" y="245.0" text-anchor="middle" class="pf-t">Condenser</text><text x="1245.0" y="261.0" text-anchor="middle" class="pf-s">Hotwell</text></g><g class="pf-n "><rect x="60" y="410" width="190" height="70" rx="12" class="pf-box"/><text x="155.0" y="443.0" text-anchor="middle" class="pf-t">Cooling tower</text><text x="155.0" y="459.0" text-anchor="middle" class="pf-s">Basin · make-up</text></g><g class="pf-n "><rect x="320" y="425" width="110" height="64" rx="12" class="pf-box"/><text x="375.0" y="461.0" text-anchor="middle" class="pf-t">CW pumps</text></g><g class="pf-hot" data-p="1" tabindex="0" role="button" aria-label="Dosing point 1: Coagulant · lime" transform="translate(220,75)"><circle r="9" class="pf-ring"/><circle r="12" class="pf-dot"/><text y="4" text-anchor="middle" class="pf-num">1</text></g><g class="pf-hot" data-p="2" tabindex="0" role="button" aria-label="Dosing point 2: Polyelectrolyte" transform="translate(350,112)"><circle r="9" class="pf-ring"/><circle r="12" class="pf-dot"/><text y="4" text-anchor="middle" class="pf-num">2</text></g><g class="pf-hot" data-p="3" tabindex="0" role="button" aria-label="Dosing point 3: Chlorine" transform="translate(480,75)"><circle r="9" class="pf-ring"/><circle r="12" class="pf-dot"/><text y="4" text-anchor="middle" class="pf-num">3</text></g><g class="pf-hot" data-p="4" tabindex="0" role="button" aria-label="Dosing point 4: HCl" transform="translate(830,112)"><circle r="9" class="pf-ring"/><circle r="12" class="pf-dot"/><text y="4" text-anchor="middle" class="pf-num">4</text></g><g class="pf-hot" data-p="5" tabindex="0" role="button" aria-label="Dosing point 5: NaOH" transform="translate(915,112)"><circle r="9" class="pf-ring"/><circle r="12" class="pf-dot"/><text y="4" text-anchor="middle" class="pf-num">5</text></g><g class="pf-hot" data-p="6" tabindex="0" role="button" aria-label="Dosing point 6: NH₃" transform="translate(1005,247)"><circle r="9" class="pf-ring"/><circle r="12" class="pf-dot"/><text y="4" text-anchor="middle" class="pf-num">6</text></g><g class="pf-hot" data-p="7" tabindex="0" role="button" aria-label="Dosing point 7: O₂ / N₂H₄" transform="translate(685,247)"><circle r="9" class="pf-ring"/><circle r="12" class="pf-dot"/><text y="4" text-anchor="middle" class="pf-num">7</text></g><g class="pf-hot" data-p="8" tabindex="0" role="button" aria-label="Dosing point 8: H₂SO₄ · inhibitors · ClO₂" transform="translate(285,457)"><circle r="9" class="pf-ring"/><circle r="12" class="pf-dot"/><text y="4" text-anchor="middle" class="pf-num">8</text></g></svg></div>
+        <div class="flex flex-wrap gap-4 text-[11px] text-slate-400 pt-3"><span class="flex items-center gap-1.5"><i class="pf-key pf-raw"></i> Raw / clarified water</span><span class="flex items-center gap-1.5"><i class="pf-key pf-dm"></i> DM (ultrapure) water</span><span class="flex items-center gap-1.5"><i class="pf-key pf-fw"></i> Condensate and feed water</span><span class="flex items-center gap-1.5"><i class="pf-key pf-steam"></i> Steam</span><span class="flex items-center gap-1.5"><i class="pf-key pf-cw"></i> Cooling water</span><span class="flex items-center gap-1.5"><span class="pf-pin">n</span> Chemical dosing point</span></div>
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 pt-4">
+          <div id="pf-list" class="lg:col-span-2 grid grid-cols-1 gap-2"></div>
+          <div id="pf-detail" class="lg:col-span-3 rounded-xl border border-slate-800 bg-slate-950 p-5 space-y-3" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <!-- Module cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div onclick="showView('view-pt')" class="bg-slate-900 border border-slate-800 hover:border-sky-400 rounded-xl p-6 shadow-xl space-y-4 cursor-pointer transition transform hover:-translate-y-1">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 flex items-center justify-center text-xl"><i class="fa-solid fa-water"></i></div>
+          <div>
+            <h3 class="text-base font-bold text-slate-100">Dosing in PT Plant</h3>
+            <p class="text-xs text-slate-400 mt-1">Raw water clarification, Alum/PAC coagulation, polyelectrolyte flocculation &amp; chlorination.</p>
+          </div>
+          <div class="pt-2 flex items-center text-xs font-semibold text-indigo-400 gap-1"><span>Open PT Dashboard</span> <i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+
+        <div onclick="showView('view-dm')" class="bg-slate-900 border border-slate-800 hover:border-sky-400 rounded-xl p-6 shadow-xl space-y-4 cursor-pointer transition transform hover:-translate-y-1">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-xl"><i class="fa-solid fa-droplets"></i></div>
+          <div>
+            <h3 class="text-base font-bold text-slate-100">Dosing in DM Plant</h3>
+            <p class="text-xs text-slate-400 mt-1">ASME/EPRI ion-exchange regeneration sequences with Hydrochloric Acid (HCl) &amp; Caustic Soda (NaOH).</p>
+          </div>
+          <div class="pt-2 flex items-center text-xs font-semibold text-emerald-400 gap-1"><span>Open DM Dashboard</span> <i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+
+        <div onclick="showView('view-cw')" class="bg-slate-900 border border-slate-800 hover:border-sky-400 rounded-xl p-6 shadow-xl space-y-4 cursor-pointer transition transform hover:-translate-y-1">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center text-xl"><i class="fa-solid fa-fan"></i></div>
+          <div>
+            <h3 class="text-base font-bold text-slate-100">Dosing in CWT</h3>
+            <p class="text-xs text-slate-400 mt-1">Circulating cooling water treatment, IDCT forebay dosing, scale inhibitors, and ClO₂ biocide.</p>
+          </div>
+          <div class="pt-2 flex items-center text-xs font-semibold text-amber-400 gap-1"><span>Open CWT Dashboard</span> <i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+
+        <div onclick="showView('view-ai')" class="bg-slate-900 border border-slate-800 hover:border-sky-400 rounded-xl p-6 shadow-xl space-y-4 cursor-pointer transition transform hover:-translate-y-1">
+          <div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/30 text-sky-400 flex items-center justify-center text-xl"><i class="fa-solid fa-robot"></i></div>
+          <div>
+            <h3 class="text-base font-bold text-slate-100">AVT &amp; AI Expert</h3>
+            <p class="text-xs text-slate-400 mt-1">IAPWS TGD3-10 volatile feedwater treatments (OT, AVT(R)) and standard-grounded AI assistant.</p>
+          </div>
+          <div class="pt-2 flex items-center text-xs font-semibold text-sky-400 gap-1"><span>Open AI Expert</span> <i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
 
   <!-- ============ VIEW 1: AVT METHOD (original page, unchanged) ============ -->
   <div id="view-avt" class="view-panel">
@@ -401,9 +560,7 @@ html .text-teal-400{color:var(--teal) !important}
       <button onclick="switchTab('tab-glossary')" id="btn-tab-glossary" class="tab-btn px-4 py-3 text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
         <i class="fa-solid fa-book-bookmark"></i> 4. IAPWS Glossary
       </button>
-      <button onclick="switchTab('tab-ai-expert')" id="btn-tab-ai-expert" class="tab-btn px-4 py-3 text-xs sm:text-sm font-medium text-sky-400 hover:text-sky-200 flex items-center gap-2 whitespace-nowrap font-bold">
-        <i class="fa-solid fa-robot text-sky-400"></i> 5. AI Chemistry Expert (Gemini)
-      </button>
+
     </nav>
   </header>
 
@@ -1052,16 +1209,59 @@ html .text-teal-400{color:var(--teal) !important}
     </section>
 
     <!-- ==================== TAB 5: AI EXPERT ==================== -->
-    <section id="tab-ai-expert" class="space-y-6 hidden">
+    
+
+  </main>
+
+  </div><!-- /view-avt -->
+
+  
+  <!-- ============ VIEW AI EXPERT ============ -->
+  <div id="view-ai" class="view-panel hidden">
+    <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+        <div class="flex items-center space-x-3">
+          <div class="p-2 bg-sky-500/10 border border-sky-500/30 rounded-lg text-sky-400"><i class="fa-solid fa-robot text-2xl"></i></div>
+          <div>
+            <h1 class="text-xl font-bold text-slate-100">Power Plant Chemistry AI Expert</h1>
+            <p class="text-xs text-slate-400">Strictly adheres to international standards (IAPWS, ASME, EPRI, IS 10500)</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 flex-wrap">
+          <div class="flex items-center gap-1.5 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
+            <span class="text-slate-400"><i class="fa-solid fa-book text-sky-400"></i> Standard:</span>
+            <select id="ai-standard-select" onchange="updateAiPromptStandard(this.value)" class="bg-transparent text-sky-300 font-semibold focus:outline-none">
+              <option value="iapws">AVT / Feedwater: IAPWS TGD3-10 (2015)</option>
+              <option value="asme">DM Plant / Regeneration: ASME / EPRI Guidelines</option>
+              <option value="is10500">PT Plant / Raw Water: IS 10500 / WHO Water Quality</option>
+              <option value="epri">CWT / Cooling Water: EPRI / Nalco Circulation Standards</option>
+            </select>
+          </div>
+          
+        <div class="flex items-center gap-1.5 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
+          <span class="text-slate-400"><i class="fa-solid fa-palette text-sky-400"></i> Theme:</span>
+          <select id="color-theme-select" onchange="changeColorTheme(this.value)" class="bg-transparent text-sky-300 font-semibold focus:outline-none">
+            <option value="dark">Midnight Dark</option>
+            <option value="slate">Slate Navy</option>
+            <option value="emerald">Emerald Plant</option>
+            <option value="amber">Industrial Amber</option>
+          </select>
+        </div>
+
+          <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Switch theme"><i class="fa-solid fa-sun icon-sun"></i><i class="fa-solid fa-moon icon-moon"></i><span class="theme-label">Light mode</span></button>
+        </div>
+      </div>
+    </header>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full space-y-6">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl space-y-4">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-3 gap-2">
           <div>
-            <h2 class="text-lg font-bold text-sky-300 flex items-center gap-2">
-              <i class="fa-solid fa-robot text-sky-400"></i> Gemini AI Power Plant Chemistry Expert
+            <h2 id="ai-expert-title" class="text-lg font-bold text-sky-300 flex items-center gap-2">
+              <i class="fa-solid fa-robot text-sky-400"></i> AI Expert — IAPWS TGD3-10 Standard Mode
             </h2>
-            <p class="text-xs text-slate-400">Ask questions grounded in IAPWS TGD3-10(2015) Technical Guidelines.</p>
+            <p id="ai-expert-desc" class="text-xs text-slate-400">Answers will strictly follow IAPWS guidelines for volatile water treatment and supercritical chemistry.</p>
           </div>
-          <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30">Powered by Gemini API</span>
+          <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30">Standard-Grounded AI</span>
         </div>
 
         <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs flex flex-col sm:flex-row items-center gap-3">
@@ -1075,103 +1275,930 @@ html .text-teal-400{color:var(--teal) !important}
           </span>
         </div>
 
-        <div>
-          <label class="text-xs font-semibold text-slate-400 block mb-2">Suggested Quick Questions:</label>
-          <div class="flex flex-wrap gap-2 text-xs">
-            <button onclick="setAiQuery('When should oxygen injection be stopped on Oxygenated Treatment (OT)?')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-lg transition text-left">🛑 When to stop oxygen on OT?</button>
-            <button onclick="setAiQuery('Why is AVT(R) not recommended for supercritical once-through boilers with all-ferrous metallurgy?')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-lg transition text-left">⚠️ Why avoid AVT(R) in once-through?</button>
-          </div>
-        </div>
-
         <div class="space-y-3">
-          <textarea id="ai-query-input" rows="3" placeholder="Type your steam-water chemistry question here..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 focus:outline-none focus:border-sky-500"></textarea>
+          <textarea id="ai-query-input" rows="4" placeholder="Ask any question regarding AVT, DM regeneration, PT chlorination, or CWT dosing..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 focus:outline-none focus:border-sky-500"></textarea>
           
           <div class="flex justify-between items-center">
-            <span class="text-[11px] text-slate-500">Answers based on IAPWS TGD3-10 guidelines.</span>
-            <button onclick="askGeminiAi()" id="btn-ai-submit" class="px-5 py-2.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs rounded-lg shadow-lg flex items-center gap-2 transition">
-              <i class="fa-solid fa-paper-plane"></i> Ask Chemistry Expert
+            <span id="ai-active-standard-tag" class="text-[11px] text-sky-400 font-medium">Active Standard: IAPWS TGD3-10 (2015)</span>
+            <button onclick="askStandardizedAi()" id="btn-ai-submit" class="px-5 py-2.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs rounded-lg shadow-lg flex items-center gap-2 transition">
+              <i class="fa-solid fa-paper-plane"></i> Query AI Expert
             </button>
           </div>
         </div>
 
-        <div id="ai-response-box" class="bg-slate-950 border border-slate-800 rounded-lg p-4 text-xs leading-relaxed text-slate-300 space-y-2 min-h-[140px] whitespace-pre-wrap">
-          <i class="text-slate-500">Your AI response will appear here after asking a question...</i>
+        <div id="ai-response-box" class="bg-slate-950 border border-slate-800 rounded-lg p-4 text-xs leading-relaxed text-slate-300 space-y-2 min-h-[160px] whitespace-pre-wrap">
+          <i class="text-slate-500">Select your standard above and ask your question &mdash; the AI response will follow the normative criteria...</i>
         </div>
       </div>
-    </section>
+    </main>
+  </div>
 
-  </main>
-
-  </div><!-- /view-avt -->
-
+  
   <!-- ============ DOSING IN DM PLANT ============ -->
   <div id="view-dm" class="view-panel hidden">
+    <style>
+      @keyframes dmFlow { to { stroke-dashoffset:-22; } }
+      @keyframes dmBubble { 0%{transform:translateY(12px);opacity:.15} 50%{opacity:1} 100%{transform:translateY(-12px);opacity:.15} }
+      .dm-flowline { stroke-dasharray:8 6; animation:dmFlow 1.4s linear infinite; }
+      .dm-bubble { animation:dmBubble 2.4s ease-in-out infinite; }
+      .dm-chem-btn { border:1px solid var(--line-2); background:var(--panel-2); color:var(--ink-2); padding:.55rem .8rem; border-radius:6px; font-size:.8rem; cursor:pointer; text-align:left; }
+      .dm-chem-btn.active { border-color:var(--emerald); background:color-mix(in srgb,var(--emerald) 13%,transparent); color:var(--ink); }
+    </style>
     <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
         <div class="flex items-center space-x-3">
-          <div class="p-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-400"><i class="fa-solid fa-filter text-2xl"></i></div>
+          <div class="p-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-400"><i class="fa-solid fa-droplet text-2xl"></i></div>
           <div>
-            <h1 class="text-xl font-bold text-slate-100">Dosing in DM Plant</h1>
-            <p class="text-xs text-slate-400">Demineralisation plant chemical dosing</p>
+            <h1 class="text-xl font-bold text-slate-100">Dosing in Demineralisation (DM) Plant</h1>
+            <p class="text-xs text-slate-400">UF pretreatment and cleaning · RO membrane protection · ion-exchange regeneration</p>
           </div>
         </div>
-        <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Switch light/dark theme"><i class="fa-solid fa-sun icon-sun"></i><i class="fa-solid fa-moon icon-moon"></i><span class="theme-label">Light mode</span></button>
+        <div class="flex items-center gap-3 flex-wrap">
+          <div class="flex items-center gap-1.5 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
+            <span class="text-slate-400"><i class="fa-solid fa-palette text-sky-400"></i> Theme:</span>
+            <select id="color-theme-select-dm" onchange="changeColorTheme(this.value)" class="bg-transparent text-sky-300 font-semibold focus:outline-none">
+              <option value="dark">Midnight Dark</option><option value="slate">Slate Navy</option><option value="emerald">Emerald Plant</option><option value="amber">Industrial Amber</option>
+            </select>
+          </div>
+          <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Switch light/dark theme"><i class="fa-solid fa-sun icon-sun"></i><i class="fa-solid fa-moon icon-moon"></i><span class="theme-label">Light mode</span></button>
+        </div>
       </div>
+      <nav id="dm-nav" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto border-t border-slate-800/60"></nav>
     </header>
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full space-y-6">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
-        <div class="flex items-start gap-4">
-          <div class="w-12 h-12 shrink-0 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-xl"><i class="fa-solid fa-pen-ruler"></i></div>
-          <div class="space-y-2">
-            <h2 class="text-base font-bold text-slate-100">Layout ready for design</h2>
-            <p class="text-sm text-slate-400">This page is a clean canvas. Content and layout for <strong class="text-slate-200">Dosing in DM Plant</strong> will be added once we finalise the details.</p>
-            <div class="flex flex-wrap gap-2 pt-1"><span class="px-2.5 py-1 rounded-full text-[11px] bg-slate-800 border border-slate-700 text-slate-300">Regeneration chemicals</span><span class="px-2.5 py-1 rounded-full text-[11px] bg-slate-800 border border-slate-700 text-slate-300">Dosing pumps</span><span class="px-2.5 py-1 rounded-full text-[11px] bg-slate-800 border border-slate-700 text-slate-300">Set points</span><span class="px-2.5 py-1 rounded-full text-[11px] bg-slate-800 border border-slate-700 text-slate-300">Schematic</span></div>
-            <p class="text-[11px] text-slate-500">Chips above are only placeholder topic ideas, to be replaced.</p>
+      <section id="dm-overview" class="space-y-5">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 md:p-6 space-y-4">
+          <div class="flex flex-wrap justify-between gap-3 items-start">
+            <div><div class="text-xs uppercase tracking-widest text-emerald-400 font-semibold">Process overview</div><h2 class="text-lg font-bold text-slate-100 mt-1">Why does a UF–RO based DM plant need chemicals?</h2></div>
+            <span class="text-[11px] px-3 py-1 rounded-full border border-emerald-500/30 text-emerald-300">Interactive learning module</span>
+          </div>
+          <p class="text-sm text-slate-300">A DM plant removes suspended particles, dissolved salts and residual impurities to produce low-conductivity make-up water. Chemicals are used at different stages for different jobs: <b>hypochlorite and acid for UF cleaning sequences</b>, <b>antiscalant and antioxidant ahead of RO</b>, and <b>acid/caustic for ion-exchange regeneration</b>. They are not interchangeable, and their dosing points matter.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+            <div class="p-4 rounded-lg border border-slate-700 bg-slate-950"><div class="text-xs text-slate-400">1 · UF</div><div class="font-bold text-emerald-300 mt-1">Protect / clean membranes</div><p class="text-xs text-slate-400 mt-2">Hypochlorite and acid injection points are shown at the UF inlet as shown in the process arrangement; actual use must follow the approved operating sequence.</p></div>
+            <div class="p-4 rounded-lg border border-slate-700 bg-slate-950"><div class="text-xs text-slate-400">2 · RO feed</div><div class="font-bold text-sky-300 mt-1">Prevent scale</div><p class="text-xs text-slate-400 mt-2">Antiscalant delays sparingly soluble salts from precipitating on the RO membrane surface.</p></div>
+            <div class="p-4 rounded-lg border border-slate-700 bg-slate-950"><div class="text-xs text-slate-400">3 · RO feed</div><div class="font-bold text-amber-300 mt-1">Remove oxidant risk</div><p class="text-xs text-slate-400 mt-2">Antioxidant/reducing agent is injected on the RO feed line before the cartridge-filter block to consume residual oxidant before it can damage sensitive RO membranes.</p></div>
+            <div class="p-4 rounded-lg border border-slate-700 bg-slate-950"><div class="text-xs text-slate-400">4 · Ion exchange</div><div class="font-bold text-purple-300 mt-1">Restore resin capacity</div><p class="text-xs text-slate-400 mt-2">HCl regenerates cation resin; NaOH regenerates anion resin. In addition, caustic dosing is shown at the RO permeate header for the specified permeate pH-conditioning duty.</p></div>
           </div>
         </div>
-      </div>
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="ph-card rounded-xl p-6 text-center text-slate-500 text-sm min-h-[160px] flex items-center justify-center"><div><i class="fa-regular fa-square-plus text-2xl mb-2"></i><div>Section A</div></div></div>
-        <div class="ph-card rounded-xl p-6 text-center text-slate-500 text-sm min-h-[160px] flex items-center justify-center"><div><i class="fa-regular fa-square-plus text-2xl mb-2"></i><div>Section B</div></div></div>
-        <div class="ph-card rounded-xl p-6 text-center text-slate-500 text-sm min-h-[160px] flex items-center justify-center"><div><i class="fa-regular fa-square-plus text-2xl mb-2"></i><div>Section C</div></div></div>
-      </div>
-      <div class="ph-card rounded-xl p-6 text-center text-slate-500 text-sm min-h-[200px] flex items-center justify-center"><div><i class="fa-regular fa-square-plus text-2xl mb-2"></i><div>Main content area</div></div></div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="flex flex-wrap justify-between items-center gap-2"><h2 class="text-base font-bold text-slate-100"><i class="fa-solid fa-diagram-project text-emerald-400 mr-2"></i>DM Plant process path & chemical injection points</h2><span class="text-xs text-slate-500">Hover over a process block for a short description; select a stage to explore its chemicals</span></div>
+          <div class="overflow-x-auto rounded-lg border border-slate-800 bg-slate-950 p-3">
+            <svg viewBox="0 0 1200 470" class="w-full min-w-[900px]" role="img" aria-label="DM plant process flow with grouped chemical dosing points and hover descriptions">
+              <defs><marker id="dmArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6CC4E8"/></marker></defs>
+              <style>
+                .dm-node{cursor:help;transition:filter .15s,stroke-width .15s}
+                .dm-node:hover{filter:brightness(1.35);stroke-width:3}
+                .dm-tip{opacity:0;pointer-events:none;transition:opacity .15s}
+                .dm-node:hover .dm-tip,.dm-node:focus .dm-tip{opacity:1}
+                .dm-label{font-size:12px;fill:#E8F0F2;text-anchor:middle}
+                .dm-tipbox{fill:#0f172a;stroke:#62D393;stroke-width:1.2}
+                .dm-tiptext{font-size:10px;fill:#dbeafe;text-anchor:middle}
+                .dm-dose-title{font-size:11px;font-weight:700;fill:#fff;text-anchor:middle}
+                .dm-dose-detail{font-size:9.5px;fill:#e2e8f0;text-anchor:middle}
+              </style>
+              <!-- Process flow -->
+              <path d="M120 165 H165 M280 165 H325 M440 165 H485 M600 165 H645 M760 165 H805 M920 165 H965 M1080 165 H1120" fill="none" stroke="#6CC4E8" stroke-width="3" class="dm-flowline" marker-end="url(#dmArrow)"/>
+              <g class="dm-node" tabindex="0" aria-label="Pretreated water: filtered feed water entering the UF stage">
+                <rect x="15" y="125" width="105" height="80" rx="8" fill="#153141" stroke="#33607A"/>
+                <text class="dm-label" x="67" y="158">Pretreated</text><text class="dm-label" x="67" y="176">water</text>
+                <g class="dm-tip"><rect class="dm-tipbox" x="8" y="215" width="120" height="38" rx="5"/><text class="dm-tiptext" x="68" y="230">Filtered feed water</text><text class="dm-tiptext" x="68" y="243">entering UF</text></g>
+              </g>
+              <g class="dm-node" tabindex="0" aria-label="UF membranes: remove fine suspended solids and colloids">
+                <rect x="165" y="125" width="115" height="80" rx="8" fill="#153141" stroke="#4ECDB8"/>
+                <text class="dm-label" x="222" y="158">UF</text><text class="dm-label" x="222" y="176">membranes</text>
+                <g class="dm-tip"><rect class="dm-tipbox" x="145" y="215" width="155" height="38" rx="5"/><text class="dm-tiptext" x="222" y="230">Removes fine solids</text><text class="dm-tiptext" x="222" y="243">and colloids</text></g>
+              </g>
+              <g class="dm-node" tabindex="0" aria-label="UF permeate storage and transfer: buffers treated water and feeds the RO line">
+                <rect x="325" y="125" width="115" height="80" rx="8" fill="#153141" stroke="#6CC4E8"/>
+                <text class="dm-label" x="382" y="153">UF permeate</text><text class="dm-label" x="382" y="171">storage /</text><text class="dm-label" x="382" y="188">transfer</text>
+                <g class="dm-tip"><rect class="dm-tipbox" x="305" y="215" width="155" height="38" rx="5"/><text class="dm-tiptext" x="382" y="230">Buffers UF water</text><text class="dm-tiptext" x="382" y="243">for RO feed</text></g>
+              </g>
+              <g class="dm-node" tabindex="0" aria-label="Cartridge filter: captures fine particles before RO membranes">
+                <rect x="485" y="125" width="115" height="80" rx="8" fill="#153141" stroke="#6CC4E8"/>
+                <text class="dm-label" x="542" y="158">Cartridge</text><text class="dm-label" x="542" y="176">filter (CF)</text>
+                <g class="dm-tip"><rect class="dm-tipbox" x="465" y="215" width="155" height="38" rx="5"/><text class="dm-tiptext" x="542" y="230">Captures fine particles</text><text class="dm-tiptext" x="542" y="243">to protect RO</text></g>
+              </g>
+              <g class="dm-node" tabindex="0" aria-label="RO membranes: reject dissolved salts and produce permeate">
+                <rect x="645" y="125" width="115" height="80" rx="8" fill="#153141" stroke="#F2B44A"/>
+                <text class="dm-label" x="702" y="158">RO</text><text class="dm-label" x="702" y="176">membranes</text>
+                <g class="dm-tip"><rect class="dm-tipbox" x="625" y="215" width="155" height="38" rx="5"/><text class="dm-tiptext" x="702" y="230">Rejects dissolved salts</text><text class="dm-tiptext" x="702" y="243">to make permeate</text></g>
+              </g>
+              <g class="dm-node" tabindex="0" aria-label="RO permeate header: collects permeate and provides the caustic dosing point for pH conditioning">
+                <rect x="805" y="125" width="115" height="80" rx="8" fill="#153141" stroke="#BC9CF0"/>
+                <text class="dm-label" x="862" y="158">RO permeate</text><text class="dm-label" x="862" y="176">header</text>
+                <g class="dm-tip"><rect class="dm-tipbox" x="785" y="215" width="155" height="38" rx="5"/><text class="dm-tiptext" x="862" y="230">Collects RO product</text><text class="dm-tiptext" x="862" y="243">water; pH dosing</text></g>
+              </g>
+              <g class="dm-node" tabindex="0" aria-label="Degasser and ion exchange: remove dissolved carbon dioxide and polish residual ions where fitted">
+                <rect x="965" y="125" width="115" height="80" rx="8" fill="#153141" stroke="#BC9CF0"/>
+                <text class="dm-label" x="1022" y="153">Degasser /</text><text class="dm-label" x="1022" y="171">ion exchange*</text>
+                <g class="dm-tip"><rect class="dm-tipbox" x="945" y="215" width="155" height="38" rx="5"/><text class="dm-tiptext" x="1022" y="230">Removes CO₂ and/or</text><text class="dm-tiptext" x="1022" y="243">polishes residual ions</text></g>
+              </g>
+              <g class="dm-node" tabindex="0" aria-label="DM water storage: stores treated water for downstream use">
+                <rect x="1120" y="125" width="75" height="80" rx="8" fill="#153141" stroke="#62D393"/>
+                <text class="dm-label" x="1157" y="158">DM</text><text class="dm-label" x="1157" y="176">water</text>
+                <g class="dm-tip"><rect class="dm-tipbox" x="1080" y="215" width="115" height="38" rx="5"/><text class="dm-tiptext" x="1137" y="230">Stores treated</text><text class="dm-tiptext" x="1137" y="243">make-up water</text></g>
+              </g>
+              <!-- Group 1: injection point is on the feed pipe immediately BEFORE UF membrane -->
+              <path d="M145 55 V165" stroke="#4ECDB8" stroke-width="2.5" stroke-dasharray="4 5" fill="none"/>
+              <rect x="15" y="8" width="260" height="47" rx="6" fill="#064e3b" stroke="#4ECDB8" stroke-width="1.5"/>
+              <text class="dm-dose-title" x="145" y="22">UF INLET DOSING · HYPO + HCl</text>
+              <text class="dm-dose-detail" x="145" y="35">Hypo: oxidises organic / biological fouling</text>
+              <text class="dm-dose-detail" x="145" y="47">HCl: acid cleaning of acid-soluble deposits</text>
+              <!-- Group 2: three dosing chemicals on RO feed immediately BEFORE cartridge filter -->
+              <path d="M465 80 V165" stroke="#F2B44A" stroke-width="2.5" stroke-dasharray="4 5" fill="none"/>
+              <rect x="315" y="8" width="300" height="72" rx="6" fill="#78350f" stroke="#F2B44A" stroke-width="1.5"/>
+              <text class="dm-dose-title" x="465" y="23">RO FEED DOSING · BEFORE CF</text>
+              <text class="dm-dose-detail" x="465" y="38">Antiscalant: delays scale formation</text>
+              <text class="dm-dose-detail" x="465" y="51">Antioxidant: removes residual oxidant</text>
+              <text class="dm-dose-detail" x="465" y="64">HCl: acid / pH conditioning, where required</text>
+              <!-- Caustic on RO permeate header -->
+              <path d="M862 205 V280" stroke="#BC9CF0" stroke-width="2.5" stroke-dasharray="4 5" fill="none"/>
+              <rect x="782" y="280" width="160" height="47" rx="6" fill="#3b2760" stroke="#BC9CF0" stroke-width="1.5"/>
+              <text class="dm-dose-title" x="862" y="296">CAUSTIC (NaOH)</text>
+              <text class="dm-dose-detail" x="862" y="310">Raises permeate pH as required</text>
+              <g font-size="11" text-anchor="middle" fill="#9CA3AF">
+                <text x="600" y="365">CF = cartridge filter · Hover over any process block for a one-line description.</text>
+                <text x="600" y="386" fill="#F2B44A">Dotted dosing lines connect to the process pipe before UF and before the cartridge filter.</text>
+                <text x="600" y="407" fill="#4ECDB8">Chemical purpose shown for learning; use approved operating sequences and compatibility limits.</text>
+                <text x="600" y="428">*Downstream degassing / ion-exchange arrangement depends on plant configuration.</text>
+              </g>
+            </svg>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+            <button class="dm-chem-btn active" data-dm-stage="uf" onclick="dmSelectStage('uf')">UF cleaning</button>
+            <button class="dm-chem-btn" data-dm-stage="ro" onclick="dmSelectStage('ro')">RO feed</button>
+            <button class="dm-chem-btn" data-dm-stage="regen" onclick="dmSelectStage('regen')">Resin regeneration</button>
+            <button class="dm-chem-btn" data-dm-stage="roclean" onclick="dmSelectStage('roclean')">RO cleaning / pH</button>
+            <button class="dm-chem-btn" data-dm-stage="safety" onclick="dmSelectStage('safety')">Dosing safeguards</button>
+          </div>
+          <div id="dm-stage-detail" class="p-4 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-sm text-slate-300"></div>
+        </div>
+      </section>
+
+      <section id="dm-chemicals" class="space-y-5 hidden">
+        <div class="flex flex-wrap gap-2">
+          <button class="dm-chem-btn active" onclick="dmShowChem('hcl',this)">Hydrochloric acid</button>
+          <button class="dm-chem-btn" onclick="dmShowChem('naoh',this)">Caustic soda</button>
+          <button class="dm-chem-btn" onclick="dmShowChem('antiscalant',this)">Antiscalant</button>
+          <button class="dm-chem-btn" onclick="dmShowChem('antioxidant',this)">Antioxidant</button>
+          <button class="dm-chem-btn" onclick="dmShowChem('hypo',this)">Hypochlorite</button>
+        </div>
+        <div id="dm-chemical-detail"></div>
+      </section>
+
+      <section id="dm-simulator" class="space-y-5 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+          <h2 class="text-base font-bold text-slate-100"><i class="fa-solid fa-sliders text-emerald-400 mr-2"></i>RO chemical dose estimator</h2>
+          <p class="text-xs text-slate-400">A learning calculator using the example process reference values: antiscalant 5 ppm and antioxidant 5 ppm. Actual chemical concentration, product density, active content and dose must be confirmed from approved plant procedures and water analysis.</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <label class="text-xs text-slate-400">RO feed flow (m³/h)<input id="dm-ro-flow" type="number" min="0" step="1" value="130" oninput="dmCalcDose()" class="cw-in"></label>
+            <label class="text-xs text-slate-400">Target dose (mg/L or ppm)<input id="dm-ro-dose" type="number" min="0" step="0.5" value="5" oninput="dmCalcDose()" class="cw-in"></label>
+            <label class="text-xs text-slate-400">Prepared solution strength (%)<input id="dm-ro-strength" type="number" min="0.1" max="100" step="0.5" value="5" oninput="dmCalcDose()" class="cw-in"></label>
+          </div>
+          <div id="dm-dose-result" class="grid grid-cols-1 sm:grid-cols-3 gap-3"></div>
+          <p class="text-[11px] text-amber-300">Simplified estimate assumes solution density = 1.0 kg/L and dose is expressed as active chemical. Use the actual product density and active-content basis for operating settings.</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
+          <h3 class="text-base font-bold text-slate-100">Knowledge check</h3>
+          <p class="text-sm text-slate-300">Why is antioxidant dosed upstream of an RO membrane system when the feed may contain residual oxidant?</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+            <button class="dm-chem-btn" onclick="dmQuiz(this,false)">To increase feed-water hardness</button>
+            <button class="dm-chem-btn" onclick="dmQuiz(this,true)">To reduce residual oxidant before it damages sensitive membranes</button>
+            <button class="dm-chem-btn" onclick="dmQuiz(this,false)">To regenerate the cation resin</button>
+          </div>
+          <div id="dm-quiz-feedback" class="text-xs text-slate-400">Choose an answer to see the explanation.</div>
+        </div>
+      </section>
+
+      <section id="dm-reactions" class="space-y-5 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+          <h2 class="text-base font-bold text-slate-100"><i class="fa-solid fa-flask text-emerald-400 mr-2"></i>What happens chemically?</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="p-4 rounded-lg border border-slate-700 bg-slate-950"><h3 class="font-bold text-amber-300">Acid neutralisation</h3><p class="text-xs text-slate-300 mt-2">Acid supplies hydrogen ions that react with alkalinity and raise the fraction of dissolved carbon dioxide.</p><div class="code-font text-xs text-sky-300 mt-3">H⁺ + HCO₃⁻ → CO₂ + H₂O</div><p class="text-[11px] text-slate-500 mt-2">This is a simplified alkalinity reaction; the exact purpose depends on the injection point.</p></div>
+            <div class="p-4 rounded-lg border border-slate-700 bg-slate-950"><h3 class="font-bold text-purple-300">Cation resin regeneration</h3><p class="text-xs text-slate-300 mt-2">HCl restores exhausted cation resin to its hydrogen form.</p><div class="code-font text-xs text-sky-300 mt-3">R–SO₃Na + HCl → R–SO₃H + NaCl</div></div>
+            <div class="p-4 rounded-lg border border-slate-700 bg-slate-950"><h3 class="font-bold text-purple-300">Anion resin regeneration</h3><p class="text-xs text-slate-300 mt-2">NaOH restores anion resin to its hydroxide form.</p><div class="code-font text-xs text-sky-300 mt-3">R₄N⁺Cl⁻ + NaOH → R₄N⁺OH⁻ + NaCl</div></div>
+            <div class="p-4 rounded-lg border border-slate-700 bg-slate-950"><h3 class="font-bold text-emerald-300">Hypochlorite in UF cleaning</h3><p class="text-xs text-slate-300 mt-2">Hypochlorite provides active chlorine that oxidises organic deposits and controls biological fouling during a specified cleaning/backwash sequence.</p><div class="code-font text-xs text-sky-300 mt-3">NaOCl + H₂O ⇌ HOCl + Na⁺ + OH⁻</div><p class="text-[11px] text-amber-300 mt-2">Never infer compatibility from this reaction alone; membrane material and cleaning instructions govern use.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="dm-safety" class="space-y-5 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+          <h2 class="text-base font-bold text-slate-100"><i class="fa-solid fa-triangle-exclamation text-amber-400 mr-2"></i>Operating cautions & troubleshooting</h2>
+          <div class="overflow-x-auto"><table class="w-full text-xs text-left border border-slate-700"><thead class="bg-slate-800"><tr><th class="p-3">Symptom / risk</th><th class="p-3">Possible cause</th><th class="p-3">Check / response</th></tr></thead><tbody>
+            <tr><td class="p-3 border-t border-slate-700">RO differential pressure or normalized pressure drop rises</td><td class="p-3 border-t border-slate-700">Scaling, fouling, poor pretreatment or inadequate antiscalant delivery</td><td class="p-3 border-t border-slate-700">Check feed analysis, flow, recovery, cartridge filter condition, dosing tank strength and pump calibration.</td></tr>
+            <tr><td class="p-3 border-t border-slate-700">RO permeate quality worsens unexpectedly</td><td class="p-3 border-t border-slate-700">Membrane damage, seal issue, feed change or oxidant exposure</td><td class="p-3 border-t border-slate-700">Check free chlorine/oxidant before RO, conductivity trends, operating pressures and membrane supplier limits.</td></tr>
+            <tr><td class="p-3 border-t border-slate-700">UF permeability falls</td><td class="p-3 border-t border-slate-700">Organic/biological fouling, solids loading or ineffective cleaning</td><td class="p-3 border-t border-slate-700">Review backwash/CEB sequence, chemical strength, contact time and membrane compatibility.</td></tr>
+            <tr><td class="p-3 border-t border-slate-700">Conductivity or silica after ion exchange rises</td><td class="p-3 border-t border-slate-700">Resin exhaustion, incorrect regeneration strength/volume, poor rinse or channeling</td><td class="p-3 border-t border-slate-700">Verify regenerant concentration, sequence, flow, rinse endpoint and resin condition.</td></tr>
+          </tbody></table></div>
+          <div class="p-4 rounded-lg border border-red-500/30 bg-red-500/10 text-xs text-slate-300"><b class="text-red-300">Critical safety:</b> HCl is corrosive; NaOH is caustic; sodium hypochlorite is an oxidiser. Never mix acid with hypochlorite because toxic chlorine gas can be released. Use dedicated compatible equipment, PPE, ventilation, bunding and the approved chemical-handling procedure.</div>
+        </div>
+      </section>
     </main>
+    <script>
+    (function(){
+      const $=id=>document.getElementById(id);
+      const stageInfo={
+        uf:{title:'UF cleaning / backwash sequence',body:'Hypochlorite (NaOCl) is used for oxidising organic and biological foulants when included in the UF backwash or chemically enhanced backwash sequence. Acid such as HCl is used in a separate, defined cleaning step to remove acid-soluble deposits. Hypo and acid are shown as dosing connections at the UF inlet; their operating use follows the approved sequence. These are sequence-based uses, not a reason to continuously inject either chemical into the RO feed.',chips:['Hypo injection at UF inlet','Acid injection at UF inlet','Follow approved sequence and compatibility limits']},
+        ro:{title:'RO feed protection',body:'Antiscalant is injected on the RO feed line before the cartridge-filter block, as shown in the process arrangement, to delay precipitation of scale-forming salts at the membrane surface. Antioxidant (often a reducing agent such as sodium metabisulphite, depending on the selected product) is injected upstream of the cartridge filter on the RO feed line to remove residual oxidant before RO when needed. The process reference sizing example lists 5 ppm for each; treat this as a design example, not a universal setpoint.',chips:['Both injection points before cartridge filter','Antiscalant: control scaling risk','Antioxidant: reduce residual oxidant']},
+        regen:{title:'Ion-exchange resin regeneration',body:'Hydrochloric acid regenerates the cation exchanger by restoring the resin to the H⁺ form. Caustic soda regenerates the anion exchanger by restoring the resin to the OH⁻ form. The mixed bed uses measured acid and caustic quantities during a controlled regeneration sequence, followed by rinsing. These are batch regeneration chemicals—not normal continuous RO-feed dosing.',chips:['HCl → cation resin','NaOH → anion resin','Separate NaOH point at RO permeate header']},
+        roclean:{title:'RO acid / caustic provision and cleaning',body:'The process sizing pages include RO acid and caustic dosing calculations, while the document comment section also records that RO acid dosing may not be required by the selected membrane recommendation and that caustic dosing may not be required for the stated operating philosophy. This is a design-document qualification: confirm the approved plant-specific arrangement and purpose before assuming these are continuous operating doses. Chemical cleaning is a separate procedure from normal feed dosing.',chips:['Do not assume continuous dosing','CIP chemicals depend on fouling diagnosis','Follow approved membrane procedure']},
+        safety:{title:'Dosing safeguards',body:'Confirm chemical identity, strength, preparation dilution, pump calibration, injection point and interlocks before operation. Keep hypochlorite physically and procedurally separate from acids. Verify that oxidant residual is acceptable before RO and that cleaning chemicals are fully rinsed before returning a membrane train to service.',chips:['Never mix acid + hypochlorite','Check residual oxidant before RO','Use PPE and chemical-compatible materials']}
+      };
+      const nav=[['overview','Overview'],['chemicals','Chemical guide'],['simulator','Dose simulator'],['reactions','Reactions'],['safety','Troubleshooting & safety']];
+      $('dm-nav').innerHTML=nav.map((x,i)=>`<button class="tab-btn ${i===0?'active':''}" data-dm-tab="${x[0]}" onclick="dmTab('${x[0]}',this)">${x[1]}</button>`).join('');
+      window.dmTab=(id,btn)=>{['overview','chemicals','simulator','reactions','safety'].forEach(k=>$('dm-'+k).classList.toggle('hidden',k!==id));document.querySelectorAll('#dm-nav .tab-btn').forEach(b=>b.classList.toggle('active',b===btn));if(id==='chemicals')dmShowChem('hcl',document.querySelector('#dm-chemicals .dm-chem-btn'));};
+      window.dmSelectStage=id=>{document.querySelectorAll('[data-dm-stage]').forEach(b=>b.classList.toggle('active',b.dataset.dmStage===id));const s=stageInfo[id];$('dm-stage-detail').innerHTML=`<h3 class="font-bold text-emerald-300 mb-2">${s.title}</h3><p>${s.body}</p><div class="flex flex-wrap gap-2 mt-3">${s.chips.map(c=>`<span class="text-[11px] px-2 py-1 rounded border border-slate-700 bg-slate-950">${c}</span>`).join('')}</div>`;};
+      const chem={
+        hcl:{name:'Hydrochloric acid (HCl)',where:'UF acid cleaning / cation and mixed-bed resin regeneration; RO use only if approved for the particular design and cleaning duty.',purpose:'Strong acid supplies H⁺. In cation regeneration it displaces captured cations from the resin and restores the H⁺ form. In a specified membrane cleaning step, acid can dissolve acid-soluble mineral deposits. These are different duties and use different concentrations, quantities and procedures.',under:'Insufficient regeneration can leave resin capacity low; ineffective cleaning can leave mineral deposits and reduced membrane performance.',over:'Excess acid or incorrect contact time can damage equipment/materials, disturb resin performance, create unsafe effluent and increase neutralisation demand.',note:'The process reference shows a UF acid-cleaning calculation of 1,500 ppm on a 27 m³/h backwash-flow basis using 33% acid solution. It also includes a 5 ppm RO acid sizing entry, while comments state RO acid may not be required by the selected membrane recommendation. Confirm the approved purpose and setpoint.'},
+        naoh:{name:'Caustic soda / sodium hydroxide (NaOH)',where:'Anion and mixed-bed resin regeneration; a separate caustic injection point is shown on the RO permeate header for permeate pH conditioning.',purpose:'Strong alkali supplies OH⁻ and restores exhausted anion resin to its hydroxide form, allowing it to remove anions such as chloride, sulphate and silica. In a separately approved cleaning recipe, caustic may help remove organic foulants.',under:'Incomplete resin regeneration may cause early conductivity or silica breakthrough.',over:'Excess strength, temperature or contact time may damage resin/membranes and increase caustic carryover or rinse demand.',note:'A caustic dosing connection is shown on the RO permeate header, distinct from caustic used for resin regeneration. Confirm the operating purpose, pH target and dose from the approved operating procedure.'},
+        antiscalant:{name:'Antiscalant',where:'RO feed line, after pretreatment and before the RO membrane stage.',purpose:'Interferes with crystal nucleation and growth and helps keep scale-forming salts dispersed at the designed recovery. It does not remove dissolved salts; the RO membrane rejects them.',under:'Higher risk of calcium carbonate, sulphate or other scale deposits, rising pressure drop and declining normalized performance.',over:'Unnecessary chemical cost; depending on product and conditions, overdosing can contribute to fouling or interfere with downstream treatment.',note:'A typical starting point may be used for learning only; actual dose depends on feed-water analysis, recovery, temperature and the selected product. Actual dosage depends on feed-water analysis, recovery, temperature and the selected product.'},
+        antioxidant:{name:'Antioxidant / reducing agent',where:'RO feed upstream of the membrane, where residual oxidant removal is required.',purpose:'Consumes residual chlorine or another oxidant that could attack chlorine-sensitive RO membrane material. The exact chemical may be sodium metabisulphite or another approved reducing agent; confirm the chemical supplied at the plant.',under:'Residual oxidant may reach the membrane and cause irreversible performance loss or damage.',over:'Excess reducing agent can promote biological growth or upset downstream water chemistry; it also adds chemical demand and must be controlled.',note:'The process sizing example lists 5 ppm and a 10% prepared solution. Dose should be verified against measured oxidant residual, product strength and the approved operating procedure.'},
+        hypo:{name:'Sodium hypochlorite (NaOCl) / hypo',where:'UF backwash or chemically enhanced backwash/cleaning sequence, if included in the membrane cleaning philosophy.',purpose:'Provides active chlorine species that oxidise organic material and help control biological fouling on UF membranes. It is normally applied at a defined concentration and contact time in the cleaning sequence.',under:'Organic or biological fouling may not be removed effectively, allowing permeability to decline.',over:'Excess concentration or contact time can damage membranes, seals or materials and may create unsafe exposure.',note:'The process reference example calculates 200 ppm NaOCl on a 27 m³/h UF backwash-flow basis using a 10% solution. This is a design example, not a universal setting. Hypochlorite must not carry into a chlorine-sensitive RO membrane feed; verify the UF rinse and oxidant-removal steps.'}
+      };
+      window.dmShowChem=(id,btn)=>{document.querySelectorAll('#dm-chemicals .dm-chem-btn').forEach(b=>b.classList.toggle('active',b===btn));const c=chem[id];$('dm-chemical-detail').innerHTML=`<div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4"><h2 class="text-lg font-bold text-emerald-300">${c.name}</h2><div class="grid grid-cols-1 lg:grid-cols-2 gap-4"><div class="p-4 rounded-lg bg-slate-950 border border-slate-700"><div class="text-xs uppercase tracking-wider text-slate-500">Typical dosing point</div><p class="text-sm text-slate-200 mt-2">${c.where}</p><div class="text-xs uppercase tracking-wider text-slate-500 mt-4">Main function</div><p class="text-sm text-slate-300 mt-2">${c.purpose}</p></div><div class="space-y-3"><div class="p-3 rounded-lg border border-amber-500/30 bg-amber-500/10"><b class="text-amber-300 text-xs">If under-dosed / not available</b><p class="text-xs text-slate-300 mt-1">${c.under}</p></div><div class="p-3 rounded-lg border border-red-500/30 bg-red-500/10"><b class="text-red-300 text-xs">If over-dosed / misapplied</b><p class="text-xs text-slate-300 mt-1">${c.over}</p></div></div></div><div class="p-3 rounded-lg border border-sky-500/30 bg-sky-500/10 text-xs text-slate-300"><b class="text-sky-300">process reference note:</b> ${c.note}</div></div>`;};
+      window.dmCalcDose=()=>{const flow=Number($('dm-ro-flow').value),dose=Number($('dm-ro-dose').value),strength=Number($('dm-ro-strength').value);const kg=flow*dose/1000;const sol=kg/(strength/100);const lph=sol;const vals=[['Active chemical',`${isFinite(kg)?kg.toFixed(3):'–'} kg/h`],['Prepared solution',`${isFinite(sol)?sol.toFixed(2):'–'} kg/h`],['Approx. solution flow',`${isFinite(lph)?lph.toFixed(2):'–'} L/h*`]];$('dm-dose-result').innerHTML=vals.map(v=>`<div class="p-3 rounded-lg border border-slate-700 bg-slate-950"><div class="text-xs text-slate-400">${v[0]}</div><div class="text-lg font-bold text-emerald-300 mt-1">${v[1]}</div></div>`).join('');};
+      window.dmQuiz=(btn,ok)=>{document.querySelectorAll('#dm-simulator .dm-chem-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');$('dm-quiz-feedback').innerHTML=ok?'<span class="text-emerald-300 font-bold">Correct.</span> A reducing agent is used to lower residual oxidant before it reaches a sensitive RO membrane. Dose and residual must be controlled.':'<span class="text-red-300 font-bold">Not quite.</span> Antioxidant is used for oxidant control upstream of RO; resin regeneration is performed separately with acid or caustic.';};
+      window.dmSelectStage('uf');window.dmCalcDose();
+    })();
+    </script>
   </div>
 
   <!-- ============ DOSING IN PT PLANT ============ -->
   <div id="view-pt" class="view-panel hidden">
+    <style>
+      @keyframes ptFlowRaw { to { stroke-dashoffset: -24; } }
+      @keyframes ptCoagAgitate {
+        0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
+        50% { transform: scale(1.25) rotate(15deg); opacity: 0.5; }
+      }
+      @keyframes ptFlocBridge {
+        0% { width: 10%; opacity: 0.3; }
+        100% { width: 95%; opacity: 1; }
+      }
+      @keyframes ptChlorineKill {
+        0%, 30% { transform: scale(1); background: var(--emerald); }
+        70% { transform: scale(1.3); background: var(--red); opacity: 0.7; }
+        100% { transform: scale(0.2); opacity: 0.1; }
+      }
+      .pt-flow-line { stroke-dasharray: 10 5; animation: ptFlowRaw 1.2s linear infinite; }
+      .pt-coag-part { width: 10px; height: 10px; border-radius: 50%; background: var(--amber); position: absolute; animation: ptCoagAgitate 2s ease-in-out infinite; }
+      .pt-floc-bridge { height: 6px; background: var(--teal); border-radius: 3px; animation: ptFlocBridge 2.5s ease-in-out infinite; }
+      .pt-bact-cell { width: 12px; height: 12px; border-radius: 50%; background: var(--emerald); animation: ptChlorineKill 2.2s ease-in-out infinite; }
+    </style>
     <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
         <div class="flex items-center space-x-3">
-          <div class="p-2 bg-indigo-500/10 border border-indigo-500/30 rounded-lg text-indigo-400"><i class="fa-solid fa-droplet text-2xl"></i></div>
+          <div class="p-2 bg-indigo-500/10 border border-indigo-500/30 rounded-lg text-indigo-400"><i class="fa-solid fa-water text-2xl"></i></div>
           <div>
-            <h1 class="text-xl font-bold text-slate-100">Dosing in PT Plant</h1>
-            <p class="text-xs text-slate-400">Pre-treatment plant chemical dosing</p>
+            <h1 class="text-xl font-bold text-slate-100">Dosing in Pre-Treatment (PT) Plant</h1>
+            <p class="text-xs text-slate-400">Raw Water Clarification, Coagulation, Flocculation &amp; Disinfection</p>
           </div>
         </div>
-        <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Switch light/dark theme"><i class="fa-solid fa-sun icon-sun"></i><i class="fa-solid fa-moon icon-moon"></i><span class="theme-label">Light mode</span></button>
+        <div class="flex items-center gap-3 flex-wrap">
+          <div class="flex items-center gap-1.5 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
+            <span class="text-slate-400"><i class="fa-solid fa-palette text-sky-400"></i> Theme:</span>
+            <select id="color-theme-select" onchange="changeColorTheme(this.value)" class="bg-transparent text-sky-300 font-semibold focus:outline-none">
+              <option value="dark">Midnight Dark</option>
+              <option value="slate">Slate Navy</option>
+              <option value="emerald">Emerald Plant</option>
+              <option value="amber">Industrial Amber</option>
+            </select>
+          </div>
+          <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Switch light/dark theme"><i class="fa-solid fa-sun icon-sun"></i><i class="fa-solid fa-moon icon-moon"></i><span class="theme-label">Light mode</span></button>
+        </div>
       </div>
+      <nav id="pt-nav" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto border-t border-slate-800/60 no-scrollbar"></nav>
     </header>
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full space-y-6">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
-        <div class="flex items-start gap-4">
-          <div class="w-12 h-12 shrink-0 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 flex items-center justify-center text-xl"><i class="fa-solid fa-pen-ruler"></i></div>
-          <div class="space-y-2">
-            <h2 class="text-base font-bold text-slate-100">Layout ready for design</h2>
-            <p class="text-sm text-slate-400">This page is a clean canvas. Content and layout for <strong class="text-slate-200">Dosing in PT Plant</strong> will be added once we finalise the details.</p>
-            <div class="flex flex-wrap gap-2 pt-1"><span class="px-2.5 py-1 rounded-full text-[11px] bg-slate-800 border border-slate-700 text-slate-300">Coagulant / flocculant</span><span class="px-2.5 py-1 rounded-full text-[11px] bg-slate-800 border border-slate-700 text-slate-300">Chlorination</span><span class="px-2.5 py-1 rounded-full text-[11px] bg-slate-800 border border-slate-700 text-slate-300">Dosing pumps</span><span class="px-2.5 py-1 rounded-full text-[11px] bg-slate-800 border border-slate-700 text-slate-300">Schematic</span></div>
-            <p class="text-[11px] text-slate-500">Chips above are only placeholder topic ideas, to be replaced.</p>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full"><div id="pt-root"></div></main>
+    <script>
+(function(){
+const $=id=>document.getElementById(id);
+const f=x=>!isFinite(x)?'–':(Math.abs(x)>=100?x.toFixed(1):x.toFixed(2));
+const card=(t,ic,b,c='')=>`<div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3 ${c}"><h2 class="text-base font-bold text-slate-100 flex items-center gap-2"><i class="fa-solid ${ic} text-sky-400"></i> ${t}</h2>${b}</div>`;
+const tbl=(h,r)=>`<div class="overflow-x-auto"><table class="w-full text-xs text-left border border-slate-700 rounded-lg overflow-hidden"><thead class="bg-slate-800"><tr>${h.map(x=>`<th class="p-2 border-b border-slate-700 text-slate-200">${x}</th>`).join('')}</tr></thead><tbody>${r.map(a=>`<tr>${a.map(x=>`<td class="p-2 border-b border-slate-800 text-slate-300">${x}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+const WARN='<div class="p-3 rounded-lg border border-amber-500/30 bg-amber-500/10 text-xs text-slate-300">',OKK='<div class="p-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-xs text-slate-300">',BAD='<div class="p-3 rounded-lg border border-red-500/30 bg-red-500/10 text-xs text-slate-300">';
+const flow=s=>`<div class="flex flex-wrap items-stretch gap-2">${s.map((x,i)=>(i?'<span class="self-center text-sky-400 font-bold">→</span>':'')+`<div class="flex-1 min-w-[120px] p-3 rounded-lg border border-slate-700 bg-slate-800/50 text-xs text-slate-300 text-center">${x}</div>`).join('')}</div>`;
+const p=t=>`<p class="text-xs text-slate-300">${t}</p>`,mu=t=>`<p class="text-[11px] text-slate-500">${t}</p>`;
+const rx=t=>`<div class="code-font text-xs p-3 rounded-lg bg-slate-950 border border-slate-700 text-sky-300 overflow-x-auto">${t}</div>`;
+const g2=(a,b)=>`<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">${a}${b}</div>`;
+
+const PT_ANIM={
+  alum:`<div class="relative h-24 rounded-lg bg-slate-950 border border-slate-800 overflow-hidden flex items-center justify-center p-3">
+    <div class="pt-coag-part" style="left:20%;top:30%;"></div>
+    <div class="pt-coag-part" style="left:40%;top:60%;animation-delay:0.5s;"></div>
+    <div class="pt-coag-part" style="left:60%;top:40%;animation-delay:1.0s;"></div>
+    <div class="pt-coag-part" style="left:80%;top:50%;animation-delay:1.5s;"></div>
+    <div class="z-10 text-center">
+      <div class="text-[11px] font-bold text-amber-300 code-font">Al₂(&SO₄)₃ + 3 Ca(HCO₃)₂ → 2 Al(OH)₃↓ + 3 CaSO₄ + 6 CO₂</div>
+      <div class="text-[10px] text-slate-400 mt-1">Colloidal Turbidity Charge Neutralization &amp; Micro-Floc Formation</div>
+    </div>
+  </div>`,
+  fecl3:`<div class="relative h-24 rounded-lg bg-slate-950 border border-slate-800 overflow-hidden flex items-center justify-center p-3">
+    <div class="pt-coag-part" style="left:30%;top:45%;background:var(--purple);"></div>
+    <div class="pt-coag-part" style="left:70%;top:45%;background:var(--purple);animation-delay:0.8s;"></div>
+    <div class="z-10 text-center">
+      <div class="text-[11px] font-bold text-purple-300 code-font">2 FeCl₃ + 3 Ca(OH)₂ → 2 Fe(OH)₃(s)↓ + 3 CaCl₂</div>
+<div>Heavy Ferric Hydroxide Flocks Precipitation for DM Water Pre-Treatment</div>
+    </div>
+  </div>`,
+  poly:`<div class="relative h-24 rounded-lg bg-slate-950 border border-slate-800 overflow-hidden flex flex-col items-center justify-center p-3">
+    <div class="text-[10px] text-teal-300 font-semibold mb-2">Long-Chain Polymer Bridging Micro-Flocs</div>
+    <div class="w-4/5 h-2 rounded bg-slate-800 relative overflow-hidden">
+      <div class="pt-floc-bridge absolute top-0 left-0"></div>
+    </div>
+    <div class="text-[10px] text-slate-400 mt-2">Enmeshment &amp; Rapid Sludge Blanket Settling</div>
+  </div>`,
+  pac:`<div class="relative h-24 rounded-lg bg-slate-950 border border-slate-800 overflow-hidden flex items-center justify-center p-3">
+    <div class="pt-coag-part" style="left:35%;top:50%;background:var(--sky);"></div>
+    <div class="pt-coag-part" style="left:65%;top:50%;background:var(--sky);animation-delay:0.4s;"></div>
+    <div class="z-10 text-center">
+      <div class="text-[11px] font-bold text-sky-300 code-font">AlnCl(3n-m)(OH)m Pre-Hydrolyzed Coagulation</div>
+      <div class="text-[10px] text-slate-400 mt-1">Rapid Floc Formation Across Wide Temperature &amp; pH Ranges</div>
+    </div>
+  </div>`,
+  lime:`<div class="relative h-24 rounded-lg bg-slate-950 border border-slate-800 overflow-hidden flex items-center justify-center p-3">
+    <div class="z-10 text-center">
+      <div class="text-[11px] font-bold text-indigo-300 code-font">Ca(OH)₂ + CO₂ → CaCO₃(s)↓ + H₂O</div>
+      <div class="text-[10px] text-slate-400 mt-1">Alkalinity Adjustment &amp; Softening Precipitation</div>
+    </div>
+  </div>`,
+  clo2:`<div class="relative h-24 rounded-lg bg-slate-950 border border-slate-800 overflow-hidden flex flex-col items-center justify-center p-3">
+    <div class="flex items-center gap-4 my-1">
+      <div class="pt-bact-cell" style="animation-delay:0s"></div>
+      <div class="pt-bact-cell" style="animation-delay:0.5s"></div>
+      <div class="pt-bact-cell" style="animation-delay:1.0s"></div>
+      <span class="text-xs font-bold text-red-400 code-font ml-2">Oxidative Cell Lysis</span>
+    </div>
+    <div class="text-[10px] text-emerald-300 mt-1">Pathogen Destruction &amp; Pre-Chlorination Biocontrol</div>
+  </div>`
+};
+
+// PT Plant Interactive Line Diagram (Raw Water Pumps -> Cascade Aerator -> Stilling Chamber -> HRSCC Clarifiers -> Gravity Filters -> Filtered Water Reservoir)
+const PT_LINE_DIAGRAM = card('Pre-Treatment Plant Flow & Chemical Injection Points','fa-sitemap',
+  p('Pre-treatment process schematic depicting <b>Raw Water Intake</b> &rarr; <b>Cascade Aerator</b> (Iron/Gas oxidation) &rarr; <b>Stilling Chamber</b> (De-aeration) &rarr; <b>HRSCC Clarifiers</b> (with Alum/PAC, Lime, Poly, and FeCl₃ dosing points) &rarr; <b>Gravity Filters</b> &rarr; <b>Filtered Water Reservoir</b>.') +
+  `<div class="w-full overflow-x-auto bg-slate-950 border border-slate-800 rounded-xl p-3">
+    <svg viewBox="0 0 1060 320" class="w-full min-w-[820px] h-auto text-xs">
+      <defs>
+        <marker id="ptArr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#6CC4E8"/>
+        </marker>
+        <marker id="ptArrChem" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#62D393"/>
+        </marker>
+      </defs>
+
+      <!-- 1. Cascade Aerator -->
+      <g transform="translate(30, 90)">
+        <rect x="0" y="20" width="120" height="90" rx="6" fill="#0F2330" stroke="#6CC4E8" stroke-width="2"/>
+        <text x="60" y="55" fill="#E8F0F2" font-size="12" font-weight="bold" text-anchor="middle">Cascade Aerator</text>
+        <text x="60" y="75" fill="#9DB4BD" text-anchor="middle" font-size="10">Oxidation / Fe</text>
+      </g>
+      <line x1="150" y1="135" x2="210" y2="135" stroke="#6CC4E8" stroke-width="3" class="pt-flow-line" marker-end="url(#ptArr)"/>
+
+      <!-- 2. Stilling Chamber (+ ClO2 / NaOCl Dosing) -->
+      <g transform="translate(215, 90)">
+        <rect x="0" y="20" width="120" height="90" rx="6" fill="#0F2330" stroke="#6CC4E8" stroke-width="2"/>
+        <text x="60" y="55" fill="#E8F0F2" font-size="12" font-weight="bold" text-anchor="middle">Stilling Chamber</text>
+        <text x="60" y="75" fill="#9DB4BD" text-anchor="middle" font-size="10">De-aeration</text>
+        <!-- Dosing Node ClO2 -->
+        <circle cx="60" cy="5" r="6" fill="#62D393"/>
+        <line x1="60" y1="-25" x2="60" y2="5" stroke="#62D393" stroke-width="2" marker-end="url(#ptArrChem)"/>
+        <text x="60" y="-32" fill="#62D393" font-size="9" font-weight="bold" text-anchor="middle">ClO₂ / NaOCl Dosing</text>
+      </g>
+      <line x1="335" y1="135" x2="395" y2="135" stroke="#6CC4E8" stroke-width="3" class="pt-flow-line" marker-end="url(#ptArr)"/>
+
+      <!-- 3. HRSCC Clarifier (+ Alum/PAC, Lime, Poly, FeCl3 Dosing) -->
+      <g transform="translate(400, 70)">
+        <rect x="0" y="0" width="180" height="130" rx="12" fill="#0F2330" stroke="#F2B44A" stroke-width="2.5"/>
+        <text x="90" y="45" fill="#F2B44A" font-size="13" font-weight="bold" text-anchor="middle">HRSCC Clarifier</text>
+        <text x="90" y="68" fill="#E8F0F2" text-anchor="middle" font-size="10">(PT-CW: 3 Nos | PT-DM: 1 No)</text>
+        <text x="90" y="90" fill="#62D393" text-anchor="middle" font-size="9" font-weight="bold">Coagulation &bull; Flocculation &bull; Settling</text>
+        
+        <!-- Chemical Dosing Header -->
+        <line x1="90" y1="-30" x2="90" y2="0" stroke="#62D393" stroke-width="2.5" marker-end="url(#ptArrChem)"/>
+        <rect x="15" y="-55" width="150" height="22" rx="4" fill="#061219" stroke="#62D393" stroke-width="1.2"/>
+        <text x="90" y="-40" fill="#62D393" font-size="9.5" font-weight="bold" text-anchor="middle">Alum / PAC • Lime • Poly • FeCl₃</text>
+      </g>
+      <line x1="580" y1="135" x2="640" y2="135" stroke="#6CC4E8" stroke-width="3" class="pt-flow-line" marker-end="url(#ptArr)"/>
+
+      <!-- 4. Gravity Filters -->
+      <g transform="translate(645, 90)">
+        <rect x="0" y="20" width="130" height="90" rx="6" fill="#0F2330" stroke="#4ECDB8" stroke-width="2"/>
+        <text x="65" y="55" fill="#4ECDB8" font-size="12" font-weight="bold" text-anchor="middle">Gravity Filters</text>
+        <text x="65" y="75" fill="#9DB4BD" text-anchor="middle" font-size="10">Sand / Dual Media</text>
+      </g>
+      <line x1="775" y1="135" x2="835" y2="135" stroke="#6CC4E8" stroke-width="3" class="pt-flow-line" marker-end="url(#ptArr)"/>
+
+      <!-- 5. Filtered Water Reservoir -->
+      <g transform="translate(840, 90)">
+        <rect x="0" y="20" width="160" height="90" rx="6" fill="#0F2330" stroke="#62D393" stroke-width="2"/>
+        <text x="80" y="55" fill="#62D393" font-size="12" font-weight="bold" text-anchor="middle">Filtered Water Reservoir</text>
+        <text x="80" y="75" fill="#E8F0F2" text-anchor="middle" font-size="10">To DM Plant / CW / Potable</text>
+      </g>
+    </svg>
+  </div>`
+);
+
+const PT_CH={
+  alum:{
+    n:'Aluminium Sulphate (Alum) Al₂(SO₄)₃·18H₂O',
+    tag:'Primary coagulant',
+    job:'Neutralizes negative colloidal charges in raw water and hydrolyzes into gelatinous aluminium hydroxide flocs to remove suspended turbidity and color.',
+    why:'Raw surface water contains negatively charged suspended clay, silt, and organic colloids that repel each other and refuse to settle naturally. Alum provides trivalent aluminium ions (Al³⁺) that instantly destabilize colloidal repulsive forces and form voluminous sweeping flocs.',
+    how:'Alum reacts with natural or dosed bicarbonate alkalinity to precipitate insoluble aluminium hydroxide Al(OH)₃ flocs, sweeping suspended impurities as they settle.',
+    params:[
+      ['Raw Water Turbidity','Reduced from high inlet levels down to < 2.0 NTU at filter outlet'],
+      ['Circulating / Treated Water pH','Slightly decreases due to consumption of bicarbonate alkalinity'],
+      ['Total Dissolved Solids (TDS) & Sulphates','Slightly increases due to residual sulphate ions from alum dissociation'],
+      ['Residual Aluminium in Clarified Water','Maintained below < 0.2 mg/L specification limit']
+    ],
+    reactList:[
+      ['Primary Coagulation & Precipitation','Al₂(&SO₄)₃·18H₂O + 3 Ca(HCO₃)₂ → 2 Al(OH)₃(s)↓ + 3 CaSO₄ + 6 CO₂↑ + 18 H₂O','Precipitates gelatinous aluminium hydroxide flocs while releasing carbon dioxide.'],
+      ['Charge Neutralization','Al³⁺ + Colloidal Turbidity (Negative Zeta Potential) → Neutralized Agglomerates','Trivalent aluminium compresses the electrical double layer of suspended colloids.']
+    ],
+    under:'Incomplete charge neutralization; high turbidity slip through filters, poor floc formation, and elevated settled water turbidity (> 10 NTU).',
+    normal:'Clear water separation in the HRSCC sludge blanket; settled water turbidity < 10 NTU, filtered water < 2 NTU.',
+    over:'Excess alum causes charge reversal (re-suspension of colloids), depresses pH excessively, wastes chemical, and increases treated water dissolved solids/aluminium.',
+    rx:'Al₂(SO₄)₃ + 3 Ca(HCO₃)₂ → 2 Al(OH)₃↓ + 3 CaSO₄ + 6 CO₂↑'
+  },
+  fecl3:{
+    n:'Ferric Chloride FeCl₃',
+    tag:'Alternative coagulant (PT-DM)',
+    job:'Heavy primary coagulant used primarily in PT-DM streams for robust turbidity and organic matter removal across a wider pH range.',
+    why:'Ferric chloride forms heavier, denser ferric hydroxide flocs that settle faster than alum flocs and operate effectively across a broader pH range (4.0 to 11.0), making it ideal for treating aggressive raw waters feeding the DM plant.',
+    how:'Dissolves to yield Fe³⁺ ions which rapidly hydrolyze into dense reddish-brown Fe(OH)₃ precipitate.',
+    params:[
+      ['Turbidity Removal Efficiency','Extremely high; forms heavy settleable flocs even at low water temperatures'],
+      ['Clarifier Sludge Density','Increases sludge density and settling velocity in the HRSCC'],
+      ['Chloride (Cl⁻) Concentration','Slightly increases due to chloride release from ferric chloride dissociation'],
+      ['Treated Water Iron Residual','Maintained < 0.3 mg/L']
+    ],
+    reactList:[
+      ['Ferric Hydroxide Precipitation','2 FeCl₃ + 3 Ca(OH)₂ → 2 Fe(OH)₃(s)↓ + 3 CaCl₂','Forms dense ferric hydroxide flocs.'],
+      ['Reaction with Natural Alkalinity','FeCl₃ + 3 NaHCO₃ → Fe(OH)₃(s)↓ + 3 NaCl + 3 CO₂↑','Precipitates flocs while consuming bicarbonate alkalinity.']
+    ],
+    under:'Inadequate floc weight, slow settling velocity, and high residual turbidity in clarifier overflow.',
+    normal:'Rapid floc formation, clear supernatant, and dense sludge blanket in the HRSCC.',
+    over:'Corrosive conditions, yellowish discoloration of water if unreacted iron slips through, and elevated chloride levels.',
+    rx:'2 FeCl₃ + 3 Ca(HCO₃)₂ → 2 Fe(OH)₃↓ + 3 CaCl₂ + 6 CO₂↑'
+  },
+  poly:{
+    n:'Polyelectrolyte (Anionic / Non-ionic Polymer)',
+    tag:'Flocculant aid',
+    job:'Bridges microscopic micro-flocs together into large, tough, rapidly settling macro-flocs via long-chain molecular adsorption.',
+    why:'Coagulants neutralize charges, but individual micro-flocs are too fragile to withstand hydraulic shear inside clarifiers. Polyelectrolytes act as high-molecular-weight structural anchors that bind multiple flocs into robust, fast-settling aggregates.',
+    how:'Long polymer chains adsorb onto multiple suspended flocs simultaneously, creating physical bridges and sweeping the sludge blanket.',
+    params:[
+      ['Floc Size & Settling Velocity','Increases dramatically; flocs settle rapidly in the HRSCC sludge blanket'],
+      ['Filter Run Duration','Extended due to lower solids loading on gravity filters'],
+      ['Sludge Blanket Stability','Stabilizes the HRSCC sludge blanket against hydraulic surges']
+    ],
+    reactList:[
+      ['Polymeric Inter-Particle Bridging','Coagulated Floc + Polymer Chain [-CH₂-CH(CONH₂)-]n → Bridged Macro-Aggregates','Adsorbs active sites on multiple flocs to form giant settleable flocs.']
+    ],
+    under:'Small, pin-point flocs that fail to settle, leading to rapid gravity filter blinding and high backwash frequency.',
+    normal:'Large, robust flocs that settle cleanly in the outer clarification zone.',
+    over:'Overdosing causes polymer curl-back, steric stabilization (re-stabilizing turbidity), extremely viscous water, and filter clogging.',
+    rx:'Micro-Flocs + Long-Chain Polymer → Rapidly Settling Macro-Aggregates'
+  },
+  pac:{
+    n:'Poly-Aluminium Chloride (PAC) AlnCl(3n-m)(OH)m',
+    tag:'Pre-hydrolyzed coagulant',
+    job:'Advanced pre-hydrolyzed coagulant providing rapid, high-performance turbidity and organic removal with minimal alkalinity consumption.',
+    why:'Unlike conventional alum, PAC is already partially neutralized, meaning it works effectively across wide temperature and pH ranges without depleting natural water alkalinity or requiring supplemental lime.',
+    how:'Provides pre-formed polynuclear aluminium complexes that instantly destabilize colloids and form dense flocs.',
+    params:[
+      ['Coagulation Reaction Speed','Extremely fast floc formation even in cold or low-turbidity raw water'],
+      ['Alkalinity Consumption','Minimal compared to alum; preserves natural raw water buffering pH'],
+      ['Clarified Water Residual Al','Lower residual aluminium levels in treated water']
+    ],
+    reactList:[
+      ['Pre-Hydrolyzed Coagulation','AlnCl(3n-m)(OH)m + Impurities → Rapid Enmeshment &amp; Al(OH)₃ Coprecipitation','Precipitates dense flocs rapidly without heavy pH depression.']
+    ],
+    under:'Insufficient turbidity removal and hazy clarifier effluent.',
+    normal:'Immediate micro-floc formation and crystal-clear clarifier supernatant.',
+    over:'Unnecessary chemical expenditure and potential slight overdosing of aluminium complexes.',
+    rx:'AlnCl(3n-m)(OH)m + Colloids → Dense Rapidly Settling Aggregates'
+  },
+  lime:{
+    n:'Hydrated Lime Ca(OH)₂',
+    tag:'Alkalinity / pH adjustment & softening',
+    job:'Supplements raw water alkalinity when natural buffering is insufficient for alum/ferric hydrolysis, and removes carbonate hardness.',
+    why:'When treating soft or low-alkalinity raw waters, adding alum would depress pH below the optimum coagulation range (6.8–7.5). Lime restores necessary bicarbonate/hydroxide alkalinity.',
+    how:'Reacts with dissolved carbon dioxide and acidic species to form stable calcium carbonate or buffer pH.',
+    params:[
+      ['Raw Water pH','Elevated and stabilized into optimal coagulation window (7.0 – 7.8)'],
+      ['Total Hardness & Alkalinity','Regulated and softened when dosed in high quantities'],
+      ['Alum Hydrolysis Efficiency','Maximized by ensuring adequate alkalinity for complete Al(OH)₃ precipitation']
+    ],
+    reactList:[
+      ['Carbon Dioxide Neutralization','Ca(OH)₂ + CO₂ → CaCO₃(s)↓ + H₂O','Precipitates dissolved aggressive carbon dioxide as calcium carbonate.'],
+      ['Alkalinity Supplementation','Ca(OH)₂ + Mg(HCO₃)₂ → CaCO₃(s)↓ + MgCO₃ + 2 H₂O','Precipitates temporary hardness as calcium carbonate.']
+    ],
+    under:'pH drops below 6.5 during coagulant dosing; incomplete Alum precipitation, leading to soluble aluminium carryover.',
+    normal:'Stable pH between 7.0–7.8 and complete coagulant hydrolysis.',
+    over:'pH rises too high (> 8.2), reducing alum efficiency, scaling pipelines with calcium carbonate, and increasing water hardness.',
+    rx:'Ca(OH)₂ + CO₂ → CaCO₃↓ + H₂O'
+  },
+  clo2:{
+    n:'Sodium Hypochlorite / Chlorine Dioxide (NaOCl / ClO₂)',
+    tag:'Oxidizing biocide & pre-chlorination',
+    job:'Destroys pathogenic bacteria, algae, and organic slimes in raw water intake and cascade aerator, preventing biological fouling.',
+    why:'Raw water intake channels and cascade aerators accumulate organic slime, algae, and bacteria from surface reservoirs. Pre-chlorination keeps structures sanitized and prevents microbial growth from reaching the clarifiers.',
+    how:'Oxidizes cellular enzymes and destroys microbial cell walls.',
+    params:[
+      ['Free Chlorine Residual','Maintained at 0.2 – 0.5 mg/L at clarifier/filter entry'],
+      ['Bacterial & Algal Counts','Controlled (< 10² CFU/mL)'],
+      ['Raw Water Organic Odor / Taste','Oxidized and removed effectively']
+    ],
+    reactList:[
+      ['Oxidative Disinfection','HOCl + Bacteria / Organics → Oxidized Byproducts + Cl⁻','Destroys microbial respiratory enzymes.']
+    ],
+    under:'Algae and bacterial slime growth in raw water channels, aerator steps, and clarifier weir troughs.',
+    normal:'Clean, sanitary raw water channels and controlled microbial count entering the HRSCC.',
+    over:'Excess chlorine creates undesirable disinfection byproducts (DBPs) and interferes with downstream processes if not quenched.',
+    rx:'HOCl + Microbial Cell Wall → Oxidized Products + HCl'
+  }
+};
+const PT_CK=Object.keys(PT_ANIM);
+
+const PT_TABS=[
+  ['basics','fa-droplet','1 · PT basics & line diagram'],
+  ['chem','fa-flask','2 · PT chemicals & animations'],
+  ['calc','fa-calculator','3 · PT sizing calculator'],
+  ['quiz','fa-circle-question','4 · Knowledge check']
+];
+
+$('pt-nav').innerHTML=PT_TABS.map((t,i)=>`<button onclick="ptTab('${t[0]}')" id="ptb-${t[0]}" class="tab-btn${i?'':' active'} px-4 py-3 text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap"><i class="fa-solid ${t[1]}"></i> ${t[2]}</button>`).join('');
+window.ptTab=id=>{PT_TABS.forEach(t=>{$('ptp-'+t[0]).classList.toggle('hidden',t[0]!==id);$('ptb-'+t[0]).classList.toggle('active',t[0]===id)});window.scrollTo({top:0,behavior:'smooth'})};
+
+const PT_P={};
+PT_P.basics = PT_LINE_DIAGRAM + card('Dynamic Four-Stage Treatment Process', 'fa-timeline', `
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
+    <!-- Stage 1 -->
+    <div class="group relative bg-slate-950 border border-slate-800 rounded-xl p-5 hover:border-sky-400 transition-all duration-300 overflow-hidden cursor-default shadow-lg">
+      <div class="absolute inset-0 bg-sky-500/10 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+      <div class="relative z-10 flex flex-col h-full">
+        <div class="w-12 h-12 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+          <i class="fa-solid fa-wind text-xl"></i>
+        </div>
+        <h4 class="font-bold text-slate-100 text-sm">1. Aeration</h4>
+        <p class="text-xs text-slate-400 mt-2 group-hover:text-slate-300 transition-colors duration-300 leading-relaxed">
+          Cascade aerator oxidizes dissolved iron/manganese and strips volatile gases (CO₂) to improve downstream coagulation.
+        </p>
+      </div>
+    </div>
+    <!-- Stage 2 -->
+    <div class="group relative bg-slate-950 border border-slate-800 rounded-xl p-5 hover:border-teal-400 transition-all duration-300 overflow-hidden cursor-default shadow-lg">
+      <div class="absolute inset-0 bg-teal-500/10 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+      <div class="relative z-10 flex flex-col h-full">
+        <div class="w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+          <i class="fa-solid fa-water text-xl"></i>
+        </div>
+        <h4 class="font-bold text-slate-100 text-sm">2. De-aeration</h4>
+        <p class="text-xs text-slate-400 mt-2 group-hover:text-slate-300 transition-colors duration-300 leading-relaxed">
+          Stilling chamber slows flow velocity and retains water (~1 min) to release entrapped air bubbles, preventing clarifier floc flotation.
+        </p>
+      </div>
+    </div>
+    <!-- Stage 3 -->
+    <div class="group relative bg-slate-950 border border-slate-800 rounded-xl p-5 hover:border-amber-400 transition-all duration-300 overflow-hidden cursor-default shadow-lg">
+      <div class="absolute inset-0 bg-amber-500/10 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+      <div class="relative z-10 flex flex-col h-full">
+        <div class="w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+          <i class="fa-solid fa-circle-nodes text-xl"></i>
+        </div>
+        <h4 class="font-bold text-slate-100 text-sm">3. Clarification</h4>
+        <p class="text-xs text-slate-400 mt-2 group-hover:text-slate-300 transition-colors duration-300 leading-relaxed">
+          HRSCC unit combines flash mixing, flocculation, and sludge blanket settling to remove >95% of suspended raw water turbidity.
+        </p>
+      </div>
+    </div>
+    <!-- Stage 4 -->
+    <div class="group relative bg-slate-950 border border-slate-800 rounded-xl p-5 hover:border-emerald-400 transition-all duration-300 overflow-hidden cursor-default shadow-lg">
+      <div class="absolute inset-0 bg-emerald-500/10 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+      <div class="relative z-10 flex flex-col h-full">
+        <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+          <i class="fa-solid fa-filter text-xl"></i>
+        </div>
+        <h4 class="font-bold text-slate-100 text-sm">4. Filtration</h4>
+        <p class="text-xs text-slate-400 mt-2 group-hover:text-slate-300 transition-colors duration-300 leading-relaxed">
+          Gravity sand or dual-media filters polish the clarifier overflow, guaranteeing final potable/make-up water turbidity &lt; 2.0 NTU.
+        </p>
+      </div>
+    </div>
+  </div>
+`);
+
+let curPtChem = 'alum';
+let curPtCond = 'normal';
+window.setPtChemCond = cond => {
+  curPtCond = cond;
+  ptChemRender(curPtChem);
+};
+
+const ptChemRender = k => {
+  curPtChem = k;
+  document.querySelectorAll('#pt-chl .cw-chip').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+  const d = PT_CH[k];
+  const doseBox = curPtCond==='under' ? WARN : (curPtCond==='over' ? BAD : OKK);
+
+  $('pt-chd').innerHTML =
+    g2(
+      card(`${d.n} — Function & Active Mechanism`, 'fa-wand-magic-sparkles',
+        PT_ANIM[k] +
+        `<div class="space-y-2.5 pt-1">
+          <div class="p-3 rounded-lg border border-indigo-500/30 bg-indigo-500/10 text-xs text-slate-200 leading-relaxed">
+            <div class="font-bold text-indigo-300 mb-1 flex items-center gap-1.5"><i class="fa-solid fa-circle-question"></i> Why This Chemical is Dosed:</div>
+            ${d.why}
+          </div>
+          ${p('<b>Primary Function:</b> ' + d.job)}
+          ${p('<b>How it Works:</b> ' + d.how)}
+        </div>`
+      ),
+      card(`Parameters Affected by ${d.n}`, 'fa-Sliders',
+        p('Dosing this chemical directly influences the following raw water and clarification performance parameters:') +
+        tbl(['Raw Water / Clarifier Parameter','Effect / Response When Dosed'], d.params)
+      )
+    ) +
+    g2(
+      card(`Chemical Reactions & Mechanism (${d.n})`, 'fa-atom',
+        d.reactList.map(r =>
+          `<div class="space-y-1.5 p-3 rounded-lg border border-slate-800 bg-slate-950/60">
+            <div class="text-xs font-bold text-slate-100">${r[0]}</div>
+            ${rx(r[1])}
+            ${p(r[2])}
+          </div>`
+        ).join('') +
+        mu('Representative coagulation and precipitation reactions in the pre-treatment clarification process.')
+      ),
+      card(`Under / Over Dosing Impact (${d.n})`, 'fa-scale-balanced',
+        `<div class="flex flex-wrap gap-2 pb-1">
+          <button type="button" class="cw-chip ${curPtCond==='under'?'on':''}" onclick="setPtChemCond('under')"><i class="fa-solid fa-arrow-down text-amber-400 mr-1"></i> Underdosing</button>
+          <button type="button" class="cw-chip ${curPtCond==='normal'?'on':''}" onclick="setPtChemCond('normal')"><i class="fa-solid fa-check text-emerald-400 mr-1"></i> Appropriate Dose</button>
+          <button type="button" class="cw-chip ${curPtCond==='over'?'on':''}" onclick="setPtChemCond('over')"><i class="fa-solid fa-arrow-up text-red-400 mr-1"></i> Overdosing</button>
+        </div>` +
+        doseBox +
+          `<div class="text-sm font-bold text-slate-100 mb-1">${d.n}: ${curPtCond==='under'?'Underdosing Consequence':curPtCond==='over'?'Overdosing Consequence':'Optimal Treatment Window'}</div>
+          <div>${d[curPtCond]}</div>
+        </div>` +
+        `<div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-xs">
+          <div class="p-2.5 rounded-lg border border-amber-500/30 bg-amber-500/10"><b class="text-amber-300 block mb-0.5">If Underdosed:</b><span class="text-slate-300">${d.under}</span></div>
+          <div class="p-2.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10"><b class="text-emerald-300 block mb-0.5">Optimal Window:</b><span class="text-slate-300">${d.normal}</span></div>
+          <div class="p-2.5 rounded-lg border border-red-500/30 bg-red-500/10"><b class="text-red-300 block mb-0.5">If Overdosed:</b><span class="text-slate-300">${d.over}</span></div>
+        </div>`
+      )
+    );
+};
+
+PT_P.chem =
+  card('Select a PT Chemical to Explore Function, Reactions, Parameters Affected & Dosing Impact','fa-flask',
+    `<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2" id="pt-chl">` +
+      Object.keys(PT_CH).map(k=>`<button class="cw-chip text-left" data-k="${k}"><b class="block text-xs text-slate-100">${PT_CH[k].n.split(' ')[0]}</b><span class="text-[10px]">${PT_CH[k].tag}</span></button>`).join('') +
+    `</div>`
+  ) +
+  `<div id="pt-chd" class="space-y-6"></div>`;
+
+PT_P.calc = card('Interactive Pre-Treatment Coagulant & Water Quality Simulator','fa-calculator',
+  p('Simulate the impact of chemical dosing on raw water quality. Enter raw water characteristics and adjust coagulant doses to predict clarified water turbidity, pH, and alkalinity consumption.') +
+  `<div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-3">
+     <div class="space-y-3 bg-slate-950 p-4 rounded-xl border border-slate-800 shadow-inner">
+       <h4 class="text-xs font-bold text-indigo-300 mb-2 border-b border-slate-700 pb-1 flex items-center gap-1.5"><i class="fa-solid fa-droplet"></i> Raw Water Inputs</h4>
+       <div class="grid grid-cols-2 gap-4">
+         <label class="text-[11px] text-slate-400 flex flex-col font-medium">Flow (m³/h)
+           <input type="number" id="pt-cwt-flow" step="100" value="4120" class="cw-in mt-1" oninput="updatePtCalcTab()">
+         </label>
+         <label class="text-[11px] text-slate-400 flex flex-col font-medium">Turbidity (NTU)
+           <input type="number" id="pt-raw-turb" step="10" value="150" class="cw-in mt-1" oninput="updatePtCalcTab()">
+         </label>
+         <label class="text-[11px] text-slate-400 flex flex-col font-medium">M-Alkalinity (mg/L CaCO₃)
+           <input type="number" id="pt-raw-alk" step="5" value="120" class="cw-in mt-1" oninput="updatePtCalcTab()">
+         </label>
+         <label class="text-[11px] text-slate-400 flex flex-col font-medium">pH
+           <input type="number" id="pt-raw-ph" step="0.1" value="7.8" class="cw-in mt-1" oninput="updatePtCalcTab()">
+         </label>
+       </div>
+     </div>
+     
+     <div class="space-y-3 bg-slate-950 p-4 rounded-xl border border-slate-800 shadow-inner">
+       <h4 class="text-xs font-bold text-teal-300 mb-2 border-b border-slate-700 pb-1 flex items-center gap-1.5"><i class="fa-solid fa-flask"></i> Coagulation & Dosing Parameters</h4>
+       <div class="grid grid-cols-2 gap-4">
+         <label class="text-[11px] text-slate-400 flex flex-col font-medium">Alum Dose (ppm)
+           <input type="number" id="pt-cwt-alum" step="2" value="35" class="cw-in mt-1" oninput="updatePtCalcTab()">
+         </label>
+         <label class="text-[11px] text-slate-400 flex flex-col font-medium">Polyelectrolyte Dose (ppm)
+           <input type="number" id="pt-cwt-poly" step="0.05" value="0.25" class="cw-in mt-1" oninput="updatePtCalcTab()">
+         </label>
+         <label class="text-[11px] text-slate-400 flex flex-col font-medium">Chlorine (NaOCl) Dose (ppm)
+           <input type="number" id="pt-cwt-cl" step="0.5" value="2.0" class="cw-in mt-1" oninput="updatePtCalcTab()">
+         </label>
+       </div>
+     </div>
+  </div>
+  <div id="pt-calc-out" class="mt-2"></div>`
+);
+
+const PT_QS = [
+  ['What is the primary purpose of dosing Alum in the PT Plant?', ['To raise pH', 'To neutralize colloidal turbidity and form settleable flocs', 'To kill bacteria', 'To remove silica'], 1, 'Alum provides trivalent aluminium ions that destabilize negative colloidal turbidity.'],
+  ['What is the function of the Cascade Aerator in the PT Plant?', ['Cooling water', 'Oxidizing dissolved iron and stripping volatile gases', 'Filtering suspended solids', 'Regenerating resins'], 1, 'Cascade aerator mixes cascading water with air to oxidize iron and remove gases.'],
+  ['Why is Polyelectrolyte dosed along with Alum?', ['To bridge micro-flocs into rapid-settling macro-flocs', 'To soften water', 'To adjust pH', 'To add chlorine'], 0, 'Polyelectrolyte polymers bind micro-flocs into tough, fast-settling macro-aggregates.'],
+  ['What is the guaranteed filtered water turbidity at gravity filter outlet?', ['< 10 NTU', '< 5 NTU', '< 2.0 NTU', '< 0.1 NTU'], 2, 'Gravity filters are designed and guaranteed for outlet turbidity < 2.0 NTU.']
+];
+
+PT_P.quiz = card('Knowledge Check — Pre-Treatment Plant Dosing','fa-circle-question',
+  `<div class="space-y-3">
+    <div class="flex justify-between items-center text-xs text-slate-300 bg-slate-950 p-3 rounded-lg border border-slate-800">
+      <span>Score: <strong id="pt-qs" class="text-emerald-400">0</strong> / <strong id="pt-qt" class="text-sky-400">0</strong></span>
+      <span class="text-slate-400">Rotational Question Bank</span>
+    </div>
+    <div id="pt-qb" class="space-y-3"></div>
+    <div class="flex gap-2 pt-2">
+      <button class="cw-chip" id="pt-qn"><i class="fa-solid fa-arrow-right mr-1"></i> Next Question</button>
+      <button class="cw-chip" id="pt-qr"><i class="fa-solid fa-rotate-left mr-1"></i> Restart Quiz</button>
+    </div>
+  </div>`
+);
+
+$('pt-root').innerHTML = PT_TABS.map((t,i)=>`<section id="ptp-${t[0]}" class="space-y-6${i?' hidden':''}">${PT_P[t[0]]}</section>`).join('');
+
+document.querySelectorAll('#pt-chl .cw-chip').forEach(b=>b.onclick=()=>ptChemRender(b.dataset.k));
+ptChemRender('alum');
+
+window.updatePtCalcTab = function() {
+  const flow = parseFloat($('pt-cwt-flow').value) || 4120;
+  const rawTurb = parseFloat($('pt-raw-turb').value) || 150;
+  const rawAlk = parseFloat($('pt-raw-alk').value) || 120;
+  const rawPh = parseFloat($('pt-raw-ph').value) || 7.8;
+  
+  const alum = parseFloat($('pt-cwt-alum').value) || 0;
+  const poly = parseFloat($('pt-cwt-poly').value) || 0;
+  const cl = parseFloat($('pt-cwt-cl').value) || 0;
+
+  // Consumption Math
+  const alumKgH = (flow * alum) / 1000;
+  const polyKgH = (flow * poly) / 1000;
+  const clKgH = (flow * cl) / 1000;
+
+  // Chemistry impacts
+  // 1 ppm Alum (commercial) consumes roughly ~0.45 ppm Alkalinity as CaCO3
+  const alkConsumed = alum * 0.45;
+  const finalAlk = Math.max(0, rawAlk - alkConsumed);
+  
+  // pH drop estimation (rough heuristic for simulator based on residual alkalinity buffer)
+  let finalPh = rawPh;
+  if (finalAlk < 20) finalPh = Math.max(5.5, rawPh - 1.5);
+  else if (finalAlk < rawAlk) finalPh = rawPh - (0.5 * (alkConsumed/rawAlk));
+  
+  // Turbidity estimation: rule of thumb, alum dose needs to be roughly ~0.15 to 0.3 * rawTurb for decent coagulation
+  let finalTurb = rawTurb;
+  const optimalAlum = rawTurb * 0.2; 
+  if (alum >= optimalAlum * 0.8 && poly >= 0.1 && finalAlk > 20) {
+    finalTurb = 1.5; // Good coagulation
+  } else if (alum > 0 && finalAlk > 10) {
+    finalTurb = Math.max(5, rawTurb - (alum * 3)); // Partial coagulation
+  }
+  
+  let turbStatus = finalTurb <= 2.0 ? '<span class="text-emerald-400"><i class="fa-solid fa-check"></i> Clarified (Ideal)</span>' : '<span class="text-red-400"><i class="fa-solid fa-xmark"></i> Underdosed / Poor Floc</span>';
+
+  if (finalAlk < 20) {
+     turbStatus = '<span class="text-red-400"><i class="fa-solid fa-triangle-exclamation"></i> pH Crash / Al³⁺ Carryover</span>';
+  }
+
+  const outEl = document.getElementById('pt-calc-out');
+  if(outEl) {
+    outEl.innerHTML = `
+      <div class="bg-slate-800/60 rounded-xl p-4 border border-slate-700 mt-4">
+        <h4 class="text-xs font-bold text-slate-200 mb-3 border-b border-slate-600 pb-2 flex items-center gap-2"><i class="fa-solid fa-chart-line text-sky-400"></i> Predicted Clarified Water Quality &amp; Consumption</h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="text-center">
+            <div class="text-[10px] text-slate-400 uppercase tracking-wider">Final Turbidity</div>
+            <div class="text-xl font-bold text-slate-100 mt-1">${finalTurb > 10 ? finalTurb.toFixed(0) : finalTurb.toFixed(1)} NTU</div>
+            <div class="text-[10px] mt-1 font-medium">${turbStatus}</div>
+          </div>
+          <div class="text-center border-l border-slate-700">
+            <div class="text-[10px] text-slate-400 uppercase tracking-wider">Residual Alkalinity</div>
+            <div class="text-xl font-bold ${finalAlk < 30 ? 'text-red-400' : 'text-sky-300'} mt-1">${finalAlk.toFixed(1)} mg/L</div>
+            <div class="text-[10px] text-slate-500 mt-1 font-medium">Consumed: ${alkConsumed.toFixed(1)}</div>
+          </div>
+          <div class="text-center border-l border-slate-700">
+            <div class="text-[10px] text-slate-400 uppercase tracking-wider">Estimated pH</div>
+            <div class="text-xl font-bold ${finalPh < 6.8 ? 'text-amber-400' : 'text-teal-300'} mt-1">${finalPh.toFixed(2)}</div>
+            <div class="text-[10px] text-slate-500 mt-1 font-medium">Target: 6.8 - 7.5</div>
+          </div>
+          <div class="text-center border-l border-slate-700">
+            <div class="text-[10px] text-slate-400 uppercase tracking-wider">Daily Alum Used</div>
+            <div class="text-xl font-bold text-amber-300 mt-1">${(alumKgH * 24).toFixed(0)} kg</div>
+            <div class="text-[10px] text-slate-500 mt-1 font-medium">@ 100% Active</div>
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="ph-card rounded-xl p-6 text-center text-slate-500 text-sm min-h-[160px] flex items-center justify-center"><div><i class="fa-regular fa-square-plus text-2xl mb-2"></i><div>Section A</div></div></div>
-        <div class="ph-card rounded-xl p-6 text-center text-slate-500 text-sm min-h-[160px] flex items-center justify-center"><div><i class="fa-regular fa-square-plus text-2xl mb-2"></i><div>Section B</div></div></div>
-        <div class="ph-card rounded-xl p-6 text-center text-slate-500 text-sm min-h-[160px] flex items-center justify-center"><div><i class="fa-regular fa-square-plus text-2xl mb-2"></i><div>Section C</div></div></div>
+    `;
+  }
+};
+updatePtCalcTab();
+
+// Quiz runner for PT
+(function(){
+  let activeQS = [];
+  let qi = 0, sc = 0, answered = false;
+
+  function shuffle(arr) {
+    let a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function renderPtQuiz() {
+    const qBox = document.getElementById('pt-qb');
+    const qsEl = document.getElementById('pt-qs');
+    const qtEl = document.getElementById('pt-qt');
+    if (!qBox) return;
+
+    if (!activeQS.length || qi >= activeQS.length) {
+      activeQS = shuffle(PT_QS);
+      qi = 0;
+    }
+
+    const q = activeQS[qi];
+    if (qsEl) qsEl.textContent = sc;
+    if (qtEl) qtEl.textContent = qi + 1;
+
+    qBox.innerHTML = `
+      <div class="text-xs font-semibold text-indigo-300">Question ${qi + 1} of ${activeQS.length}</div>
+      <div class="text-sm font-bold text-slate-100 my-2">${q[0]}</div>
+      <div class="grid gap-2">
+        ${q[1].map((opt, idx) => `
+          <button type="button" class="cw-chip text-left pt-quiz-opt-btn py-2.5 px-3 rounded-lg border border-slate-700 bg-slate-800/80 hover:border-indigo-400 text-slate-200 transition" data-idx="${idx}">
+            <strong>${String.fromCharCode(65 + idx)}.</strong> ${opt}
+          </button>
+        `).join('')}
       </div>
-      <div class="ph-card rounded-xl p-6 text-center text-slate-500 text-sm min-h-[200px] flex items-center justify-center"><div><i class="fa-regular fa-square-plus text-2xl mb-2"></i><div>Main content area</div></div></div>
-    </main>
+      <div id="pt-qf" class="mt-3"></div>
+    `;
+
+    answered = false;
+    document.querySelectorAll('.pt-quiz-opt-btn').forEach(btn => {
+      btn.onclick = function() {
+        if (answered) return;
+        answered = true;
+        const selected = parseInt(this.dataset.idx);
+        const correct = q[2];
+        const feedbackEl = document.getElementById('pt-qf');
+
+        document.querySelectorAll('.pt-quiz-opt-btn').forEach((b, i) => {
+          if (i === correct) {
+            b.style.borderColor = 'var(--emerald)';
+            b.style.backgroundColor = 'color-mix(in srgb, var(--emerald) 20%, transparent)';
+          } else if (i === selected && selected !== correct) {
+            b.style.borderColor = 'var(--red)';
+            b.style.backgroundColor = 'color-mix(in srgb, var(--red) 20%, transparent)';
+          }
+          b.disabled = true;
+        });
+
+        if (selected === correct) {
+          sc++;
+          if (qsEl) qsEl.textContent = sc;
+          if (feedbackEl) feedbackEl.innerHTML = `<div class="p-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-xs text-slate-200"><strong>Correct!</strong> ${q[3]}</div>`;
+        } else {
+          if (feedbackEl) feedbackEl.innerHTML = `<div class="p-3 rounded-lg border border-red-500/30 bg-red-500/10 text-xs text-slate-200"><strong>Not quite.</strong> ${q[3]}</div>`;
+        }
+      };
+    });
+  }
+
+  const nextBtn = document.getElementById('pt-qn');
+  const restartBtn = document.getElementById('pt-qr');
+  if (nextBtn) {
+    nextBtn.onclick = () => {
+      if (qi < activeQS.length - 1) {
+        qi++;
+        renderPtQuiz();
+      } else {
+        const qBox = document.getElementById('pt-qb');
+        if (qBox) qBox.innerHTML = `<div class="p-4 rounded-lg bg-slate-800 text-center text-sm text-slate-200">Quiz complete! Final Score: <strong>${sc} / ${activeQS.length}</strong>. Click Restart to practice with newly rotated questions.</div>`;
+      }
+    };
+  }
+  if (restartBtn) {
+    restartBtn.onclick = () => {
+      qi = 0;
+      sc = 0;
+      activeQS = shuffle(PT_QS);
+      renderPtQuiz();
+    };
+  }
+  activeQS = shuffle(PT_QS);
+  renderPtQuiz();
+})();
+
+})();
+    </script>
   </div>
 
   <!-- ============ DOSING IN CWT ============ -->
@@ -1216,7 +2243,13 @@ html .text-teal-400{color:var(--teal) !important}
       .cwt-bubble { position: absolute; bottom: 6px; border-radius: 50%; background: var(--amber); animation: cwtBubbleRise 2.3s ease-in infinite; }
       .cwt-crystal { width: 22px; height: 22px; border: 2px solid var(--sky); animation: cwtCrystalDistort 2.2s ease-in-out infinite; }
       .cwt-bio-cell { width: 14px; height: 14px; border-radius: 50%; background: var(--emerald); animation: cwtBioLysis 2.4s ease-in-out infinite; }
-    </style>
+    
+    /* Color Theme Palettes */
+    body[data-theme="slate"] { --bg:#0f172a; --panel:#1e293b; --panel-2:#334155; --inset:#0b1120; --sidebar:#0b1120; --accent:#38bdf8; --sky:#38bdf8; }
+    body[data-theme="emerald"] { --bg:#022c22; --panel:#064e3b; --panel-2:#047857; --inset:#021510; --sidebar:#021510; --accent:#34d399; --sky:#34d399; --teal:#10b981; }
+    body[data-theme="amber"] { --bg:#1c1917; --panel:#292524; --panel-2:#44403c; --inset:#0c0a09; --sidebar:#0c0a09; --accent:#fbbf24; --sky:#fbbf24; --amber:#f59e0b; }
+
+  </style>
     <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
         <div class="flex items-center space-x-3">
@@ -2504,7 +3537,7 @@ $('cw-qr').onclick=()=>{qi=0;sc=0;$('cw-qs').textContent=0;$('cw-qt').textConten
   </script>
 
   <script>
-    const VIEW_IDS = ['view-avt','view-dm','view-pt','view-cw'];
+    const VIEW_IDS = ['view-home','view-avt','view-dm','view-pt','view-cw','view-ai'];
     function showView(id) {
       if (!VIEW_IDS.includes(id)) id = 'view-avt';
       VIEW_IDS.forEach(v => document.getElementById(v).classList.toggle('hidden', v !== id));
@@ -2527,5 +3560,346 @@ $('cw-qr').onclick=()=>{qi=0;sc=0;$('cw-qs').textContent=0;$('cw-qt').textConten
       if (h && VIEW_IDS.includes('view-' + h)) showView('view-' + h);
     })();
   </script>
+
+<script>
+  window.updateDmCalc = function() {
+    const vc = parseFloat(document.getElementById('dm-vc').value) || 12;
+    const va = parseFloat(document.getElementById('dm-va').value) || 10;
+    const ccap = parseFloat(document.getElementById('dm-ccap').value) || 1.8;
+    const acap = parseFloat(document.getElementById('dm-acap').value) || 1.3;
+    const hclLvl = parseFloat(document.getElementById('dm-hcl-lvl').value) || 75;
+    const naohLvl = parseFloat(document.getElementById('dm-naoh-lvl').value) || 85;
+
+    // Total equivalents per regeneration cycle
+    const hclKg100 = (vc * 1000 * ccap * hclLvl) / 1000 / 0.33; // 33% HCl commercial basis
+    const naohKg100 = (va * 1000 * acap * naohLvl) / 1000 / 0.48; // 48% NaOH commercial basis
+
+    document.getElementById('dm-calc-results').innerHTML = `
+      <div class="flex justify-between p-2.5 rounded-lg bg-slate-800/50 border border-slate-700 text-xs">
+        <span class="text-slate-300">HCl (33% Commercial) per Regeneration</span>
+        <strong class="text-amber-300">${hclKg100.toFixed(1)} kg</strong>
+      </div>
+      <div class="flex justify-between p-2.5 rounded-lg bg-slate-800/50 border border-slate-700 text-xs">
+        <span class="text-slate-300">NaOH (48% Commercial) per Regeneration</span>
+        <strong class="text-purple-300">${naohKg100.toFixed(1)} kg</strong>
+      </div>
+      <div class="flex justify-between p-2.5 rounded-lg bg-slate-800/50 border border-slate-700 text-xs">
+        <span class="text-slate-300">Estimated Treated Water per Run (at 10 meq/L load)</span>
+        <strong class="text-emerald-400">${((vc * 1000 * ccap) / 10).toFixed(0)} m³</strong>
+      </div>
+    `;
+  };
+
+  window.updatePtCalc = function() {
+    const flow = parseFloat(document.getElementById('pt-flow').value) || 2500;
+    const alumDose = parseFloat(document.getElementById('pt-alum-dose').value) || 35;
+    const polyDose = parseFloat(document.getElementById('pt-poly-dose').value) || 0.25;
+    const clDose = parseFloat(document.getElementById('pt-cl-dose').value) || 2.0;
+
+    const alumKgDay = (flow * alumDose * 24) / 1000;
+    const polyKgDay = (flow * polyDose * 24) / 1000;
+    const clKgDay = (flow * clDose * 24) / 1000;
+
+    document.getElementById('pt-calc-results').innerHTML = `
+      <div class="flex justify-between p-2.5 rounded-lg bg-slate-800/50 border border-slate-700 text-xs">
+        <span class="text-slate-300">Alum / PAC Daily Consumption</span>
+        <strong class="text-indigo-300">${alumKgDay.toFixed(1)} kg/day</strong>
+      </div>
+      <div class="flex justify-between p-2.5 rounded-lg bg-slate-800/50 border border-slate-700 text-xs">
+        <span class="text-slate-300">Polyelectrolyte Daily Consumption</span>
+        <strong class="text-teal-300">${polyKgDay.toFixed(2)} kg/day</strong>
+      </div>
+      <div class="flex justify-between p-2.5 rounded-lg bg-slate-800/50 border border-slate-700 text-xs">
+        <span class="text-slate-300">Sodium Hypochlorite (12.5%) Daily</span>
+        <strong class="text-amber-300">${(clKgDay / 0.125).toFixed(1)} kg/day</strong>
+      </div>
+    `;
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof updateDmCalc === 'function') updateDmCalc();
+    if (typeof updatePtCalc === 'function') updatePtCalc();
+  });
+</script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style id="modern-layer">
+/* ===== MODERN LAYER: aurora glass, Manrope + JetBrains Mono ===== */
+:root{--bg:#070a12;--panel:#10172a;--panel-2:#18213a;--inset:#050810;--sidebar:#0b1120;--line:#222d4a;--line-2:#34466f;
+--ink:#eef2fb;--ink-soft:#d3dcf0;--ink-2:#a6b4d3;--ink-3:#8190b3;
+--sky:#62b6ff;--teal:#35d6bf;--emerald:#56dc92;--amber:#f7b84a;--red:#f47167;--purple:#b99bff;--indigo:#8e9eff;
+--accent:var(--sky);--on-accent:#04111f;--screen:#050810;--shadow:0 18px 40px -24px rgba(0,0,0,.7);
+--f-head:'Manrope',system-ui,sans-serif;--f-body:'Manrope',system-ui,sans-serif;--f-mono:'JetBrains Mono',ui-monospace,monospace}
+html.light{--bg:#eef2f9;--panel:#ffffff;--panel-2:#e6ecf7;--inset:#f5f8fd;--sidebar:#ffffff;--line:#d3ddee;--line-2:#b4c4df;
+--ink:#0d1626;--ink-soft:#1a2740;--ink-2:#41567a;--ink-3:#5a6f93;
+--sky:#0a5fc2;--teal:#08766b;--emerald:#12703f;--amber:#8a5200;--red:#b3261a;--purple:#6a3db8;--indigo:#3b49b5;--on-accent:#fff;--shadow:0 16px 36px -24px rgba(25,45,90,.35)}
+html{scrollbar-gutter:stable}
+body{font-family:var(--f-body)!important;font-size:15px;letter-spacing:-.003em;font-variant-numeric:tabular-nums;
+background:radial-gradient(60rem 36rem at 8% -8%,color-mix(in srgb,var(--sky) 16%,transparent),transparent 60%),
+radial-gradient(48rem 30rem at 100% 0%,color-mix(in srgb,var(--purple) 14%,transparent),transparent 58%),
+radial-gradient(44rem 30rem at 60% 110%,color-mix(in srgb,var(--teal) 11%,transparent),transparent 60%),var(--bg)!important;background-attachment:fixed!important}
+h1,h2,h3,h4{font-family:var(--f-head);font-weight:750;letter-spacing:-.02em;text-wrap:balance}
+p,li{text-wrap:pretty}
+.code-font,.chemical-formula,.font-mono{font-family:var(--f-mono)!important;letter-spacing:0}
+h1.bg-clip-text{font-size:1.9rem;font-weight:800;letter-spacing:-.03em}
+/* glass panels */
+html .bg-slate-900{background-color:color-mix(in srgb,var(--panel) 72%,transparent)!important;-webkit-backdrop-filter:blur(16px) saturate(1.25);backdrop-filter:blur(16px) saturate(1.25)}
+html .border-slate-800{border-color:color-mix(in srgb,var(--line) 75%,transparent)!important}
+.rounded-2xl{border-radius:26px!important}.rounded-xl{border-radius:18px!important}.rounded-lg{border-radius:12px!important}.rounded{border-radius:7px!important}
+.rounded-xl.bg-slate-900,.rounded-2xl.bg-slate-900{box-shadow:inset 0 1px 0 rgba(255,255,255,.06),var(--shadow)!important}
+html.light .rounded-xl.bg-slate-900{box-shadow:inset 0 1px 0 #fff,var(--shadow)!important}
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+/* header + tabs */
+header.sticky{top:.5rem!important;margin:.5rem .75rem 0;border:1px solid color-mix(in srgb,var(--line) 80%,transparent)!important;border-radius:22px;
+background:color-mix(in srgb,var(--panel) 70%,transparent)!important;-webkit-backdrop-filter:blur(18px) saturate(1.3);backdrop-filter:blur(18px) saturate(1.3);box-shadow:var(--shadow)}
+header nav{padding-bottom:.35rem}
+.tab-btn{border-radius:12px!important;margin:.35rem .15rem 0;padding:.55rem .95rem!important;border-bottom:0!important;font-weight:650;color:var(--ink-2)}
+html .tab-btn:hover{background-color:color-mix(in srgb,var(--accent) 9%,transparent)!important}
+html .tab-btn.active{color:var(--ink)!important;border-bottom-color:transparent!important;background:linear-gradient(135deg,color-mix(in srgb,var(--sky) 26%,transparent),color-mix(in srgb,var(--teal) 14%,transparent))!important;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 50%,transparent)}
+@supports (animation-timeline:scroll()){header.sticky::after{content:"";position:absolute;left:18px;right:18px;bottom:-1px;height:2px;border-radius:2px;transform-origin:0 50%;
+background:linear-gradient(90deg,var(--sky),var(--teal),var(--purple));animation:cwprog linear both;animation-timeline:scroll(root)}
+@keyframes cwprog{from{transform:scaleX(0)}to{transform:scaleX(1)}}}
+@supports (animation-timeline:view()){main>div,main>section,section>div{animation:cwrev linear both;animation-timeline:view();animation-range:entry 0% entry 35%}
+@keyframes cwrev{from{opacity:0;transform:translateY(20px) scale(.985)}to{opacity:1;transform:none}}}
+/* floating sidebar */
+#side-menu{inset:12px auto 12px 12px;width:15.5rem;border-radius:24px;border:1px solid color-mix(in srgb,var(--line) 85%,transparent);
+background:color-mix(in srgb,var(--sidebar) 78%,transparent);-webkit-backdrop-filter:blur(22px) saturate(1.3);backdrop-filter:blur(22px) saturate(1.3);box-shadow:var(--shadow)}
+@media(min-width:1024px){#app-wrapper{padding-left:16.5rem}body.nav-collapsed #app-wrapper{padding-left:6rem}}
+body.nav-collapsed #side-menu{width:4.5rem}
+@media(max-width:1023px){#side-menu{transform:translateX(calc(-100% - 24px));width:16rem!important}body.nav-open #side-menu{transform:none}}
+.nav-brand{border-bottom-color:color-mix(in srgb,var(--line) 70%,transparent)}
+.nav-brand-mark{background:linear-gradient(135deg,var(--sky),var(--teal));border-radius:12px}
+.nav-list::before{background:linear-gradient(to bottom,transparent,var(--accent) 30%,var(--teal) 70%,transparent);background-size:2px 100%;opacity:.5;animation:none;width:2px;border-radius:2px}
+.nav-item{border-radius:999px}
+.nav-item .nav-ico{background:var(--sidebar);border:1.5px solid var(--line-2)}
+.nav-item.active{background:linear-gradient(90deg,color-mix(in srgb,var(--sky) 20%,transparent),transparent)}
+.nav-item.active .nav-ico{background:linear-gradient(135deg,var(--sky),var(--teal));border-color:transparent;color:var(--on-accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent),0 6px 18px -4px color-mix(in srgb,var(--accent) 70%,transparent)}
+.nav-foot{border-top-color:color-mix(in srgb,var(--line) 70%,transparent);display:flex;flex-direction:column;gap:.5rem}
+.nav-foot.hidden{display:none}@media(min-width:1024px){.nav-foot.hidden{display:flex}}
+#nav-fab{background:linear-gradient(135deg,var(--sky),var(--teal))}
+/* controls */
+input[type=range]{-webkit-appearance:none;appearance:none;height:6px;border-radius:99px;background:color-mix(in srgb,var(--line-2) 70%,transparent)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--sky),var(--teal));border:2px solid var(--panel);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 30%,transparent);transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,var(--sky),var(--teal));border:2px solid var(--panel)}
+select,input[type=text],input[type=password],input[type=number],textarea{border-radius:12px!important}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:10px}
+.theme-toggle{background:color-mix(in srgb,var(--panel) 70%,transparent);backdrop-filter:blur(10px)}
+.cw-chip{border-radius:12px}.cw-in{border-radius:12px}
+table{border-collapse:separate;border-spacing:0}
+tbody tr:hover td{background:color-mix(in srgb,var(--accent) 6%,transparent)}
+button{transition:transform .15s,background-color .2s,border-color .2s,box-shadow .2s}
+button:active:not(:disabled){transform:scale(.98)}
+/* view transition + quick jump */
+::view-transition-old(root){animation:cwout .18s ease both}::view-transition-new(root){animation:cwin .28s cubic-bezier(.2,.8,.2,1) both}
+@keyframes cwout{to{opacity:0;transform:translateY(-6px)}}@keyframes cwin{from{opacity:0;transform:translateY(10px)}}
+#qj{width:min(34rem,92vw);margin:12vh auto auto;padding:0;border:1px solid var(--line-2);border-radius:22px;color:var(--ink);background:color-mix(in srgb,var(--panel) 92%,transparent);backdrop-filter:blur(24px);box-shadow:0 40px 90px -30px rgba(0,0,0,.8)}
+#qj::backdrop{background:rgba(3,8,16,.55);backdrop-filter:blur(6px)}
+#qj input{width:100%;padding:1rem 1.25rem;background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--ink);font-size:1rem;outline:none;border-radius:0!important}
+#qj ul{max-height:50vh;overflow:auto;padding:.5rem;list-style:none;margin:0}
+#qj li{display:flex;align-items:center;gap:.75rem;padding:.65rem .8rem;border-radius:12px;cursor:pointer;color:var(--ink-2);font-size:.9rem}
+#qj li small{margin-left:auto;color:var(--ink-3);font-size:.7rem}
+#qj li.on{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--ink)}
+@media(prefers-reduced-motion:reduce){*,::before,::after{animation:none!important;transition:none!important}}
+/* ===== theme fixes + home schematic ===== */
+html.light,html.light body[data-theme]{--bg:#eef2f9;--panel:#ffffff;--panel-2:#e2ebf7;--inset:#f4f8fd;--sidebar:#f9fbfe;--line:#cad7ec;--line-2:#aebfdc;--ink:#0d1626;--ink-soft:#1a2740;--ink-2:#41567a;--ink-3:#55698c;
+--sky:#0a5fc2;--teal:#08766b;--emerald:#12703f;--amber:#8a5200;--red:#b3261a;--purple:#6a3db8;--indigo:#3b49b5;--accent:var(--sky);--on-accent:#fff;--screen:#f1f6fc}
+html.light #canvas-container-1,html.light #canvas-container-2{background-color:var(--screen)!important}
+html.light .bg-\[\#061219\]{background-color:var(--inset)!important}
+#theme-dock{position:fixed;top:1.1rem;right:1.25rem;z-index:60;display:flex;align-items:center;gap:.5rem;padding:.3rem .35rem .3rem .75rem;border-radius:999px;border:1px solid var(--line-2);
+background:color-mix(in srgb,var(--panel) 78%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:var(--shadow);font-size:.75rem;color:var(--ink-2)}
+#theme-dock select{background:transparent;color:var(--ink);font-weight:650;border:0;outline:0;cursor:pointer;max-width:9.5rem}
+#theme-dock select option{background:var(--panel);color:var(--ink)}
+#theme-dock .theme-toggle{margin:0}
+header .theme-toggle,header :has(>select[id^="color-theme-select"]){display:none!important}
+body:has(#password-overlay:not([style*="display: none"])) #theme-dock{display:none}
+header .max-w-7xl>div:last-child:not(:first-child){min-height:2.2rem}
+@media(max-width:720px){#theme-dock{top:.6rem;right:.6rem;padding-left:.5rem}#theme-dock .theme-label,#theme-dock .tl{display:none}}
+@media(min-width:768px){header.sticky>div:first-child{padding-right:15rem}}
+/* flow schematic */
+.pf-wrap{background:var(--screen,var(--inset))}
+.pf-box{fill:var(--panel-2);stroke:var(--line-2);stroke-width:1.2}
+.pf-src .pf-box{stroke-dasharray:4 3}.pf-dmn .pf-box{stroke:var(--teal)}
+.pf-t{fill:var(--ink);font:700 15px var(--f-head)}.pf-s{fill:var(--ink-2);font:500 11px var(--f-body)}.pf-h{fill:var(--ink-3);font:700 11px var(--f-body);letter-spacing:.14em}
+.pf-l{fill:var(--ink-3);font:600 10.5px var(--f-body)}.pf-arrow{fill:var(--ink-2)}
+.pf-flow{fill:none;stroke-width:3;stroke-linecap:round;stroke-dasharray:10 8;animation:pfmove 1.1s linear infinite}
+@keyframes pfmove{to{stroke-dashoffset:-18}}
+.pf-raw{stroke:var(--indigo);background:var(--indigo)}.pf-dm{stroke:var(--teal);background:var(--teal)}.pf-fw{stroke:var(--sky);background:var(--sky)}.pf-steam{stroke:var(--red);background:var(--red)}.pf-cw{stroke:var(--amber);background:var(--amber)}
+.pf-key{display:inline-block;width:1.4rem;height:.25rem;border-radius:2px}
+.pf-pin{display:inline-grid;place-items:center;width:1.1rem;height:1.1rem;border-radius:50%;background:var(--accent);color:var(--on-accent);font-weight:800;font-size:.65rem}
+.pf-hot{cursor:pointer}.pf-dot{fill:var(--accent);stroke:var(--panel);stroke-width:2}.pf-num{fill:var(--on-accent);font:800 11px var(--f-body);pointer-events:none}
+.pf-ring{fill:none;stroke:var(--accent);stroke-width:2;transform-box:fill-box;transform-origin:center;animation:pfping 2s ease-out infinite}
+@keyframes pfping{from{transform:scale(1);opacity:.9}to{transform:scale(2.6);opacity:0}}
+.pf-hot.on .pf-dot{fill:var(--amber)}.pf-hot:focus-visible .pf-dot{stroke:var(--ink)}
+.pf-item{display:flex;gap:.75rem;align-items:center;text-align:left;padding:.6rem .8rem;border-radius:12px;border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 60%,transparent);color:var(--ink-2);font-size:.8rem}
+.pf-item b{display:block;color:var(--ink);font-size:.85rem}.pf-item:hover{border-color:var(--accent)}
+.pf-item.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent)}
+html.light svg [fill="#061219" i]{fill:#f4f8fd}
+html.light svg [stroke="#061219" i]{stroke:#f4f8fd}
+html.light svg [stop-color="#061219" i]{stop-color:#f4f8fd}
+html.light svg [fill="#04101a" i]{fill:#edf3fb}
+html.light svg [stroke="#04101a" i]{stroke:#edf3fb}
+html.light svg [stop-color="#04101a" i]{stop-color:#edf3fb}
+html.light svg [fill="#0f2330" i]{fill:#e3ebf7}
+html.light svg [stroke="#0f2330" i]{stroke:#e3ebf7}
+html.light svg [stop-color="#0f2330" i]{stop-color:#e3ebf7}
+html.light svg [fill="#1a2a45" i]{fill:#dce6f5}
+html.light svg [stroke="#1a2a45" i]{stroke:#dce6f5}
+html.light svg [stop-color="#1a2a45" i]{stop-color:#dce6f5}
+html.light svg [fill="#153141" i]{fill:#d5e1f2}
+html.light svg [stroke="#153141" i]{stroke:#d5e1f2}
+html.light svg [stop-color="#153141" i]{stop-color:#d5e1f2}
+html.light svg [fill="#2c5062" i]{fill:#9fb4d3}
+html.light svg [stroke="#2c5062" i]{stroke:#9fb4d3}
+html.light svg [stop-color="#2c5062" i]{stop-color:#9fb4d3}
+html.light svg [fill="#46697a" i]{fill:#7c94bb}
+html.light svg [stroke="#46697a" i]{stroke:#7c94bb}
+html.light svg [stop-color="#46697a" i]{stop-color:#7c94bb}
+html.light svg [fill="#33607a" i]{fill:#8da6cc}
+html.light svg [stroke="#33607a" i]{stroke:#8da6cc}
+html.light svg [stop-color="#33607a" i]{stop-color:#8da6cc}
+html.light svg [fill="#234556" i]{fill:#b9c9e2}
+html.light svg [stroke="#234556" i]{stroke:#b9c9e2}
+html.light svg [stop-color="#234556" i]{stop-color:#b9c9e2}
+html.light svg [fill="#e8f0f2" i]{fill:#10203a}
+html.light svg [stroke="#e8f0f2" i]{stroke:#10203a}
+html.light svg [stop-color="#e8f0f2" i]{stop-color:#10203a}
+html.light svg [fill="#cbd9de" i]{fill:#1f3150}
+html.light svg [stroke="#cbd9de" i]{stroke:#1f3150}
+html.light svg [stop-color="#cbd9de" i]{stop-color:#1f3150}
+html.light svg [fill="#a3bac3" i]{fill:#46597f}
+html.light svg [stroke="#a3bac3" i]{stroke:#46597f}
+html.light svg [stop-color="#a3bac3" i]{stop-color:#46597f}
+html.light svg [fill="#9db4bd" i]{fill:#46597f}
+html.light svg [stroke="#9db4bd" i]{stroke:#46597f}
+html.light svg [stop-color="#9db4bd" i]{stop-color:#46597f}
+html.light svg [fill="#6cc4e8" i]{fill:#0b79b8}
+html.light svg [stroke="#6cc4e8" i]{stroke:#0b79b8}
+html.light svg [stop-color="#6cc4e8" i]{stop-color:#0b79b8}
+html.light svg [fill="#62d393" i]{fill:#12803f}
+html.light svg [stroke="#62d393" i]{stroke:#12803f}
+html.light svg [stop-color="#62d393" i]{stop-color:#12803f}
+html.light svg [fill="#4ecdb8" i]{fill:#0a8576}
+html.light svg [stroke="#4ecdb8" i]{stroke:#0a8576}
+html.light svg [stop-color="#4ecdb8" i]{stop-color:#0a8576}
+html.light svg [fill="#f2c15e" i]{fill:#b7791f}
+html.light svg [stroke="#f2c15e" i]{stroke:#b7791f}
+html.light svg [stop-color="#f2c15e" i]{stop-color:#b7791f}
+html.light svg [fill="#f2b44a" i]{fill:#a8650a}
+html.light svg [stroke="#f2b44a" i]{stroke:#a8650a}
+html.light svg [stop-color="#f2b44a" i]{stop-color:#a8650a}
+html.light svg [fill="#ebaa3c" i]{fill:#a8650a}
+html.light svg [stroke="#ebaa3c" i]{stroke:#a8650a}
+html.light svg [stop-color="#ebaa3c" i]{stop-color:#a8650a}
+html.light svg [fill="#e85d4d" i]{fill:#c0392b}
+html.light svg [stroke="#e85d4d" i]{stroke:#c0392b}
+html.light svg [stop-color="#e85d4d" i]{stop-color:#c0392b}
+html.light svg [fill="#f0705f" i]{fill:#c0392b}
+html.light svg [stroke="#f0705f" i]{stroke:#c0392b}
+html.light svg [stop-color="#f0705f" i]{stop-color:#c0392b}
+html.light svg [fill="#bc9cf0" i]{fill:#7a4fc4}
+html.light svg [stroke="#bc9cf0" i]{stroke:#7a4fc4}
+html.light svg [stop-color="#bc9cf0" i]{stop-color:#7a4fc4}
+html.light svg [fill="#98a6ee" i]{fill:#4f5fcb}
+html.light svg [stroke="#98a6ee" i]{stroke:#4f5fcb}
+html.light svg [stop-color="#98a6ee" i]{stop-color:#4f5fcb}
+html.light svg [fill="#b9c3f5" i]{fill:#5a68c9}
+html.light svg [stroke="#b9c3f5" i]{stroke:#5a68c9}
+html.light svg [stop-color="#b9c3f5" i]{stop-color:#5a68c9}
+html.light svg [fill="#7a4a12" i]{fill:#8a5313}
+html.light svg [stroke="#7a4a12" i]{stroke:#8a5313}
+html.light svg [stop-color="#7a4a12" i]{stop-color:#8a5313}
+html.light svg [fill="#8a5313" i]{fill:#b8741a}
+html.light svg [stroke="#8a5313" i]{stroke:#b8741a}
+html.light svg [stop-color="#8a5313" i]{stop-color:#b8741a}
+html.light svg [fill="#b8741a" i]{fill:#8a5313}
+html.light svg [stroke="#b8741a" i]{stroke:#8a5313}
+html.light svg [stop-color="#b8741a" i]{stop-color:#8a5313}
+</style>
+<script>
+(function(){
+const K='sw-color',sels=()=>document.querySelectorAll('select[id^="color-theme-select"]');
+window.changeColorTheme=function(v){if(!v||v==='dark')document.body.removeAttribute('data-theme');else document.body.setAttribute('data-theme',v);try{localStorage.setItem(K,v||'dark')}catch(e){}sels().forEach(s=>s.value=v||'dark')};
+const dock=document.createElement('div');dock.id='theme-dock';dock.innerHTML='<i class="fa-solid fa-palette tl"></i><select id="color-theme-select-dock" aria-label="Colour theme" onchange="changeColorTheme(this.value)"><option value="dark">Midnight Dark</option><option value="slate">Slate Navy</option><option value="emerald">Emerald Plant</option><option value="amber">Industrial Amber</option></select><button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Switch light/dark theme"><i class="fa-solid fa-sun icon-sun"></i><i class="fa-solid fa-moon icon-moon"></i><span class="theme-label">Light mode</span></button>';
+document.body.appendChild(dock);
+let c='dark';try{c=localStorage.getItem(K)||'dark'}catch(e){}changeColorTheme(c);if(typeof applyThemeLabel==='function')applyThemeLabel();
+// canvas colours follow the light/dark mode
+const MAP=JSON.parse('{"#061219": "#f4f8fd", "#04101a": "#edf3fb", "#0f2330": "#e3ebf7", "#1a2a45": "#dce6f5", "#153141": "#d5e1f2", "#2c5062": "#9fb4d3", "#46697a": "#7c94bb", "#33607a": "#8da6cc", "#234556": "#b9c9e2", "#e8f0f2": "#10203a", "#cbd9de": "#1f3150", "#a3bac3": "#46597f", "#9db4bd": "#46597f", "#6cc4e8": "#0b79b8", "#62d393": "#12803f", "#4ecdb8": "#0a8576", "#f2c15e": "#b7791f", "#f2b44a": "#a8650a", "#ebaa3c": "#a8650a", "#e85d4d": "#c0392b", "#f0705f": "#c0392b", "#bc9cf0": "#7a4fc4", "#98a6ee": "#4f5fcb", "#b9c3f5": "#5a68c9", "#7a4a12": "#8a5313", "#8a5313": "#b8741a", "#b8741a": "#8a5313"}'),L=()=>document.documentElement.classList.contains('light');
+const mp=v=>(typeof v==='string'&&L())?v.replace(/#[0-9a-fA-F]{6}\b/g,h=>MAP[h.toLowerCase()]||h):v;
+if(window.CanvasRenderingContext2D){const P=CanvasRenderingContext2D.prototype;['fillStyle','strokeStyle','shadowColor'].forEach(n=>{const d=Object.getOwnPropertyDescriptor(P,n);Object.defineProperty(P,n,{get(){return d.get.call(this)},set(v){d.set.call(this,mp(v))},configurable:true})});
+const A=CanvasGradient.prototype.addColorStop;CanvasGradient.prototype.addColorStop=function(o,c){return A.call(this,o,mp(c))}}
+// home flow schematic: why dosing here
+const D=[
+['Coagulant and lime','PT plant · raw water inlet / rapid mix','Alum or PAC; lime for pH','Raw water carries colloids and fine silt that repel each other and stay suspended. The coagulant neutralises that charge so particles can stick together, and lime keeps pH in the window where coagulation works best. It is dosed first, at the rapid-mix point, so every later stage receives water that is already conditioned.','view-pt'],
+['Polyelectrolyte','PT plant · flocculation zone','Polyelectrolyte (flocculant aid)','Coagulation only makes tiny micro-flocs. A very small polymer dose bridges them into large, heavy flocs that settle quickly in the clarifier. It goes in after the coagulant has mixed, in the gentle zone, so the flocs form without being sheared apart. Result: lower turbidity and less sludge reaching the filters.','view-pt'],
+['Chlorination','PT plant · clarified / filtered water','Chlorine or hypochlorite','Controls algae, bacteria and biofilm in clarifier, filters and storage, and oxidises iron and organics. It is dosed after clarification, when chlorine demand is lower. Residual chlorine is removed before the DM plant because it attacks ion-exchange resin.','view-pt'],
+['Hydrochloric acid (HCl)','DM plant · cation exchangers (regeneration)','HCl regenerant','Boiler make-up must be almost free of dissolved salts. Cation resin captures calcium, magnesium and sodium and gives back hydrogen ions. When it is exhausted, HCl restores it to the hydrogen form. Raw water goes through PT, then DM, so the resin sees clean, filtered water and lasts longer. This is how ultrapure water is made from raw water.','view-dm'],
+['Caustic soda (NaOH)','DM plant · anion and mixed-bed (regeneration)','NaOH regenerant','Anion resin removes chloride, sulphate, bicarbonate and silica, releasing hydroxide; caustic restores it. The mixed bed polishes the last traces, typically to very low conductivity and silica. A once-through boiler has no blowdown to purge impurities, so make-up has to be ultrapure before it reaches the DM water tank and the condenser hotwell.','view-dm'],
+['Ammonia (NH₃)','Cycle · condensate pump discharge','Ammonia for pH control','Condensate is almost pure water, which is aggressive to carbon steel and causes flow-accelerated corrosion. A little ammonia raises pH so a protective oxide layer forms and iron pick-up falls. It is dosed at condensate pump discharge so the whole feed-water train downstream is protected. Exact pH window depends on the selected regime.','view-avt'],
+['Oxygen or hydrazine','Cycle · deaerator outlet / feed pump suction','O₂ (OT) or N₂H₄ (AVT(R))','After the deaerator, dissolved oxygen is already low. In oxygenated treatment a controlled oxygen dose builds a stable protective oxide layer and limits iron transport to the boiler. In reducing treatment, hydrazine scavenges residual oxygen. The choice follows the selected regime; see the AVT page.','view-avt'],
+['Cooling water chemicals','CW loop · tower basin / pump suction','H₂SO₄, corrosion inhibitor, scale inhibitor and dispersant, ClO₂','Evaporation concentrates salts, so scale, corrosion and biofouling threaten condenser heat transfer. Acid trims alkalinity, inhibitors protect metal, dispersant keeps deposits suspended and ClO₂ controls biofilm. They are dosed at the basin or pump suction so they mix into the circulating volume before reaching the condenser.','view-cw']];
+const list=document.getElementById('pf-list'),det=document.getElementById('pf-detail');if(list&&det){
+list.innerHTML=D.map((d,i)=>`<button type="button" class="pf-item" data-p="${i+1}"><span class="pf-pin">${i+1}</span><span><b>${d[0]}</b>${d[1]}</span></button>`).join('');
+const sel=n=>{const d=D[n-1];document.querySelectorAll('[data-p]').forEach(e=>e.classList.toggle('on',+e.dataset.p===n));det.innerHTML=`<div class="flex items-center gap-3"><span class="pf-pin" style="width:1.8rem;height:1.8rem;font-size:.85rem">${n}</span><div><h3 class="text-base font-bold text-slate-100">${d[0]}</h3><p class="text-xs text-slate-400">${d[1]}</p></div></div><p class="text-xs text-slate-300"><b class="text-sky-300">Chemical:</b> ${d[2]}</p><p class="text-sm text-slate-300 leading-relaxed"><b class="text-sky-300">Why here:</b> ${d[3]}</p><button type="button" class="cw-chip" onclick="showView('${d[4]}')">Open this module <i class="fa-solid fa-arrow-right"></i></button>`};
+document.querySelectorAll('[data-p]').forEach(e=>{e.onclick=()=>sel(+e.dataset.p);e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();sel(+e.dataset.p)}}});sel(5)}
+})();
+</script>
+<script>
+(function(){
+if(typeof window.showView==='function'&&document.startViewTransition&&!window.__vt){window.__vt=1;const sv=window.showView;window.showView=id=>document.startViewTransition(()=>sv(id));}
+const dlg=document.createElement('dialog');dlg.id='qj';dlg.innerHTML='<input type="text" placeholder="Jump to a page or tab…" aria-label="Quick jump"><ul></ul>';document.body.appendChild(dlg);
+const inp=dlg.querySelector('input'),ul=dlg.querySelector('ul');let items=[],sel=0;
+const collect=()=>{const out=[];document.querySelectorAll('.nav-item[data-view]').forEach(b=>out.push({t:b.querySelector('.nav-label')?.textContent.trim()||b.textContent.trim(),k:'Page',go:()=>b.click()}));
+document.querySelectorAll('header nav button').forEach(b=>{const v=b.closest('[id^="view-"]');const lab=b.textContent.trim().replace(/\s+/g,' ');if(v&&lab)out.push({t:lab,k:'Tab',go:()=>{if(v.classList.contains('hidden')&&typeof showView==='function')showView(v.id);setTimeout(()=>b.click(),60)}})});return out};
+const draw=()=>{const q=inp.value.toLowerCase();const list=items.filter(i=>i.t.toLowerCase().includes(q));sel=Math.min(sel,Math.max(0,list.length-1));ul.innerHTML=list.map((i,n)=>`<li class="${n===sel?'on':''}" data-n="${n}">${i.t}<small>${i.k}</small></li>`).join('');ul._l=list;ul.querySelectorAll('li').forEach(li=>li.onclick=()=>run(+li.dataset.n))};
+const run=n=>{const i=ul._l[n];if(i){dlg.close();i.go()}};
+const open=()=>{items=collect();inp.value='';sel=0;draw();dlg.showModal();inp.focus()};
+inp.oninput=()=>{sel=0;draw()};
+inp.onkeydown=e=>{const n=(ul._l||[]).length;if(e.key==='ArrowDown'){sel=(sel+1)%n;draw();e.preventDefault()}else if(e.key==='ArrowUp'){sel=(sel-1+n)%n;draw();e.preventDefault()}else if(e.key==='Enter')run(sel)};
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();dlg.open?dlg.close():open()}});
+const foot=document.querySelector('.nav-foot');if(foot){const b=document.createElement('button');b.className='nav-item';b.type='button';b.title='Quick jump (Ctrl K)';b.innerHTML='<span class="nav-ico"><i class="fa-solid fa-magnifying-glass"></i></span><span class="nav-label">Quick jump · Ctrl K</span>';b.onclick=open;foot.prepend(b)}
+})();
+</script>
+
+<script>
+(function(){
+  function attachDiagramTooltips(){
+    document.querySelectorAll('.view-panel svg').forEach(function(svg){
+      svg.querySelectorAll('g').forEach(function(g){
+        if(g.querySelector('rect') && g.querySelector('text') && !g.querySelector(':scope > title')){
+          var labels = Array.from(g.querySelectorAll(':scope > text'))
+            .map(function(t){return (t.textContent || '').replace(/\s+/g,' ').trim();})
+            .filter(Boolean);
+          if(labels.length){
+            var title = document.createElementNS('http://www.w3.org/2000/svg','title');
+            title.textContent = labels.join(' — ');
+            g.insertBefore(title,g.firstChild);
+            if(!g.hasAttribute('tabindex')) g.setAttribute('tabindex','0');
+            if(!g.hasAttribute('aria-label')) g.setAttribute('aria-label',title.textContent);
+          }
+        }
+      });
+      svg.querySelectorAll('rect').forEach(function(rect){
+        if(rect.querySelector('title') || rect.parentElement && rect.parentElement.querySelector(':scope > title')) return;
+        var parent = rect.parentElement;
+        if(parent && parent.tagName.toLowerCase()==='g'){
+          var labels = Array.from(parent.querySelectorAll('text')).map(function(t){return (t.textContent||'').replace(/\s+/g,' ').trim();}).filter(Boolean);
+          if(labels.length){
+            var title = document.createElementNS('http://www.w3.org/2000/svg','title');
+            title.textContent = labels.join(' — ');
+            rect.appendChild(title);
+          }
+        }
+      });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',attachDiagramTooltips);
+  else attachDiagramTooltips();
+  var observer = new MutationObserver(function(){attachDiagramTooltips();});
+  observer.observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
+
 </body>
 </html>
