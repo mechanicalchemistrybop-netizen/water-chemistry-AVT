@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>try{if(localStorage.getItem("sw-theme")!=="dark")document.documentElement.classList.add("light");}catch(e){document.documentElement.classList.add("light");}</script>
+  <link rel="preconnect" href="https://generativelanguage.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <title>Once-Through & Supercritical Steam-Water Chemistry Simulator (IAPWS TGD3-10)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -478,6 +481,23 @@ html.light .dm-anim-track { box-shadow: inset 0 1px 0 #fff; }
 }
 </style>
 
+
+<style id="ai-dashboard-layout">
+#view-ai .ai-dose-topic{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;min-height:104px;padding:.8rem .4rem;border:1px solid var(--line);border-radius:12px;background:var(--panel-2);color:var(--ink);transition:transform .18s,border-color .18s,background .18s}
+#view-ai .ai-dose-topic:hover{transform:translateY(-3px);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,var(--panel))}
+#view-ai .ai-dose-topic i{font-size:1.5rem;color:var(--sky);margin-bottom:.15rem}
+#view-ai .ai-dose-topic:nth-child(2) i{color:var(--amber)}#view-ai .ai-dose-topic:nth-child(3) i{color:var(--purple)}#view-ai .ai-dose-topic:nth-child(4) i{color:var(--red)}#view-ai .ai-dose-topic:nth-child(5) i{color:var(--emerald)}#view-ai .ai-dose-topic:nth-child(6) i{color:var(--teal)}
+#view-ai .ai-dose-topic b{font-size:.78rem}#view-ai .ai-dose-topic small{font-size:.68rem;color:var(--ink-2)}
+#ai-featured-question{color:var(--ink)}#ai-featured-answer{color:var(--ink-soft)}
+#ai-featured-dots button{width:9px;height:9px;border-radius:50%;background:var(--line-2);border:0;padding:0}
+#ai-featured-dots button.active{background:var(--accent);transform:scale(1.2)}
+html.light #view-ai #ai-featured-question{background:#fff8e8!important;color:#26374a!important}
+html.light #view-ai #ai-featured-answer{background:#eaf8f3!important;color:#183b35!important}
+html.light #view-ai .ai-dose-topic{background:#fff;color:#17324c}
+html.light #view-ai .ai-dose-topic small{color:#587087}
+@media(max-width:640px){#view-ai .ai-dose-topic{min-height:88px}}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
 
@@ -503,7 +523,7 @@ html.light .dm-anim-track { box-shadow: inset 0 1px 0 #fff; }
 
       <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-800 leading-relaxed">
         <span>Designed, developed and maintained by <strong class="text-sky-400">@pradeep</strong></span><br>
-        <span class="text-slate-400">Built with AI assistance &bull; IAPWS TGD3-10</span>
+        <span class="text-slate-400">IAPWS TGD3-10</span>
       </div>
     </div>
   </div>
@@ -531,7 +551,7 @@ html.light .dm-anim-track { box-shadow: inset 0 1px 0 #fff; }
           <span class="nav-ico"><i class="fa-solid fa-industry"></i></span><span class="nav-short">AVT</span><span class="nav-label">AVT Method</span><span class="nav-tip">AVT Method</span>
         </button>
         <button class="nav-item" data-view="view-dm" onclick="showView('view-dm')">
-          <span class="nav-ico"><i class="fa-solid fa-droplets"></i></span><span class="nav-short">DM</span><span class="nav-label">Dosing in DM Plant</span><span class="nav-tip">Dosing in DM Plant</span>
+          <span class="nav-ico"><i class="fa-solid fa-calculator"></i></span><span class="nav-short">DM</span><span class="nav-label">Dosing in DM Plant</span><span class="nav-tip">Dosing in DM Plant</span>
         </button>
         <button class="nav-item" data-view="view-pt" onclick="showView('view-pt')">
           <span class="nav-ico"><i class="fa-solid fa-water"></i></span><span class="nav-short">PT</span><span class="nav-label">Dosing in PT Plant</span><span class="nav-tip">Dosing in PT Plant</span>
@@ -625,7 +645,7 @@ html.light .dm-anim-track { box-shadow: inset 0 1px 0 #fff; }
           <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-xl"><i class="fa-solid fa-droplets"></i></div>
           <div>
             <h3 class="text-base font-bold text-slate-100">Dosing in DM Plant</h3>
-            <p class="text-xs text-slate-400 mt-1">ASME/EPRI ion-exchange regeneration sequences with Hydrochloric Acid (HCl) &amp; Caustic Soda (NaOH).</p>
+            <p class="text-xs text-slate-400 mt-1">Ion-exchange regeneration sequences using hydrochloric acid (HCl) and caustic soda (NaOH).</p>
           </div>
           <div class="pt-2 flex items-center text-xs font-semibold text-emerald-400 gap-1"><span>Open DM Dashboard</span> <i class="fa-solid fa-arrow-right"></i></div>
         </div>
@@ -1357,105 +1377,108 @@ html.light .dm-anim-track { box-shadow: inset 0 1px 0 #fff; }
 
   
   <!-- ============ VIEW AI EXPERT ============ -->
+  <!-- ============ VIEW: O&M TROUBLESHOOTING & PREVENTIVE MAINTENANCE ============ -->
   <div id="view-ai" class="view-panel hidden">
-    <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-40">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
-        <div class="flex items-center space-x-3">
-          <div class="p-2 bg-sky-500/10 border border-sky-500/30 rounded-lg text-sky-400"><i class="fa-solid fa-robot text-2xl"></i></div>
-          <div>
-            <h1 class="text-xl font-bold text-slate-100">Power Plant Chemistry AI Expert</h1>
-            <p class="text-xs text-slate-400">Strictly adheres to international standards (IAPWS, ASME, EPRI, IS 10500)</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-3 flex-wrap">
-          <div class="flex items-center gap-1.5 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
-            <span class="text-slate-400"><i class="fa-solid fa-book text-sky-400"></i> Standard:</span>
-            <select id="ai-standard-select" onchange="updateAiPromptStandard(this.value)" class="bg-transparent text-sky-300 font-semibold focus:outline-none">
-              <option value="iapws">AVT / Feedwater: IAPWS TGD3-10 (2015)</option>
-              <option value="asme">DM Plant / Regeneration: ASME / EPRI Guidelines</option>
-              <option value="is10500">PT Plant / Raw Water: IS 10500 / WHO Water Quality</option>
-              <option value="epri">CWT / Cooling Water: EPRI / Nalco Circulation Standards</option>
-            </select>
-          </div>
-          
-        <div class="flex items-center gap-1.5 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
-          <span class="text-slate-400"><i class="fa-solid fa-palette text-sky-400"></i> Theme:</span>
-          <select id="color-theme-select" onchange="changeColorTheme(this.value)" class="bg-transparent text-sky-300 font-semibold focus:outline-none">
-            <option value="dark">Midnight Dark</option>
-            <option value="slate">Slate Navy</option>
-            <option value="emerald">Emerald Plant</option>
-            <option value="amber">Industrial Amber</option>
-          </select>
-        </div>
-
-          <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Switch theme"><i class="fa-solid fa-sun icon-sun"></i><i class="fa-solid fa-moon icon-moon"></i><span class="theme-label">Light mode</span></button>
-        </div>
+  <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col xl:flex-row justify-between items-center gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/30 text-sky-400 grid place-items-center text-2xl"><i class="fa-solid fa-droplet"></i></div>
+        <div><h1 class="text-xl md:text-2xl font-bold text-slate-100">Water Treatment Plant</h1><p class="text-sm text-slate-400">Learning &amp; Knowledge Assistant</p></div>
       </div>
-    </header>
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full space-y-6">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl space-y-4">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-3 gap-2">
-          <div>
-            <h2 id="ai-expert-title" class="text-lg font-bold text-sky-300 flex items-center gap-2">
-              <i class="fa-solid fa-robot text-sky-400"></i> AI Expert — IAPWS TGD3-10 Standard Mode
-            </h2>
-            <p id="ai-expert-desc" class="text-xs text-slate-400">Answers will strictly follow IAPWS guidelines for volatile water treatment and supercritical chemistry.</p>
-          </div>
-          <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30">Standard-Grounded AI</span>
+      <div class="flex items-center gap-2 flex-wrap">
+        <div class="flex items-center gap-2 bg-slate-800 px-3 py-2 rounded-lg border border-slate-700 min-w-[260px]">
+          <i class="fa-solid fa-magnifying-glass text-sky-400"></i>
+          <input id="ai-top-search" type="search" class="bg-transparent border-0 outline-none text-sm w-full" placeholder="Search topics, parameters, or ask a question..." aria-label="Search topics or ask a question">
+          <button type="button" class="text-sky-300 px-1" onclick="useAiTopSearch()" aria-label="Search"><i class="fa-solid fa-arrow-right"></i></button>
         </div>
-
-        <section class="ai-quick-panel" aria-labelledby="ai-quick-title">
-          <div class="ai-quick-heading">
-            <div><span class="ai-eyebrow">START HERE</span><h3 id="ai-quick-title">Common chemistry questions</h3><p>Select a question to see an instant answer, or type your own question below.</p></div>
-            <span class="ai-local-badge"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Instant answers</span>
-          </div>
-          <div class="ai-question-grid">
-            <button type="button" class="ai-question-card" onclick="selectAiPreset('uf-ro')"><span class="ai-q-icon"><i class="fa-solid fa-filter" aria-hidden="true"></i></span><span class="ai-q-copy"><strong>UF vs RO</strong><small>How are the two membranes different?</small></span><i class="fa-solid fa-arrow-up-right-from-square ai-q-arrow" aria-hidden="true"></i></button>
-            <button type="button" class="ai-question-card" onclick="selectAiPreset('antiscalant')"><span class="ai-q-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span><span class="ai-q-copy"><strong>Antiscalant dosing</strong><small>Why is it added before RO?</small></span><i class="fa-solid fa-arrow-up-right-from-square ai-q-arrow" aria-hidden="true"></i></button>
-            <button type="button" class="ai-question-card" onclick="selectAiPreset('antioxidant')"><span class="ai-q-icon"><i class="fa-solid fa-droplet" aria-hidden="true"></i></span><span class="ai-q-copy"><strong>Antioxidant</strong><small>Why remove residual oxidant?</small></span><i class="fa-solid fa-arrow-up-right-from-square ai-q-arrow" aria-hidden="true"></i></button>
-            <button type="button" class="ai-question-card" onclick="selectAiPreset('hypo')"><span class="ai-q-icon"><i class="fa-solid fa-bacteria" aria-hidden="true"></i></span><span class="ai-q-copy"><strong>Hypo at UF inlet</strong><small>Purpose and overdosing risk</small></span><i class="fa-solid fa-arrow-up-right-from-square ai-q-arrow" aria-hidden="true"></i></button>
-            <button type="button" class="ai-question-card" onclick="selectAiPreset('acid-hypo')"><span class="ai-q-icon"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span><span class="ai-q-copy"><strong>Acid and hypo safety</strong><small>Why must they never mix?</small></span><i class="fa-solid fa-arrow-up-right-from-square ai-q-arrow" aria-hidden="true"></i></button>
-            <button type="button" class="ai-question-card" onclick="selectAiPreset('caustic')"><span class="ai-q-icon"><i class="fa-solid fa-vial" aria-hidden="true"></i></span><span class="ai-q-copy"><strong>Caustic on RO permeate</strong><small>How does it affect pH?</small></span><i class="fa-solid fa-arrow-up-right-from-square ai-q-arrow" aria-hidden="true"></i></button>
-            <button type="button" class="ai-question-card" onclick="selectAiPreset('scale')"><span class="ai-q-icon"><i class="fa-solid fa-cubes-stacked" aria-hidden="true"></i></span><span class="ai-q-copy"><strong>RO scaling</strong><small>What causes mineral deposits?</small></span><i class="fa-solid fa-arrow-up-right-from-square ai-q-arrow" aria-hidden="true"></i></button>
-            <button type="button" class="ai-question-card" onclick="selectAiPreset('cwt')"><span class="ai-q-icon"><i class="fa-solid fa-fan" aria-hidden="true"></i></span><span class="ai-q-copy"><strong>Cooling-water treatment</strong><small>What do the chemicals do?</small></span><i class="fa-solid fa-arrow-up-right-from-square ai-q-arrow" aria-hidden="true"></i></button>
-            <button type="button" class="ai-question-card" onclick="selectAiPreset('pretreatment')"><span class="ai-q-icon"><i class="fa-solid fa-water" aria-hidden="true"></i></span><span class="ai-q-copy"><strong>Alum, PAC and FeCl₃</strong><small>How do coagulants help?</small></span><i class="fa-solid fa-arrow-up-right-from-square ai-q-arrow" aria-hidden="true"></i></button>
-            <button type="button" class="ai-question-card" onclick="selectAiPreset('avt')"><span class="ai-q-icon"><i class="fa-solid fa-temperature-high" aria-hidden="true"></i></span><span class="ai-q-copy"><strong>AVT(O), AVT(R) and OT</strong><small>What is the difference?</small></span><i class="fa-solid fa-arrow-up-right-from-square ai-q-arrow" aria-hidden="true"></i></button>
-            <button type="button" class="ai-question-card" onclick="selectAiPreset('ph')"><span class="ai-q-icon"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i></span><span class="ai-q-copy"><strong>Why control pH?</strong><small>What does pH control protect?</small></span><i class="fa-solid fa-arrow-up-right-from-square ai-q-arrow" aria-hidden="true"></i></button>
-            <button type="button" class="ai-question-card" onclick="selectAiPreset('dose-factors')"><span class="ai-q-icon"><i class="fa-solid fa-sliders" aria-hidden="true"></i></span><span class="ai-q-copy"><strong>Dose calculation</strong><small>Which parameters affect dose?</small></span><i class="fa-solid fa-arrow-up-right-from-square ai-q-arrow" aria-hidden="true"></i></button>
-          </div>
-        </section>
-
-        <div class="ai-input-label"><i class="fa-solid fa-comments" aria-hidden="true"></i><span>Ask your own question</span><small>Preset answers work offline. Add your own Gemini key for live AI responses.</small></div>
-        <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs flex flex-col sm:flex-row items-center gap-3">
-          <div class="flex items-center gap-2 text-slate-300 flex-shrink-0">
-            <i class="fa-solid fa-key text-amber-400"></i>
-            <span>Gemini API Key (optional):</span>
-          </div>
-          <input type="password" id="ai-key-input" value="" autocomplete="off" placeholder="Paste your own Gemini API key for live AI answers" aria-label="Optional Gemini API key" class="flex-grow w-full bg-slate-900 border border-slate-700 rounded px-3 py-1.5 text-xs text-sky-300 font-mono focus:outline-none focus:border-sky-400">
-          <span class="text-[10px] text-emerald-400 flex items-center gap-1 flex-shrink-0"><i class="fa-solid fa-circle-check"></i> Offline Q&amp;A ready</span>
-        </div>
-
-        <div class="space-y-3">
-          <textarea id="ai-query-input" rows="4" placeholder="Ask any question regarding AVT, DM regeneration, PT chlorination, or CWT dosing..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 focus:outline-none focus:border-sky-500"></textarea>
-          
-          <div class="flex justify-between items-center">
-            <span id="ai-active-standard-tag" class="text-[11px] text-sky-400 font-medium">Active Standard: IAPWS TGD3-10 (2015)</span>
-            <button onclick="askStandardizedAi()" id="btn-ai-submit" class="px-5 py-2.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs rounded-lg shadow-lg flex items-center gap-2 transition">
-              <i class="fa-solid fa-paper-plane"></i> Query AI Expert
-            </button>
-          </div>
-        </div>
-
-        <div id="ai-response-box" class="bg-slate-950 border border-slate-800 rounded-lg p-4 text-xs leading-relaxed text-slate-300 space-y-2 min-h-[160px] whitespace-pre-wrap">
-          <div class="ai-empty-state"><span class="ai-empty-icon"><i class="fa-solid fa-comment-dots" aria-hidden="true"></i></span><strong>Your answer will appear here</strong><p>Choose one of the common questions above, or ask about AVT, DM regeneration, PT treatment, or cooling-water chemistry.</p></div>
-        </div>
+        <select id="ai-standard-select" onchange="updateAiPromptStandard(this.value)" class="bg-slate-800 text-sky-300 border border-slate-700 rounded-lg px-2 py-2 text-xs">
+          <option value="iapws">IAPWS TGD3-10 (2015)</option><option value="asme">DM Plant / Regeneration</option><option value="is10500">PT Plant / Raw Water</option><option value="epri">Cooling Water</option>
+        </select>
+        <select id="color-theme-select" onchange="changeColorTheme(this.value)" class="bg-slate-800 text-sky-300 border border-slate-700 rounded-lg px-2 py-2 text-xs">
+          <option value="dark">Midnight Dark</option><option value="slate">Slate Navy</option><option value="emerald">Emerald Plant</option><option value="amber">Industrial Amber</option>
+        </select>
+        <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Switch theme"><i class="fa-solid fa-sun icon-sun"></i><i class="fa-solid fa-moon icon-moon"></i><span class="theme-label">Light mode</span></button>
       </div>
-    </main>
-  </div>
+    </div>
+  </header>
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full space-y-5">
+    <section id="ai-quick-topics" class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+      <div class="flex items-center justify-between flex-wrap gap-2"><div><h3 class="text-lg font-bold text-slate-100"><i class="fa-solid fa-bolt text-sky-400 mr-2"></i>Quick Topics</h3><p class="text-xs text-slate-400">Select a topic to open its explanation in the answer panel.</p></div><span class="text-xs text-slate-400">12 learning topics</span></div>
+      <div class="ai-question-grid">
+        <button type="button" class="ai-question-card" onclick="selectAiPreset('uf-ro')"><span class="ai-q-icon"><i class="fa-solid fa-filter"></i></span><span class="ai-q-copy"><strong>UF vs RO</strong><small>Membrane separation</small></span><i class="fa-solid fa-chevron-right ai-q-arrow"></i></button>
+        <button type="button" class="ai-question-card" onclick="selectAiPreset('antiscalant')"><span class="ai-q-icon"><i class="fa-solid fa-shield-halved"></i></span><span class="ai-q-copy"><strong>Antiscalant</strong><small>RO scale prevention</small></span><i class="fa-solid fa-chevron-right ai-q-arrow"></i></button>
+        <button type="button" class="ai-question-card" onclick="selectAiPreset('antioxidant')"><span class="ai-q-icon"><i class="fa-solid fa-droplet"></i></span><span class="ai-q-copy"><strong>Antioxidant</strong><small>Oxidant removal before RO</small></span><i class="fa-solid fa-chevron-right ai-q-arrow"></i></button>
+        <button type="button" class="ai-question-card" onclick="selectAiPreset('hypo')"><span class="ai-q-icon"><i class="fa-solid fa-bacteria"></i></span><span class="ai-q-copy"><strong>Hypochlorite</strong><small>Disinfection and membrane care</small></span><i class="fa-solid fa-chevron-right ai-q-arrow"></i></button>
+        <button type="button" class="ai-question-card" onclick="selectAiPreset('acid-hypo')"><span class="ai-q-icon"><i class="fa-solid fa-triangle-exclamation"></i></span><span class="ai-q-copy"><strong>Acid &amp; hypochlorite safety</strong><small>Incompatible chemicals</small></span><i class="fa-solid fa-chevron-right ai-q-arrow"></i></button>
+        <button type="button" class="ai-question-card" onclick="selectAiPreset('caustic')"><span class="ai-q-icon"><i class="fa-solid fa-vial"></i></span><span class="ai-q-copy"><strong>Caustic soda</strong><small>pH correction</small></span><i class="fa-solid fa-chevron-right ai-q-arrow"></i></button>
+        <button type="button" class="ai-question-card" onclick="selectAiPreset('scale')"><span class="ai-q-icon"><i class="fa-solid fa-cubes-stacked"></i></span><span class="ai-q-copy"><strong>RO scaling</strong><small>Mineral precipitation</small></span><i class="fa-solid fa-chevron-right ai-q-arrow"></i></button>
+        <button type="button" class="ai-question-card" onclick="selectAiPreset('cwt')"><span class="ai-q-icon"><i class="fa-solid fa-fan"></i></span><span class="ai-q-copy"><strong>Cooling water</strong><small>Scale, corrosion and biofouling</small></span><i class="fa-solid fa-chevron-right ai-q-arrow"></i></button>
+        <button type="button" class="ai-question-card" onclick="selectAiPreset('pretreatment')"><span class="ai-q-icon"><i class="fa-solid fa-flask"></i></span><span class="ai-q-copy"><strong>Coagulation</strong><small>Alum, PAC and ferric chloride</small></span><i class="fa-solid fa-chevron-right ai-q-arrow"></i></button>
+        <button type="button" class="ai-question-card" onclick="selectAiPreset('avt')"><span class="ai-q-icon"><i class="fa-solid fa-temperature-high"></i></span><span class="ai-q-copy"><strong>AVT(O), AVT(R) &amp; OT</strong><small>Steam-water chemistry</small></span><i class="fa-solid fa-chevron-right ai-q-arrow"></i></button>
+        <button type="button" class="ai-question-card" onclick="selectAiPreset('ph')"><span class="ai-q-icon"><i class="fa-solid fa-gauge-high"></i></span><span class="ai-q-copy"><strong>pH and alkalinity</strong><small>Equilibrium and control</small></span><i class="fa-solid fa-chevron-right ai-q-arrow"></i></button>
+        <button type="button" class="ai-question-card" onclick="selectAiPreset('dose-factors')"><span class="ai-q-icon"><i class="fa-solid fa-sliders"></i></span><span class="ai-q-copy"><strong>Dose calculation</strong><small>Flow, strength and demand</small></span><i class="fa-solid fa-chevron-right ai-q-arrow"></i></button>
+      </div>
+    </section>
 
-  
-  <!-- ============ DOSING IN DM PLANT ============ -->
-  <div id="view-dm" class="view-panel hidden">
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
+      <section class="xl:col-span-7 bg-slate-900 border border-slate-800 rounded-xl p-5 md:p-6 space-y-4">
+        <div class="flex items-start gap-3 border-b border-slate-800 pb-3">
+          <div class="w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 grid place-items-center text-2xl"><i class="fa-solid fa-robot"></i></div>
+          <div class="min-w-0 flex-1">
+            <h2 id="ai-expert-title" class="text-xl font-bold text-sky-300">AI Technical Assistant</h2>
+            <p id="ai-expert-desc" class="text-sm text-slate-400">Get explanations on water treatment, plant operation, parameters, chemistry and troubleshooting.</p>
+            <span id="ai-active-standard-tag" class="inline-block mt-2 text-xs text-sky-400 font-semibold">Active Standard: IAPWS TGD3-10 (2015)</span>
+          </div>
+        </div>
+        <div class="ai-input-label"><i class="fa-solid fa-comments"></i><span>Ask a technical question</span><small>Preset answers work offline; live AI requires an available API key.</small></div>
+        <textarea id="ai-query-input" rows="5" maxlength="2000" placeholder="Ask about water chemistry, dosing, DM regeneration, UF/RO, cooling water or steam-water chemistry..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-4 text-sm text-slate-200 focus:outline-none focus:border-sky-500"></textarea>
+        <div class="flex flex-wrap justify-between items-center gap-2">
+          <span class="text-xs text-slate-400">Up to 2,000 characters</span>
+          <button onclick="askStandardizedAi()" id="btn-ai-submit" class="px-5 py-2.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-sm rounded-lg shadow-lg flex items-center gap-2"><i class="fa-solid fa-paper-plane"></i> Ask AI</button>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button type="button" class="cw-chip" onclick="clearAiQuestion()"><i class="fa-solid fa-rotate-left mr-1"></i> Clear</button>
+          <button type="button" class="cw-chip" onclick="showAiExamples()"><i class="fa-regular fa-lightbulb mr-1"></i> Example questions</button>
+          <button type="button" class="cw-chip" onclick="document.getElementById('ai-quick-topics').scrollIntoView({behavior:'smooth'})"><i class="fa-solid fa-link mr-1"></i> Related topics</button>
+        </div>
+        <div id="ai-conn" class="rounded-lg border border-slate-700 bg-slate-950/50 p-3 space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="text-sm font-semibold text-slate-200"><i class="fa-solid fa-key text-sky-400 mr-1"></i> AI connection</span>
+            <div class="ai-seg" role="radiogroup" aria-label="API key source"><button type="button" role="radio" data-ai-mode="shared" aria-checked="true">Shared key</button><button type="button" role="radio" data-ai-mode="own" aria-checked="false">My own key</button></div>
+            <span id="ai-conn-status" class="ai-status" aria-live="polite"><i class="fa-solid fa-circle-check"></i> <span>Live AI ready</span></span>
+          </div>
+          <p id="ai-shared-note" class="ai-hint">Questions are matched against the built-in knowledge bank first. If no local match is found, the saved shared Gemini key is used automatically.</p>
+          <div id="ai-own-wrap" class="ai-own-wrap" hidden>
+            <div class="ai-key-row"><input type="password" id="ai-key-input" value="" autocomplete="off" spellcheck="false" placeholder="Paste your own Gemini API key" aria-label="Your Gemini API key" class="ai-key-field font-mono"><button type="button" id="ai-key-toggle" class="ai-icon-btn" aria-label="Show key"><i class="fa-solid fa-eye"></i></button><button type="button" id="ai-key-clear" class="ai-icon-btn" aria-label="Clear key"><i class="fa-solid fa-trash-can"></i></button></div>
+            <label class="ai-remember"><input type="checkbox" id="ai-key-remember"> <span>Remember on this device</span></label>
+            <p class="ai-hint">Your key is sent from this browser to the Gemini API. Preset answers remain available offline.</p>
+          </div>
+        </div>
+        <div id="ai-response-box" class="bg-slate-950 border border-slate-800 rounded-lg p-4 text-sm leading-relaxed text-slate-300 space-y-2 min-h-[150px] whitespace-pre-wrap" aria-live="polite">
+          <div class="ai-empty-state"><span class="ai-empty-icon"><i class="fa-solid fa-comment-dots"></i></span><strong>Your answer will appear here</strong><p>Choose a featured question or ask your own technical question.</p></div>
+        </div>
+      </section>
+      <aside class="xl:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3" aria-label="Featured question and answer">
+        <div class="flex items-center justify-between gap-2">
+          <h3 class="text-lg font-bold text-sky-300"><i class="fa-regular fa-lightbulb mr-2"></i>Featured Question <span class="text-xs text-slate-400 font-normal">(changes on refresh)</span></h3>
+          <div class="flex gap-1"><button class="cw-chip" type="button" onclick="rotateFeatured(-1)" aria-label="Previous featured question"><i class="fa-solid fa-chevron-left"></i></button><button class="cw-chip" type="button" onclick="rotateFeatured(1)" aria-label="Next featured question"><i class="fa-solid fa-chevron-right"></i></button></div>
+        </div>
+        <div id="ai-featured-question" class="rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-slate-100 min-h-[86px]"><b>Q:</b> <span>Loading featured question…</span></div>
+        <div id="ai-featured-answer" class="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-slate-200 leading-relaxed min-h-[190px]"><b>A:</b> <span>Loading answer…</span></div>
+        <div class="flex items-center justify-between gap-2">
+          <div id="ai-featured-dots" class="flex gap-2" aria-label="Featured question position"></div>
+          <button type="button" class="cw-chip" onclick="loadFeaturedIntoAssistant()"><i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Ask about this</button>
+        </div>
+      </aside>
+    </div>
+
+
+
+
+  </main>
+</div>
+
+<div id="view-dm" class="view-panel hidden">
     <style>
       @keyframes dmFlow { to { stroke-dashoffset:-22; } }
       @keyframes dmBubble { 0%{transform:translateY(12px);opacity:.15} 50%{opacity:1} 100%{transform:translateY(-12px);opacity:.15} }
@@ -1467,9 +1490,9 @@ html.light .dm-anim-track { box-shadow: inset 0 1px 0 #fff; }
     <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
         <div class="flex items-center space-x-3">
-          <div class="p-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-400"><i class="fa-solid fa-droplet text-2xl"></i></div>
+          <div class="p-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-400"><i class="fa-solid fa-flask-vial text-2xl"></i></div>
           <div>
-            <h1 class="text-xl font-bold text-slate-100">Dosing in Demineralisation (DM) Plant</h1>
+            <h1 class="text-xl font-bold text-slate-100"><i class="fa-solid fa-calculator text-emerald-400 mr-2"></i>Dosing in Demineralisation (DM) Plant</h1>
             <p class="text-xs text-slate-400">UF pretreatment and cleaning · RO membrane protection · ion-exchange regeneration</p>
           </div>
         </div>
@@ -2910,7 +2933,7 @@ card('What is cooling water treatment?','fa-droplet',p('<b>CWT</b> is the chemic
 +card('Four problems, four treatment jobs','fa-list-check',tbl(['Problem','Control strategy'],[['Uncontrolled pH / alkalinity','Sulphuric acid dosing'],['Metal corrosion','Corrosion inhibitor / protective film'],['Scale and deposits','Scale inhibitor + dispersant, with pH and COC control'],['Microbial growth / biofilm','ClO₂ biocide programme']])),
 '')
 +g2(card('Cycles of concentration (COC)','fa-arrows-up-down',p('COC compares circulating water with make-up water for a conservative dissolved constituent (one that does not precipitate or get added by treatment).')+`<label class="text-xs font-semibold text-slate-400 block">Illustrative COC: <span id="cw-cocv" class="text-sky-300">5.0</span></label><input id="cw-coc" type="range" min="1.5" max="7" step="0.1" value="5" class="w-full accent-sky-400"><div class="text-2xl font-bold text-slate-100 font-semibold" id="cw-cocm">≈ 5.0× concentration</div><div class="h-3 rounded-full bg-slate-800 overflow-hidden"><div id="cw-cocb" class="h-full bg-sky-500" style="width:70%"></div></div><div id="cw-cocw" class="text-xs text-slate-300"></div>`+mu('Real chemistry also depends on precipitation, treatment additions, blowdown and drift.'))
-,card('Where the chemicals act','fa-diagram-project',flow(['Make-up + circulating water','<b>H₂SO₄</b><br>pH / alkalinity','<b>Corrosion inhibitor</b><br>metal protection','<b>Scale inhibitor / dispersant</b><br>deposit control','<b>ClO₂</b><br>microbial control'])+mu('Schematic only. Chemicals are dosed in the CW Forebay 20–30 meters upstream of the CW inlet strainer per the approved plant process scheme and vendor programme.')))
+,card('Where the chemicals act','fa-diagram-project',flow(['Make-up + circulating water','<b>H₂SO₄</b><br>pH / alkalinity','<b>Corrosion inhibitor</b><br>metal protection','<b>Scale inhibitor / dispersant</b><br>deposit control','<b>ClO₂</b><br>microbial control'])+mu('Schematic only. Chemicals are dosed in the CW Forebay 20–30 meters upstream of the CW inlet strainer per the approved plant process scheme and approved chemical-treatment programme.')))
 +card('Basics of CWT dosing','fa-syringe',`<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">`+[['Dose = ppm × flow','ppm is g/m³, so kg/h = flow (m³/h) × ppm ÷ 1000. Then convert to L/h with product strength and specific gravity.'],['Each chemical has its own flow basis','Acid: make-up flow and alkalinity. Inhibitor and dispersant: blowdown flow. ClO₂: recirculation flow.'],['Duty + standby pumps','Metering pumps are 1 working + 1 standby, each feeding from a day tank sized for about 24 h.'],['Control and verify','pH/alkalinity, conductivity, coupons, online corrosion rate, deposit and biofouling monitors confirm the dose is working.']].map(a=>`<div class="p-3 rounded-lg border border-slate-700 bg-slate-800/50"><div class="text-sm font-bold text-sky-300 mb-1">${a[0]}</div><div class="text-xs text-slate-300">${a[1]}</div></div>`).join('')+'</div>');
 
 // TAB 2: CHEMICALS — Unified view with chemical selector, animation, Why it is dosed, Parameters affected, Chemical Reactions, and Under/Over Dosing + Monitoring
@@ -2949,11 +2972,11 @@ P.chem =
   );
 
 const CALCS=[
-{id:'pump',t:'Inhibitor / dispersant pump and day tank',ic:'fa-syringe',pre:[['Corrosion inhibitor',{B:552,d:2,c:30,sg:1.06,r:24}],['Poly dispersant + scale inhibitor',{B:552,d:8,c:30,sg:1.06,r:24}]],f:[['B','Blowdown flow (m³/h)'],['d','Dose (ppm)'],['c','Product strength (%)'],['sg','Specific gravity'],['r','Tank retention (h)']],fn:v=>{const kh=v.B*v.d/1000,l=kh/(v.c/100)/v.sg;return[['Chemical, 100 % basis',kh*24,'kg/day'],['Pump capacity required',l,'L/h'],['Day-tank volume',l*v.r,'L']]},ref:'Standard sizing: kg/h = Blowdown (m³/h) × Dose (ppm) ÷ 1000; L/h = kg/h ÷ (Strength % / 100) ÷ Specific Gravity.'},
-{id:'acid',t:'Sulphuric acid dosing from make-up alkalinity',ic:'fa-vial',f:[['M','Make-up flow (m³/h)'],['a','Make-up alkalinity (mg/L as CaCO₃)'],['tg','Target tower alkalinity (mg/L as CaCO₃)'],['coc','Cycles of concentration'],['k','Acid per ppm alkalinity (ppm)'],['c','Acid strength (%)'],['sg','Specific gravity']],def:{M:3150,a:126,tg:108,coc:5,k:1,c:98,sg:1.8},fn:v=>{const rd=Math.round(v.a-v.tg/v.coc),d=rd*v.k,kd=v.M*d*24/1000;return[['Alkalinity at COC, untreated',v.a*v.coc,'mg/L'],['Alkalinity to remove from make-up (rounded)',rd,'mg/L'],['Acid dose',d,'ppm'],['Acid quantity',kd,'kg/day'],['Pump capacity required',kd/24/(v.c/100)/v.sg,'L/h']]},ref:'Acid demand is proportional to make-up flow and the alkalinity difference required to hold target circulating water M-alkalinity at the operating COC.'},
-{id:'clo2',t:'ClO₂ generator capacity',ic:'fa-biohazard',f:[['R','Recirculation (m³/h)'],['d','Dose (ppm)'],['h','Hours per day'],['g','Generator provided (kg/h)']],def:{R:144000,d:1,h:24,g:150},fn:v=>{const kh=v.R*v.d/1000;return[['Capacity required',kh,'kg/h'],['Daily quantity',kh*v.h,'kg/day'],['Generator margin',(v.g/kh-1)*100,'%']]},ref:'Biocide generator capacity is sized from recirculation flow and shock/continuous dose requirement.'},
-{id:'wb',t:'Water balance and blowdown',ic:'fa-water',f:[['Q','Circulation (m³/h)'],['e','Evaporation (% of flow)'],['dr','Drift (% of flow)'],['coc','Cycles of concentration']],def:{Q:144000,e:1.7,dr:0.05,coc:5},fn:v=>{const E=v.Q*v.e/100,D=v.Q*v.dr/100,B=E/(v.coc-1)-D;return[['Evaporation',E,'m³/h'],['Drift',D,'m³/h'],['Blowdown = E/(COC−1) − D',B,'m³/h'],['Make-up = E + D + B',E+D+B,'m³/h']]},ref:'Water balance relates recirculation rate, evaporation, drift, blowdown and make-up across the selected COC.'}];
-P.calc=`<div class="grid grid-cols-1 xl:grid-cols-2 gap-6">`+CALCS.map(c=>card(c.t,c.ic,(c.pre?`<div class="flex flex-wrap gap-2">`+c.pre.map((x,i)=>`<button class="cw-chip" data-c="${c.id}" data-i="${i}">${x[0]}</button>`).join('')+'</div>':'')+`<div class="grid grid-cols-2 gap-3">`+c.f.map(x=>`<label class="text-[11px] text-slate-400">${x[1]}<input type="number" step="any" class="cw-in" data-c="${c.id}" data-k="${x[0]}"></label>`).join('')+`</div><div id="cwo-${c.id}" class="space-y-1"></div>`+mu(c.ref))).join('')+`</div>`+WARN+'Learning calculators that reproduce standard CWT sizing formulas. Actual doses follow the approved vendor programme and plant limits.</div>';
+{id:'pump',t:'Inhibitor / dispersant pump and day tank',ic:'fa-syringe',pre:[['Corrosion inhibitor',{B:552,d:2,c:30,sg:1.06,r:24}],['Poly dispersant + scale inhibitor',{B:552,d:8,c:30,sg:1.06,r:24}]],f:[['B','Blowdown flow (m³/h)'],['d','Dose (ppm)'],['c','Product strength (%)'],['sg','Specific gravity'],['r','Tank retention (h)']],fn:v=>{const kh=v.B*v.d/1000,l=kh/(v.c/100)/v.sg;return[['Chemical, 100 % basis',kh*24,'kg/day'],['Pump capacity required',l,'L/h'],['Day-tank volume',l*v.r,'L']]}},
+{id:'acid',t:'Sulphuric acid dosing from make-up alkalinity',ic:'fa-vial',f:[['M','Make-up flow (m³/h)'],['a','Make-up alkalinity (mg/L as CaCO₃)'],['tg','Target tower alkalinity (mg/L as CaCO₃)'],['coc','Cycles of concentration'],['k','Acid per ppm alkalinity (ppm)'],['c','Acid strength (%)'],['sg','Specific gravity']],def:{M:3150,a:126,tg:108,coc:5,k:1,c:98,sg:1.8},fn:v=>{const rd=Math.round(v.a-v.tg/v.coc),d=rd*v.k,kd=v.M*d*24/1000;return[['Alkalinity at COC, untreated',v.a*v.coc,'mg/L'],['Alkalinity to remove from make-up (rounded)',rd,'mg/L'],['Acid dose',d,'ppm'],['Acid quantity',kd,'kg/day'],['Pump capacity required',kd/24/(v.c/100)/v.sg,'L/h']]}},
+{id:'clo2',t:'ClO₂ generator capacity',ic:'fa-biohazard',f:[['R','Recirculation (m³/h)'],['d','Dose (ppm)'],['h','Hours per day'],['g','Generator provided (kg/h)']],def:{R:144000,d:1,h:24,g:150},fn:v=>{const kh=v.R*v.d/1000;return[['Capacity required',kh,'kg/h'],['Daily quantity',kh*v.h,'kg/day'],['Generator margin',(v.g/kh-1)*100,'%']]}},
+{id:'wb',t:'Water balance and blowdown',ic:'fa-water',f:[['Q','Circulation (m³/h)'],['e','Evaporation (% of flow)'],['dr','Drift (% of flow)'],['coc','Cycles of concentration']],def:{Q:144000,e:1.7,dr:0.05,coc:5},fn:v=>{const E=v.Q*v.e/100,D=v.Q*v.dr/100,B=E/(v.coc-1)-D;return[['Evaporation',E,'m³/h'],['Drift',D,'m³/h'],['Blowdown = E/(COC−1) − D',B,'m³/h'],['Make-up = E + D + B',E+D+B,'m³/h']]}}];
+P.calc=`<div class="grid grid-cols-1 xl:grid-cols-2 gap-6">`+CALCS.map(c=>card(c.t,c.ic,(c.pre?`<div class="flex flex-wrap gap-2">`+c.pre.map((x,i)=>`<button class="cw-chip" data-c="${c.id}" data-i="${i}">${x[0]}</button>`).join('')+'</div>':'')+`<div class="grid grid-cols-2 gap-3">`+c.f.map(x=>`<label class="text-[11px] text-slate-400">${x[1]}<input type="number" step="any" class="cw-in" data-c="${c.id}" data-k="${x[0]}"></label>`).join('')+`</div><div id="cwo-${c.id}" class="space-y-1"></div>`+mu(c.ref))).join('')+`</div>`+WARN+'Learning calculators that reproduce standard CWT sizing formulas. Actual doses follow the approved plant programme and operating limits.</div>';
 
 // TAB 4 (formerly 6): DESIGN BASIS — Interactive Make-Up Water Input & Supercritical Recommended COC/Chemical Parameters
 P.design=
@@ -3035,7 +3058,7 @@ const QS=[['Which chemical does the design use for pH control?',['ClO₂','98 % 
 P.quiz=card('Knowledge check','fa-circle-question','<div class="text-xs text-slate-400">Score: <b id="cw-qs" class="text-sky-300">0</b> / <b id="cw-qt">0</b></div><div id="cw-qb"></div><div class="flex gap-2"><button class="cw-chip" id="cw-qn">Next question</button><button class="cw-chip" id="cw-qr">Restart</button></div>');
 
 $('cw-root').innerHTML=TABS.map((t,i)=>`<section id="cwp-${t[0]}" class="space-y-6${i?' hidden':''}">${P[t[0]]}</section>`).join('')
-+`<div class="mt-6 text-[11px] text-slate-500">Learning note: content explains CWT principles and supercritical cooling water chemistry guidelines. Verify against the approved plant process scheme, latest vendor programme, SDS and site procedures.</div>`;
++`<div class="mt-6 text-[11px] text-slate-500">Learning note: content explains CWT principles and supercritical cooling water chemistry guidelines. Verify against the approved plant process scheme, latest approved chemical-treatment programme, SDS and site procedures.</div>`;
 
 // COC
 const cocU=()=>{const v=+$('cw-coc').value;$('cw-cocv').textContent=v.toFixed(1);$('cw-cocm').textContent='≈ '+v.toFixed(1)+'× concentration';$('cw-cocb').style.width=(v/7*100)+'%';$('cw-cocw').textContent=`At ${v.toFixed(1)} COC a conservative constituent is about ${v.toFixed(1)} times its make-up level, and blowdown is roughly 1/${(v-1).toFixed(1)} of evaporation.`};$('cw-coc').oninput=cocU;cocU();
@@ -4315,11 +4338,72 @@ body.nav-collapsed #side-menu .nav-item:hover .nav-tip{opacity:1;transform:trans
     }
   };
 
+
+  // Featured question rotates sequentially on every page refresh; arrows let the learner browse.
+  let aiFeaturedIndex = 0;
+  const aiFeaturedIds = Object.keys(answerBank);
+  window.rotateFeatured = function(step){
+    if(!aiFeaturedIds.length) return;
+    aiFeaturedIndex = (aiFeaturedIndex + step + aiFeaturedIds.length) % aiFeaturedIds.length;
+    paintFeaturedQuestion();
+  };
+  function paintFeaturedQuestion(){
+    const id = aiFeaturedIds[aiFeaturedIndex], item = answerBank[id];
+    const q = document.querySelector('#ai-featured-question span');
+    const a = document.querySelector('#ai-featured-answer span');
+    if(q) q.textContent = item.q;
+    if(a) a.textContent = item.a;
+    const dots = $('ai-featured-dots');
+    if(dots){
+      dots.innerHTML = '';
+      const count = Math.min(6, aiFeaturedIds.length);
+      for(let n=0;n<count;n++){
+        const idx = (aiFeaturedIndex - (aiFeaturedIndex % count) + n) % aiFeaturedIds.length;
+        const b = document.createElement('button'); b.type='button'; b.className = idx===aiFeaturedIndex ? 'active' : '';
+        b.setAttribute('aria-label','Show featured question ' + (n+1));
+        b.addEventListener('click',()=>{aiFeaturedIndex=idx;paintFeaturedQuestion();});
+        dots.appendChild(b);
+      }
+    }
+  }
+  window.loadFeaturedIntoAssistant = function(){
+    const item = answerBank[aiFeaturedIds[aiFeaturedIndex]];
+    if(!item) return;
+    const q=$('ai-query-input'); if(q){q.value=item.q;q.focus();}
+    renderAnswer(item.q,item.a,'');
+    document.querySelector('#ai-response-box')?.scrollIntoView({behavior:'smooth',block:'nearest'});
+  };
+  window.useAiTopSearch = function(){
+    const s=$('ai-top-search'), q=$('ai-query-input');
+    if(!s||!q||!s.value.trim()) return;
+    q.value=s.value.trim(); window.askStandardizedAi();
+  };
+  window.clearAiQuestion = function(){
+    const q=$('ai-query-input'); if(q) q.value='';
+    const box=$('ai-response-box');
+    if(box){box.innerHTML='<div class="ai-empty-state"><span class="ai-empty-icon"><i class="fa-solid fa-comment-dots"></i></span><strong>Your answer will appear here</strong><p>Choose a featured question or ask your own technical question.</p></div>';box.classList.remove('ai-answer-ready');}
+    document.querySelectorAll('.ai-question-card').forEach(b=>b.classList.remove('selected'));
+  };
+  window.showAiExamples = function(){
+    const first=answerBank[aiFeaturedIds[aiFeaturedIndex]];
+    if(first){const q=$('ai-query-input');if(q){q.value=first.q;q.focus();}}
+    $('ai-quick-topics')?.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+  window.addEventListener('DOMContentLoaded',function(){
+    try{
+      const previous=parseInt(sessionStorage.getItem('ai-featured-index')||'-1',10);
+      aiFeaturedIndex=(Number.isFinite(previous)?previous+1:Math.floor(Math.random()*aiFeaturedIds.length))%aiFeaturedIds.length;
+      sessionStorage.setItem('ai-featured-index',String(aiFeaturedIndex));
+    }catch(e){aiFeaturedIndex=Math.floor(Math.random()*aiFeaturedIds.length);}
+    paintFeaturedQuestion();
+    const top=$('ai-top-search'); if(top) top.addEventListener('keydown',e=>{if(e.key==='Enter')window.useAiTopSearch();});
+  });
+
   const standardInfo = {
     iapws: {title:'AI Expert — IAPWS TGD3-10 Standard Mode', desc:'Answers focus on AVT, OT, feedwater/steam chemistry, conductivity and supercritical-unit safeguards.', tag:'IAPWS TGD3-10 (2015)'},
-    asme: {title:'AI Expert — DM Plant / Regeneration Mode', desc:'Answers focus on UF/RO pretreatment, ion exchange, regeneration and demineralized-water quality.', tag:'ASME / EPRI Guidelines'},
-    is10500: {title:'AI Expert — PT Plant / Raw Water Mode', desc:'Answers focus on raw-water quality, coagulation, filtration, disinfection and drinking-water concepts.', tag:'IS 10500 / WHO Water Quality'},
-    epri: {title:'AI Expert — Cooling-Water Treatment Mode', desc:'Answers focus on cooling-water chemistry, biological control, scaling, corrosion and monitoring.', tag:'EPRI / Cooling-Water Guidance'}
+    asme: {title:'AI Expert — DM Plant / Regeneration Mode', desc:'Answers focus on UF/RO pretreatment, ion exchange, regeneration and demineralized-water quality.', tag:'DM plant chemistry'},
+    is10500: {title:'AI Expert — PT Plant / Raw Water Mode', desc:'Answers focus on raw-water quality, coagulation, filtration, disinfection and drinking-water concepts.', tag:'Raw-water treatment'},
+    epri: {title:'AI Expert — Cooling-Water Treatment Mode', desc:'Answers focus on cooling-water chemistry, biological control, scaling, corrosion and monitoring.', tag:'Cooling-water chemistry'}
   };
 
   function renderAnswer(title, body, sourceLabel){
@@ -4349,12 +4433,16 @@ body.nav-collapsed #side-menu .nav-item:hover .nav-tip{opacity:1;transform:trans
     return null;
   }
 
+  // Share the local knowledge matcher with the AI request controller so local answers are checked first.
+  window.__swChooseLocalAnswer = chooseLocalAnswer;
+  window.__swRenderLocalAnswer = renderAnswer;
+
   window.selectAiPreset = function(id){
     const item = answerBank[id];
     if (!item) return;
     const q = $('ai-query-input');
     if (q) q.value = item.q;
-    renderAnswer(item.q, item.a, 'Source: built-in plant-chemistry learning guide. Verify dose targets and chemical compatibility against the applicable plant procedure and supplier guidance.');
+    renderAnswer(item.q, item.a, '');
     document.querySelectorAll('.ai-question-card').forEach(btn => btn.classList.toggle('selected', (btn.getAttribute('onclick') || '').includes("'" + id + "'")));
   };
 
@@ -4383,8 +4471,8 @@ body.nav-collapsed #side-menu .nav-item:hover .nav-tip{opacity:1;transform:trans
     if (btn){ btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Thinking…'; }
     if (!apiKey){
       const local = chooseLocalAnswer(input);
-      if (local) renderAnswer(local.q, local.a, 'Source: built-in plant-chemistry learning guide. This local answer does not call an online AI service. Confirm plant-specific targets with approved procedures.');
-      else renderAnswer('No direct offline match found', 'Try one of the suggested questions, or add your own Gemini API key above for a live AI-generated answer. You can also narrow the question to a topic such as UF/RO, antiscalant, hypochlorite safety, coagulation, pH, CWT or AVT/OT. Preset answers work without an API key.', '');
+      if (local) renderAnswer(local.q, local.a, '');
+      else renderAnswer('No direct offline match found', 'Try one of the suggested questions, or add your own Gemini API key above for a live AI-generated answer. You can also narrow the question to a topic such as UF/RO, antiscalant, hypochlorite safety, coagulation, pH, CWT or AVT/OT. Local knowledge is checked first; unmatched questions are sent to the saved shared Gemini key when available.', '');
       if (btn){ btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Query AI Expert'; }
       return;
     }
@@ -4406,7 +4494,7 @@ body.nav-collapsed #side-menu .nav-item:hover .nav-tip{opacity:1;transform:trans
       }
       const answer = (data?.candidates?.[0]?.content?.parts || []).map(p=>p.text || '').filter(Boolean).join('\n').trim();
       if (!answer) throw new Error('Gemini returned no text. Check the key, quota and request availability.');
-      renderAnswer('Gemini answer', answer, 'Generated using the Gemini API. Verify plant-specific operating targets with approved documents.');
+      renderAnswer('Gemini answer', answer, 'Generated using the Gemini API. Verify plant-specific operating targets before making process changes.');
     } catch(err){
       const local = chooseLocalAnswer(input);
       if (local){
@@ -4450,6 +4538,472 @@ html.light #view-dm .dm-process-diagram svg text[fill="#F2B44A"]{fill:#8a5b00!im
 html.light #view-dm .dm-process-diagram svg text[fill="#4ECDB8"]{fill:#087e71!important}
 @media (max-width: 640px){#view-dm .dm-dose-tiptext{font-size:9px}}
 </style>
+
+
+<style id="ux-final-layer">
+/* ===== UX FINAL LAYER: tabs, headers, home, AI panel, mobile ===== */
+html{scroll-padding-top:6.5rem}
+main{padding-bottom:3rem}
+@media(min-width:1280px){main.max-w-7xl{padding-left:2rem;padding-right:2rem}}
+
+/* ---- Page headers: calmer, compact when scrolling ---- */
+header.sticky{transition:padding .25s ease,box-shadow .25s ease,border-radius .25s ease}
+header.sticky h1{transition:font-size .25s ease}
+body.ux-scrolled header.sticky>div:first-child{padding-top:.4rem;padding-bottom:.4rem}
+body.ux-scrolled header.sticky h1{font-size:1.05rem}
+body.ux-scrolled header.sticky h1+p,body.ux-scrolled header.sticky .space-x-3>.p-2:first-child{display:none}
+body.ux-scrolled header.sticky{box-shadow:0 14px 34px -18px rgba(0,0,0,.55)}
+
+/* ---- Tabs: segmented scroller with edge fade ---- */
+header nav[id$="-nav"],header nav.overflow-x-auto{position:relative;gap:.25rem;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding:.15rem .5rem .45rem}
+header nav.overflow-x-auto::-webkit-scrollbar,header nav[id$="-nav"]::-webkit-scrollbar{display:none}
+header nav.ux-fade-r{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 2.5rem),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 2.5rem),transparent)}
+header nav.ux-fade-l{-webkit-mask-image:linear-gradient(90deg,transparent,#000 2.5rem);mask-image:linear-gradient(90deg,transparent,#000 2.5rem)}
+header nav.ux-fade-l.ux-fade-r{-webkit-mask-image:linear-gradient(90deg,transparent,#000 2.5rem,#000 calc(100% - 2.5rem),transparent);mask-image:linear-gradient(90deg,transparent,#000 2.5rem,#000 calc(100% - 2.5rem),transparent)}
+.tab-btn{position:relative;min-height:2.6rem;letter-spacing:0;transition:background-color .2s,color .2s,box-shadow .2s,transform .15s}
+header nav .tab-btn{scroll-snap-align:center;white-space:nowrap}
+.tab-btn:not(.active){color:var(--ink-2)}
+.tab-btn:not(.active):hover{color:var(--ink)}
+html .tab-btn.active{font-weight:750}
+html header nav .tab-btn.active::after{content:"";position:absolute;left:22%;right:22%;bottom:3px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--sky),var(--teal))}
+.tab-btn i{opacity:.85}
+.tab-btn.active i{opacity:1;color:var(--accent)}
+
+/* ---- Cards: consistent rhythm ---- */
+.bg-slate-900.rounded-xl,.bg-slate-900.rounded-2xl{transition:border-color .25s ease,box-shadow .25s ease}
+main h2.text-lg{letter-spacing:-.015em}
+main p.text-xs.text-slate-400{line-height:1.55}
+th{font-weight:700;letter-spacing:.02em}
+.overflow-x-auto{scrollbar-width:thin}
+
+/* ---- Home: module cards ---- */
+#view-home main>.grid>div[onclick]{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:1rem;min-height:15rem;outline-offset:3px}
+#view-home main>.grid>div[onclick]::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--mc,var(--sky));opacity:.85;transition:height .25s ease}
+#view-home main>.grid>div[onclick]::after{content:"";position:absolute;right:-3rem;top:-3rem;width:9rem;height:9rem;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--mc,var(--sky)) 22%,transparent),transparent 70%);opacity:.0;transition:opacity .3s ease;pointer-events:none}
+#view-home main>.grid>div[onclick]:hover::after,#view-home main>.grid>div[onclick]:focus-visible::after{opacity:1}
+#view-home main>.grid>div[onclick]:hover::before{height:5px}
+#view-home main>.grid>div[onclick]:nth-child(1){--mc:var(--indigo)}
+#view-home main>.grid>div[onclick]:nth-child(2){--mc:var(--emerald)}
+#view-home main>.grid>div[onclick]:nth-child(3){--mc:var(--amber)}
+#view-home main>.grid>div[onclick]:nth-child(4){--mc:var(--sky)}
+#view-home main>.grid>div[onclick] .fa-arrow-right{transition:transform .22s ease}
+#view-home main>.grid>div[onclick]:hover .fa-arrow-right,#view-home main>.grid>div[onclick]:focus-visible .fa-arrow-right{transform:translateX(5px)}
+#view-home main>.grid>div[onclick]:focus-visible{border-color:var(--accent)}
+#view-home main>.grid>div[onclick] h3{font-size:1.15rem}
+#view-home .pf-wrap{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--line) 60%,transparent)}
+#view-home .pf-wrap{scrollbar-width:thin}
+#pf-list .pf-item{width:100%;transition:transform .2s ease,border-color .2s,background .2s}
+#pf-list .pf-item:hover{transform:translateX(3px)}
+#pf-detail{min-height:12rem}
+
+/* ---- AI section ---- */
+.ai-conn{border:1px solid color-mix(in srgb,var(--line-2) 70%,transparent);border-radius:16px;padding:.85rem 1rem;background:color-mix(in srgb,var(--inset) 80%,transparent);display:flex;flex-direction:column;gap:.7rem}
+.ai-conn-head{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.ai-conn-title{display:inline-flex;align-items:center;gap:.5rem;font-weight:800;font-size:.82rem;color:var(--ink)}
+.ai-conn-title i{color:var(--amber)}
+.ai-seg{display:inline-flex;padding:3px;border-radius:999px;border:1px solid var(--line-2);background:color-mix(in srgb,var(--panel) 80%,transparent)}
+.ai-seg button{padding:.38rem .95rem;border-radius:999px;font-size:.75rem;font-weight:700;color:var(--ink-2);min-height:2rem;transition:background .2s,color .2s,box-shadow .2s}
+.ai-seg button:hover{color:var(--ink)}
+.ai-seg button[aria-checked="true"]{background:linear-gradient(135deg,var(--sky),var(--teal));color:var(--on-accent);box-shadow:0 6px 16px -8px color-mix(in srgb,var(--accent) 80%,transparent)}
+.ai-status{margin-left:auto;display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:700;padding:.3rem .65rem;border-radius:999px;border:1px solid color-mix(in srgb,var(--emerald) 40%,var(--line));background:color-mix(in srgb,var(--emerald) 10%,transparent);color:var(--emerald)}
+.ai-status.warn{border-color:color-mix(in srgb,var(--amber) 45%,var(--line));background:color-mix(in srgb,var(--amber) 10%,transparent);color:var(--amber)}
+.ai-hint{margin:0;font-size:.72rem;line-height:1.5;color:var(--ink-3)}
+.ai-hint b{color:var(--ink-2)}
+.ai-own-wrap{display:flex;flex-direction:column;gap:.55rem}
+.ai-own-wrap[hidden]{display:none}
+.ai-key-row{display:flex;gap:.5rem;align-items:stretch}
+.ai-key-field{flex:1;min-width:0;padding:.55rem .8rem;font-size:.78rem;background:var(--panel);border:1px solid var(--line-2);color:var(--ink);transition:border-color .2s,box-shadow .2s}
+.ai-key-field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.ai-icon-btn{width:2.5rem;flex:none;display:grid;place-items:center;border-radius:12px;border:1px solid var(--line-2);background:color-mix(in srgb,var(--panel) 80%,transparent);color:var(--ink-2)}
+.ai-icon-btn:hover{color:var(--ink);border-color:var(--accent)}
+.ai-remember{display:inline-flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--ink-2);cursor:pointer;width:max-content}
+.ai-remember input{accent-color:var(--accent);width:1rem;height:1rem}
+#ai-query-input{transition:border-color .2s,box-shadow .2s}
+#ai-query-input:focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}
+#ai-response-box{position:relative;font-size:.86rem!important;line-height:1.7!important;white-space:pre-wrap;overflow-wrap:anywhere}
+.ai-copy{position:absolute;top:.6rem;right:.6rem;display:none;align-items:center;gap:.4rem;padding:.3rem .65rem;border-radius:999px;font-size:.7rem;font-weight:700;border:1px solid var(--line-2);background:color-mix(in srgb,var(--panel) 90%,transparent);color:var(--ink-2)}
+.ai-copy:hover{color:var(--ink);border-color:var(--accent)}
+#ai-response-box.ai-answer-ready .ai-copy{display:inline-flex}
+.ai-kbd{font-size:.68rem;color:var(--ink-3);display:none}
+@media(min-width:640px){.ai-kbd{display:inline}}
+@media(max-width:560px){.ai-status{margin-left:0}.ai-seg{width:100%}.ai-seg button{flex:1}}
+
+/* ---- Back to top ---- */
+#ux-top{position:fixed;right:1.1rem;bottom:1.1rem;z-index:45;width:2.8rem;height:2.8rem;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line-2);background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(12px);color:var(--ink);box-shadow:var(--shadow);opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .25s,transform .25s,border-color .2s}
+body.ux-scrolled #ux-top{opacity:1;transform:none;pointer-events:auto}
+#ux-top:hover{border-color:var(--accent);color:var(--accent)}
+@media(max-width:1023px){#ux-top{bottom:5rem}}
+
+/* ---- Touch + small screens ---- */
+@media(max-width:640px){
+  header.sticky{margin:.4rem .4rem 0;border-radius:18px}
+  header.sticky>div:first-child{padding-right:1rem!important}
+  main.max-w-7xl{padding-left:.85rem;padding-right:.85rem}
+  #view-home main>.grid>div[onclick]{min-height:0}
+}
+.nav-item{min-height:2.9rem}
+@media(prefers-reduced-motion:reduce){#ux-top,.tab-btn,header.sticky{transition:none!important}}
+
+/* ===== AI answer typography ===== */
+#ai-response-box.ai-rich{white-space:normal;padding:1.1rem 1.25rem 1.25rem}
+.ai-doc{font-family:var(--f-body),system-ui,sans-serif;font-size:.97rem;line-height:1.75;color:var(--ink-soft);max-width:75ch;letter-spacing:0;font-variant-numeric:normal}
+.ai-doc>*:first-child{margin-top:0}.ai-doc>*:last-child{margin-bottom:0}
+.ai-doc p{margin:.2rem 0 .95rem}
+.ai-doc strong{color:var(--ink);font-weight:700}
+.ai-doc em{font-style:italic}
+.ai-doc .ai-h{font-family:var(--f-head);font-size:1.12rem;line-height:1.35;font-weight:750;color:var(--ink);margin:1.35rem 0 .55rem;letter-spacing:-.01em}
+.ai-doc>.ai-h:first-child{margin-top:0}
+.ai-doc ul,.ai-doc ol{margin:.25rem 0 1rem;padding-left:1.4rem}
+.ai-doc ul{list-style:none;padding-left:0}
+.ai-doc ul>li{position:relative;padding-left:1.35rem}
+.ai-doc ul>li::before{content:"";position:absolute;left:.3rem;top:.72em;width:.42rem;height:.42rem;border-radius:50%;background:linear-gradient(135deg,var(--sky),var(--teal))}
+.ai-doc ol{list-style:decimal}.ai-doc ol>li::marker{color:var(--accent);font-weight:700}
+.ai-doc li{margin:.42rem 0;padding-left:.2rem}
+.ai-doc ol>li{padding-left:.35rem}
+.ai-doc sub,.ai-doc sup{font-size:.72em;line-height:0;position:relative;vertical-align:baseline}
+.ai-doc sub{bottom:-.28em}.ai-doc sup{top:-.5em}
+.ai-doc code{font-family:var(--f-mono);font-size:.88em;padding:.12em .4em;border-radius:6px;background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--ink)}
+.ai-doc pre{margin:.6rem 0 1rem;padding:.8rem 1rem;border-radius:12px;background:var(--inset);border:1px solid var(--line);overflow-x:auto;font:.85rem/1.6 var(--f-mono);color:var(--ink)}
+.ai-doc .chem-eq{margin:.5rem 0 1.1rem;padding:.8rem 1rem;text-align:center;font-size:1.08rem;line-height:1.9;font-weight:600;color:var(--ink);border-radius:14px;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));background:linear-gradient(135deg,color-mix(in srgb,var(--sky) 11%,transparent),color-mix(in srgb,var(--teal) 7%,transparent));overflow-x:auto;word-spacing:.12em}
+.ai-doc blockquote{margin:.6rem 0 1rem;padding:.55rem 1rem;border-left:3px solid var(--accent);border-radius:0 10px 10px 0;background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.ai-doc hr{border:0;border-top:1px solid var(--line);margin:1.2rem 0}
+.ai-tbl{overflow-x:auto;margin:.6rem 0 1.1rem;border:1px solid var(--line);border-radius:12px}
+.ai-tbl table{border-collapse:collapse;width:100%;font-size:.9rem}
+.ai-tbl th,.ai-tbl td{padding:.55rem .8rem;text-align:left;border-bottom:1px solid var(--line)}
+.ai-tbl th{background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--ink);font-weight:700}
+.ai-tbl tr:last-child td{border-bottom:0}
+.ai-doc .ai-src{margin:1.1rem 0 0;padding-top:.7rem;border-top:1px dashed var(--line);font-size:.75rem;line-height:1.55;color:var(--ink-3)}
+.ai-warn{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin:0 0 1rem;padding:.6rem .85rem;border-radius:12px;font-size:.82rem;line-height:1.5;border:1px solid color-mix(in srgb,var(--amber) 45%,var(--line));background:color-mix(in srgb,var(--amber) 10%,transparent);color:var(--ink)}
+.ai-warn i{color:var(--amber)}
+.ai-warn-btn{margin-left:auto;padding:.3rem .8rem;border-radius:999px;font-size:.75rem;font-weight:700;background:linear-gradient(135deg,var(--sky),var(--teal));color:var(--on-accent)}
+.ai-caret{display:inline-block;width:.5em;height:1.05em;margin-left:.15em;vertical-align:-.15em;border-radius:2px;background:var(--accent);animation:aicaret 1s steps(2) infinite}
+@keyframes aicaret{50%{opacity:0}}
+.ai-skel{display:flex;flex-direction:column;gap:.65rem;margin:.2rem 0 .6rem}
+.ai-skel i{display:block;height:.8rem;border-radius:8px;background:linear-gradient(90deg,color-mix(in srgb,var(--line) 70%,transparent) 25%,color-mix(in srgb,var(--accent) 22%,transparent) 50%,color-mix(in srgb,var(--line) 70%,transparent) 75%);background-size:200% 100%;animation:aishim 1.3s linear infinite}
+.ai-skel i:nth-child(1){width:92%}.ai-skel i:nth-child(2){width:78%}.ai-skel i:nth-child(3){width:55%}
+@keyframes aishim{to{background-position:-200% 0}}
+.ai-wait .ai-src{border-top:0;margin-top:.2rem;padding-top:0}
+.ai-toolbar{flex-wrap:wrap;gap:.6rem}
+.ai-seg-sm button{padding:.28rem .75rem;font-size:.72rem;min-height:1.8rem}
+@media(prefers-reduced-motion:reduce){.ai-caret,.ai-skel i{animation:none!important}}
+@media(max-width:560px){.ai-doc{font-size:.94rem}#ai-response-box.ai-rich{padding:.9rem 1rem}}
+
+</style>
+<script id="ux-final-layer-js">
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+var SHARED_KEY='AQ.Ab8RN6K0temhjVqZvKAMT72_lw3jnHm7Xm6A0CyoaAkzKphLPw';
+var MODE_K='sw-ai-mode',KEY_K='sw-ai-own-key';
+function ls(op,k,v){try{return op==='g'?localStorage.getItem(k):op==='s'?localStorage.setItem(k,v):localStorage.removeItem(k)}catch(e){return null}}
+
+/* ---------- Scroll state + back-to-top ---------- */
+var top=document.createElement('button');top.id='ux-top';top.type='button';top.setAttribute('aria-label','Back to top');top.innerHTML='<i class="fa-solid fa-arrow-up" aria-hidden="true"></i>';
+top.onclick=function(){window.scrollTo({top:0,behavior:'smooth'})};document.body.appendChild(top);
+var tick=false;function onScroll(){if(tick)return;tick=true;requestAnimationFrame(function(){document.body.classList.toggle('ux-scrolled',window.scrollY>60);tick=false})}
+window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* ---------- Tabs: ARIA, keyboard, edge fades, keep active in view ---------- */
+function tabsOf(nav){return Array.prototype.slice.call(nav.querySelectorAll('.tab-btn'))}
+function fades(nav){var l=nav.scrollLeft>4,r=nav.scrollLeft+nav.clientWidth<nav.scrollWidth-4;nav.classList.toggle('ux-fade-l',l);nav.classList.toggle('ux-fade-r',r)}
+function sync(nav){tabsOf(nav).forEach(function(b){var on=b.classList.contains('active');b.setAttribute('role','tab');b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;
+ if(on&&nav.offsetParent){var nb=nav.getBoundingClientRect(),bb=b.getBoundingClientRect();if(bb.left<nb.left+30||bb.right>nb.right-30){nav.scrollTo({left:nav.scrollLeft+(bb.left-nb.left)-(nb.width-bb.width)/2,behavior:'smooth'})}}});fades(nav)}
+function wire(nav){if(nav.__ux)return;nav.__ux=1;nav.setAttribute('role','tablist');
+ nav.addEventListener('scroll',function(){fades(nav)},{passive:true});
+ nav.addEventListener('keydown',function(e){var k=e.key;if(['ArrowRight','ArrowLeft','Home','End'].indexOf(k)<0)return;var t=tabsOf(nav),i=t.indexOf(document.activeElement);if(i<0)return;e.preventDefault();
+  var n=k==='Home'?0:k==='End'?t.length-1:(i+(k==='ArrowRight'?1:-1)+t.length)%t.length;t[n].focus();t[n].click()});
+ new MutationObserver(function(){sync(nav)}).observe(nav,{subtree:true,attributes:true,attributeFilter:['class'],childList:true});
+ sync(nav)}
+function wireAll(){document.querySelectorAll('header nav.overflow-x-auto, header nav[id$="-nav"]').forEach(wire)}
+wireAll();window.addEventListener('resize',function(){document.querySelectorAll('header nav').forEach(function(n){if(n.__ux)fades(n)})});
+setTimeout(wireAll,400);
+/* re-sync when a page is opened (tabs inside hidden views have no layout until shown) */
+var sv=window.showView;if(typeof sv==='function'){window.showView=function(id){var r=sv.apply(this,arguments);setTimeout(function(){document.querySelectorAll('header nav').forEach(function(n){if(n.__ux)sync(n)})},120);return r}}
+
+/* ---------- Home cards: keyboard accessible ---------- */
+document.querySelectorAll('#view-home main>.grid>div[onclick]').forEach(function(c){c.setAttribute('role','link');c.tabIndex=0;
+ var h=c.querySelector('h3');if(h)c.setAttribute('aria-label',h.textContent.trim());
+ c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();c.click()}})});
+
+/* ---------- AI: key source (shared / own) ---------- */
+var mode=ls('g',MODE_K)==='own'?'own':'shared';
+var keyEl=$('ai-key-input'),rem=$('ai-key-remember'),own=$('ai-own-wrap'),note=$('ai-shared-note'),stat=$('ai-conn-status');
+if(keyEl){
+ var saved=ls('g',KEY_K);if(saved){keyEl.value=saved;if(rem)rem.checked=true}
+ function status(){var ok=mode==='shared'||keyEl.value.trim().length>0;stat.classList.toggle('warn',!ok);
+  stat.querySelector('i').className='fa-solid '+(ok?'fa-circle-check':'fa-triangle-exclamation');
+  stat.querySelector('span').textContent=mode==='shared'?'Live AI ready (shared key)':ok?'Live AI ready (your key)':'Add a key for live AI \u2014 offline answers still work'}
+ function setMode(m){mode=m;ls('s',MODE_K,m);document.querySelectorAll('[data-ai-mode]').forEach(function(b){b.setAttribute('aria-checked',b.dataset.aiMode===m?'true':'false')});
+  own.hidden=m!=='own';note.hidden=m==='own';status();if(m==='own'&&!keyEl.value)keyEl.focus()}
+ document.querySelectorAll('[data-ai-mode]').forEach(function(b){b.addEventListener('click',function(){setMode(b.dataset.aiMode)})});
+ $('ai-key-toggle').addEventListener('click',function(){var show=keyEl.type==='password';keyEl.type=show?'text':'password';this.setAttribute('aria-label',show?'Hide key':'Show key');this.querySelector('i').className='fa-solid '+(show?'fa-eye-slash':'fa-eye')});
+ $('ai-key-clear').addEventListener('click',function(){keyEl.value='';ls('r',KEY_K);status();keyEl.focus()});
+ function persist(){if(rem&&rem.checked&&keyEl.value.trim())ls('s',KEY_K,keyEl.value.trim());else ls('r',KEY_K)}
+ keyEl.addEventListener('input',function(){persist();status()});if(rem)rem.addEventListener('change',persist);
+ setMode(mode);
+
+ window.__swKey=function(){
+  // Shared keys may be supplied by deployment config or saved locally by the app.
+  // Never hard-code a private API key into the HTML file.
+  var configured = window.__SW_SHARED_GEMINI_API_KEY || window.SHARED_GEMINI_API_KEY || window.SHARED_KEY || '';
+  var sharedSaved = ls('g','sw-ai-shared-key') || ls('g','sw-ai-shared-api-key') || '';
+  var ownSaved = ls('g',KEY_K) || '';
+  if(mode==='own') return (keyEl.value||'').trim() || ownSaved.trim();
+  return String(configured || sharedSaved || ownSaved || (keyEl ? keyEl.value : '') || '').trim();
+};
+}
+
+/* ---------- AI: copy button + shortcut hint ---------- */
+var box=$('ai-response-box');
+if(box){var cp=document.createElement('button');cp.type='button';cp.className='ai-copy';cp.contentEditable='false';cp.innerHTML='<i class="fa-regular fa-copy" aria-hidden="true"></i> Copy';
+ cp.addEventListener('click',function(){var t=box.innerText.replace(/\s*Copy\s*$/,'').trim();
+  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){cp.innerHTML='<i class="fa-solid fa-check" aria-hidden="true"></i> Copied'},function(){cp.innerHTML='Press Ctrl+C'});
+  setTimeout(function(){cp.innerHTML='<i class="fa-regular fa-copy" aria-hidden="true"></i> Copy'},1600)});
+ /* the page rewrites the box with textContent; re-attach the button after each render */
+ new MutationObserver(function(){if(!box.contains(cp))box.appendChild(cp)}).observe(box,{childList:true});box.appendChild(cp)}
+var sb=$('btn-ai-submit');if(sb&&sb.parentNode&&!document.querySelector('.ai-kbd')){var k=document.createElement('span');k.className='ai-kbd';k.textContent='Ctrl + Enter to send';sb.parentNode.insertBefore(k,sb)}
+})();
+
+</script>
+<script id="ux-ai-v2">
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+function ls(op,k,v){try{return op==='g'?localStorage.getItem(k):op==='s'?localStorage.setItem(k,v):localStorage.removeItem(k)}catch(e){return null}}
+var box=$('ai-response-box'),qEl=$('ai-query-input'),btn=$('btn-ai-submit'),keyEl=$('ai-key-input');
+if(!box||!qEl)return;
+var orig=window.askStandardizedAi;
+
+/* =================== Formatter: Markdown + chemistry =================== */
+var EL=new Set('H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pb Bi Th U Pt Au Hg Tl'.split(' '));
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function subDigits(f){return f.replace(/\d+/g,'<sub>$&</sub>')}
+function parseFormula(t){var i=0,n=t.length,out='',dig=false,depth=0,m;
+ while(i<n){var c=t[i];
+  if(c==='('){depth++;out+='(';i++;continue}
+  if(c===')'){if(!depth)return null;depth--;out+=')';i++;m=/^\d+/.exec(t.slice(i));if(m){out+='<sub>'+m[0]+'</sub>';dig=true;i+=m[0].length}continue}
+  if(c>='A'&&c<='Z'){var two=t.substr(i,2),sym;if(/^[A-Z][a-z]$/.test(two)&&EL.has(two))sym=two;else if(EL.has(c))sym=c;else return null;
+   out+=sym;i+=sym.length;m=/^\d+/.exec(t.slice(i));if(m){out+='<sub>'+m[0]+'</sub>';dig=true;i+=m[0].length}continue}
+  return null}
+ return(depth||!dig)?null:out}
+var SYM=[[/<=>|\\rightleftharpoons|\\leftrightharpoons/g,'\u21CC'],[/<->|\\leftrightarrow|\\Leftrightarrow/g,'\u2194'],
+ [/-->|->|\\longrightarrow|\\rightarrow|\\Rightarrow|\\to(?![a-zA-Z])/g,'\u2192'],[/\\uparrow/g,'\u2191'],[/\\downarrow/g,'\u2193'],
+ [/\\times/g,'\u00D7'],[/\\cdot/g,'\u00B7'],[/\\Delta/g,'\u0394'],[/\\approx/g,'\u2248'],[/\\leq?(?![a-zA-Z])/g,'\u2264'],[/\\geq?(?![a-zA-Z])/g,'\u2265'],
+ [/\\mu(?![a-zA-Z])/g,'\u00B5'],[/\\pm/g,'\u00B1'],[/\^\{?\\circ\}?|\\degree\s*/g,'\u00B0'],[/\\%/g,'%'],[/\\(?:quad|qquad|,|;|!)/g,' '],
+ [/\\(?:text|mathrm|mathbf|mathit|textbf|ce)\{((?:[^{}]|\{[^{}]*\})*)\}/g,'$1']];
+function sup(a){return '<sup>'+a.replace(/-/g,'\u2212')+'</sup>'}
+function chemIons(s){
+ s=s.replace(/(?<![A-Za-z])(Ca|Mg|Fe|Cu|Zn|Mn|Ba|Sr|Pb|Al|Ni|Co|Cr)(\d)\+(?![A-Za-z0-9])/g,function(_,e,d){return e+sup(d+'+')});
+ s=s.replace(/(?<![A-Za-z])(SO4|CO3|SiO3|HPO4|PO4|CrO4|Cr2O7|MnO4|S|O)(\d)-(?![A-Za-z0-9])/g,function(_,f,d){return subDigits(f)+sup(d+'-')});
+ s=s.replace(/(?<![A-Za-z])(NH4|HCO3|NO3|NO2|HSO4|ClO4|ClO3|ClO2|ClO|OH|Cl|Br|F|Na|K|H|Li|Ag)([+-])(?![A-Za-z0-9+-])/g,function(_,f,sg){return subDigits(f)+sup(sg)});
+ return s}
+function inline(raw){
+ var s=raw;SYM.forEach(function(p){s=s.replace(p[0],p[1])});
+ s=esc(s);
+ s=s.replace(/_\{([^}]+)\}/g,'<sub>$1</sub>').replace(/\^\{([^}]+)\}/g,function(_,a){return sup(a)})
+  .replace(/\^([0-9]*[+-])(?![A-Za-z0-9])/g,function(_,a){return sup(a)}).replace(/\^(-?\d+)/g,function(_,a){return sup(a)})
+  .replace(/([A-Za-z)])_(\d+)/g,'$1<sub>$2</sub>');
+ s=chemIons(s);
+ s=s.replace(/(?<![A-Za-z])([A-Z(][A-Za-z0-9()]*)(?![A-Za-z0-9])/g,function(m){return parseFormula(m)||m});
+ s=s.replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/(^|[^*\w])\*([^*\s][^*]*?)\*(?![*\w])/g,'$1<em>$2</em>');
+ return s}
+function isEq(l){return /(\u2192|\u21CC|\u2194|->|<=>|<->|\\rightarrow|\\rightleftharpoons)/.test(l)&&l.length<220&&!/^\s*([-*\u2022]|\d+[.)])\s/.test(l)}
+function md(text){
+ text=text.replace(/\r/g,'').replace(/\$\$([\s\S]+?)\$\$/g,'\n\n$1\n\n').replace(/\\\[([\s\S]+?)\\\]/g,'\n\n$1\n\n').replace(/\$([^$\n]+?)\$/g,'$1').replace(/\\\(|\\\)/g,'');
+ var L=text.split('\n'),out=[],i=0,para=[];
+ function flush(){if(!para.length)return;var raw=para.join('\n'),h=inline(raw).replace(/\n/g,'<br>');
+  if(para.length===1&&isEq(para[0]))out.push('<p class="chem-eq">'+h+'</p>');
+  else if(/^(Source:|Generated |Live AI was unavailable)/.test(raw))out.push('<p class="ai-src">'+h+'</p>');
+  else out.push('<p>'+h+'</p>');para=[]}
+ while(i<L.length){var ln=L[i],t=ln.trim(),m;
+  if(!t){flush();i++;continue}
+  if(/^```/.test(t)){flush();var code=[];i++;while(i<L.length&&!/^```/.test(L[i].trim())){code.push(L[i]);i++}i++;out.push('<pre>'+esc(code.join('\n'))+'</pre>');continue}
+  if((m=/^(#{1,4})\s+(.*)$/.exec(t))){flush();out.push('<h4 class="ai-h">'+inline(m[2].replace(/\*+/g,''))+'</h4>');i++;continue}
+  if(/^(-{3,}|\*{3,})$/.test(t)){flush();out.push('<hr>');i++;continue}
+  if(/^\|.*\|$/.test(t)){flush();var rows=[];while(i<L.length&&/^\|.*\|$/.test(L[i].trim())){rows.push(L[i].trim());i++}
+   var cells=function(r){return r.replace(/^\||\|$/g,'').split('|').map(function(c){return c.trim()})};var hd=cells(rows[0]),body=rows.slice(1).filter(function(r){return!/^\|?[\s:|-]+\|?$/.test(r)});
+   out.push('<div class="ai-tbl"><table><thead><tr>'+hd.map(function(c){return'<th>'+inline(c)+'</th>'}).join('')+'</tr></thead><tbody>'+body.map(function(r){return'<tr>'+cells(r).map(function(c){return'<td>'+inline(c)+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table></div>');continue}
+  if(/^[-*\u2022]\s+/.test(t)||/^\d+[.)]\s+/.test(t)){flush();var ord=/^\d+[.)]\s+/.test(t),items=[];
+   while(i<L.length&&(ord?/^\s*\d+[.)]\s+/.test(L[i]):/^\s*[-*\u2022]\s+/.test(L[i]))){var it=L[i].trim().replace(ord?/^\d+[.)]\s+/:/^[-*\u2022]\s+/,'');i++;
+    while(i<L.length&&L[i].trim()&&/^\s{2,}\S/.test(L[i])&&!/^\s*([-*\u2022]|\d+[.)])\s/.test(L[i])){it+=' '+L[i].trim();i++}
+    items.push('<li>'+inline(it)+'</li>')}
+   out.push((ord?'<ol>':'<ul>')+items.join('')+(ord?'</ol>':'</ul>'));continue}
+  if(/^>\s?/.test(t)){flush();var q=[];while(i<L.length&&/^\s*>/.test(L[i])){q.push(L[i].replace(/^\s*>\s?/,''));i++}out.push('<blockquote>'+inline(q.join('\n')).replace(/\n/g,'<br>')+'</blockquote>');continue}
+  para.push(t);i++}
+ flush();
+ /* first short unpunctuated block of preset answers becomes a heading */
+ return out.join('')}
+window.__swFormat=md;
+
+/* Preset / offline answers are written with textContent by the page: format them after the fact. */
+var busy=false;
+new MutationObserver(function(){var f=box.firstChild;if(!f||f.nodeType!==3)return;var txt=box.textContent;if(!txt.trim())return;
+ busy=true;var blocks=txt.split(/\n{2,}/),title='';
+ if(blocks.length>2&&blocks[0].length<110&&!/[.:]$/.test(blocks[0].trim())){title=blocks.shift()}
+ var doc=document.createElement('div');doc.className='ai-doc';doc.innerHTML=(title?'<h4 class="ai-h">'+inline(title)+'</h4>':'')+md(blocks.join('\n\n'));
+ box.textContent='';box.appendChild(doc);box.classList.add('ai-rich','ai-answer-ready');setTimeout(function(){busy=false},0)}).observe(box,{childList:true});
+
+/* =================== Answer length toggle =================== */
+var len=ls('g','sw-ai-len')==='detailed'?'detailed':'quick';
+var tag=$('ai-active-standard-tag');
+if(tag&&!$('ai-len')){var w=document.createElement('div');w.id='ai-len';w.className='ai-seg ai-seg-sm';w.setAttribute('role','radiogroup');w.setAttribute('aria-label','Answer length');
+ w.innerHTML='<button type="button" role="radio" data-len="quick" title="Short, fast answer">Quick</button><button type="button" role="radio" data-len="detailed" title="Longer explanation">Detailed</button>';
+ tag.parentNode.insertBefore(w,tag.nextSibling);
+ var paintLen=function(){w.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-checked',b.dataset.len===len?'true':'false')})};
+ w.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;len=b.dataset.len;ls('s','sw-ai-len',len);paintLen()});paintLen();
+ tag.parentNode.classList.add('ai-toolbar')}
+
+/* =================== Fast live answers: streaming + low latency =================== */
+var MODELS=['gemini-flash-latest','gemini-2.5-flash','gemini-3.8-flash'];
+var cache=new Map(),ctrl=null;
+function stdName(){var s=$('ai-standard-select');return s&&s.selectedOptions[0]?s.selectedOptions[0].textContent.trim():'IAPWS TGD3-10'}
+function sysPrompt(l){return 'You are a power-plant water-chemistry tutor for plant operators and chemists (AVT/OT boiler cycle, DM plant, PT plant, cooling-water treatment). Active reference standard: '+stdName()+'.\n'+
+ 'Write for fast reading in Markdown. Start with a one-sentence direct answer. Then at most '+(l==='detailed'?'8':'5')+' short bullets or a short numbered procedure. '+
+ 'Write each chemical reaction on its own line using plain text only, e.g. "Ca(OH)2 + CO2 -> CaCO3 + H2O" or "N2H4 + O2 -> N2 + 2H2O"; write ions as Ca2+, OH-, SO4 2- style plain text. Never use LaTeX, $ signs or HTML. '+
+ 'Use SI units (mg/L, \u00B5S/cm, \u00B0C). Give numeric limits only when well established in the standard and say to confirm against the site procedure. Never invent plant setpoints. ' +
+ 'For water-treatment O&M questions, use symptom-led diagnosis: verify instruments and trends; compare feed, intermediate and product quality; localise the process stage; check chemical preparation/feed, hydraulic conditions, valves, flow and pressure; then recommend safe, evidence-based corrective actions. ' +
+ 'For ion exchange, consider regenerant strength/quantity, rinse endpoint, raw-water ionic load, resin capacity/bed depth, channeling, fines, resin fouling and instrument accuracy. For UF, consider flow reduction, pressure drop, microbial trend, biofilm, fibre integrity, valves/actuator air, pretreatment quality and membrane-compatible cleaning/sanitisation. For RO, distinguish metal oxide, colloidal, biological, organic and mineral/silica fouling from oxidant or pH damage and seal leaks; interpret normalised pressure drop, feed pressure and salt passage together. For cooling water, consider cycles of concentration, blowdown, pH, hardness/alkalinity, inhibitor/biocide feed and biological fouling. For clarification and filtration, consider jar-test response, floc quality, settling, sludge withdrawal, filter head loss, backwash and media condition. ' +
+ 'Keep maintenance advice generic and safe; require site-approved isolation, chemical compatibility and operating limits before intrusive work or chemical cleaning. Be concise: about '+(l==='detailed'?'300':'140')+' words, no preamble, no closing summary.'}
+function apiErr(r,body){var m='';try{m=(JSON.parse(body).error||{}).message||''}catch(e){}return{status:r.status,message:m||('HTTP '+r.status)}}
+async function openStream(key,q,l,signal){
+ var pref=ls('g','sw-ai-model'),list=pref?[pref].concat(MODELS.filter(function(m){return m!==pref})):MODELS.slice(),last;
+ for(var i=0;i<list.length;i++){var think=true;
+  for(;;){var g={temperature:.3,maxOutputTokens:(l==='detailed'?1400:700)*(think?1:2)};if(think)g.thinkingConfig={thinkingBudget:0};
+   var r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+list[i]+':streamGenerateContent?alt=sse',{method:'POST',signal:signal,
+    headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify({systemInstruction:{parts:[{text:sysPrompt(l)}]},contents:[{role:'user',parts:[{text:q}]}],generationConfig:g})});
+   if(r.ok){ls('s','sw-ai-model',list[i]);return r}
+   var txt=await r.text();last=apiErr(r,txt);
+   if(r.status===400&&think&&/think/i.test(last.message)){think=false;continue}
+   break}
+  if(last.status!==404)throw last}
+ throw last}
+async function readStream(r,onText){var full='';
+ if(!r.body||!r.body.getReader){var t=await r.text();t.split('\n').forEach(function(l){if(l.indexOf('data:')===0){try{pick(JSON.parse(l.slice(5)))}catch(e){}}});onText(full);return full}
+ var rd=r.body.getReader(),dec=new TextDecoder(),buf='';
+ function pick(o){var p=o&&o.candidates&&o.candidates[0]&&o.candidates[0].content&&o.candidates[0].content.parts||[];p.forEach(function(x){if(x.text&&!x.thought)full+=x.text})}
+ for(;;){var x=await rd.read();if(x.done)break;buf+=dec.decode(x.value,{stream:true});var ls_=buf.split('\n');buf=ls_.pop();
+  var got=false;ls_.forEach(function(l){l=l.trim();if(l.indexOf('data:')!==0)return;var j=l.slice(5).trim();if(!j)return;try{pick(JSON.parse(j));got=true}catch(e){}});
+  if(got)onText(full)}
+ return full}
+
+var raf=0,pending=null;
+function paint(text,final,note){box.classList.add('ai-rich','ai-answer-ready');busy=true;
+ var doc=box.querySelector('.ai-doc');if(!doc){box.textContent='';doc=document.createElement('div');doc.className='ai-doc';box.appendChild(doc)}
+ doc.innerHTML=md(text)+(final?'':'<span class="ai-caret" aria-hidden="true"></span>')+(note?'<p class="ai-src">'+esc(note)+'</p>':'');setTimeout(function(){busy=false},0)}
+function skeleton(msg){box.classList.add('ai-rich');busy=true;box.textContent='';var d=document.createElement('div');d.className='ai-doc ai-wait';
+ d.innerHTML='<div class="ai-skel"><i></i><i></i><i></i></div><p class="ai-src">'+esc(msg)+'</p>';box.appendChild(d);setTimeout(function(){busy=false},0)}
+function setBtn(on){if(!btn)return;btn.disabled=on;btn.innerHTML=on?'<i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Answering\u2026':'<i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Query AI Expert'}
+function offline(note,suggestOwn){var v=keyEl?keyEl.value:'';if(keyEl)keyEl.value='';try{orig.call(window)}finally{if(keyEl)keyEl.value=v}
+ setTimeout(function(){var doc=box.querySelector('.ai-doc');if(!doc)return;var n=document.createElement('div');n.className='ai-warn';
+  n.innerHTML='<i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>'+esc(note)+'</span>'+(suggestOwn?'<button type="button" class="ai-warn-btn">Use my own key</button>':'');
+  doc.insertBefore(n,doc.firstChild);var b=n.querySelector('button');if(b)b.onclick=function(){var s=document.querySelector('[data-ai-mode="own"]');if(s)s.click();window.scrollTo({top:$('ai-conn').getBoundingClientRect().top+scrollY-120,behavior:'smooth'})}},30)}
+
+window.askStandardizedAi=async function(){
+ var q=qEl.value.trim();
+ if(!q){return orig.apply(this,arguments)}
+
+ // Step 1: search the built-in local knowledge bank first.
+ if(ctrl){ctrl.abort();ctrl=null}
+ var local=null;
+ try{if(typeof window.__swChooseLocalAnswer==='function')local=window.__swChooseLocalAnswer(q)}catch(e){}
+ if(local){
+   var localText=(local.q?local.q+'\n\n':'')+local.a;
+   paint(localText,true,'Answered from the built-in offline knowledge bank. No API call was needed.');
+   return;
+ }
+
+ // Step 2: retrieve the shared key (or a saved personal key) and query Gemini.
+ var key='';
+ try{key=window.__swKey?window.__swKey():''}catch(e){key=''}
+ if(!key){
+   // If a deployment injects a shared key under a common config name, check it as a final fallback.
+   key=window.__SW_SHARED_GEMINI_API_KEY||window.SHARED_GEMINI_API_KEY||'';
+ }
+ if(!key){
+   paint('No local match and no saved API key',
+     'The local knowledge bank did not contain a close match, and no shared or personal Gemini API key was found in this browser. Add a key in AI connection settings or configure the shared key for this deployment.',
+     'Local search was completed before the API-key check.');
+   return;
+ }
+
+ var ck=stdName()+'|'+len+'|'+q.toLowerCase();
+ if(cache.has(ck)){paint(cache.get(ck),true,'Generated by Gemini • instant (repeat question). Verify plant-specific targets with approved procedures.');return}
+ if(ctrl)ctrl.abort();ctrl=new AbortController();var my=ctrl,t0=performance.now(),first=0;
+ setBtn(true);skeleton('No close local match. Connecting to the saved Gemini API key…');
+ var timer=setTimeout(function(){my.abort()},30000);
+ try{
+  var r=await openStream(key,q,len,my.signal),text=await readStream(r,function(t){
+   if(!first){first=performance.now();clearTimeout(timer)}
+   pending=t;if(!raf)raf=requestAnimationFrame(function(){raf=0;if(pending!=null&&ctrl===my)paint(pending,false)});
+  });
+  if(raf){cancelAnimationFrame(raf);raf=0}
+  if(!text.trim())throw{message:'Gemini returned no text.'};
+  cache.set(ck,text);if(cache.size>40)cache.delete(cache.keys().next().value);
+  paint(text,true,'Generated live by Gemini in '+((performance.now()-t0)/1000).toFixed(1)+' s. Verify plant-specific targets with approved procedures.');
+ }catch(e){
+  if(ctrl!==my)return;
+  var m=e&&e.message||'Request failed',st=e&&e.status,own=(document.querySelector('[data-ai-mode][aria-checked="true"]')||{dataset:{}}).dataset.aiMode==='own';
+  if(e&&e.name==='AbortError')m='Gemini took too long to respond';
+  else if(st===429)m='The '+(own?'saved key':'shared key')+' quota is used up for now';
+  else if(st===400||st===403)m='The API key was rejected ('+m.slice(0,110)+')';
+  // Keep the UI useful even if Gemini is temporarily unavailable.
+  var related=window.__swChooseLocalAnswer?window.__swChooseLocalAnswer(q):null;
+  if(related)paint((related.q?related.q+'\n\n':'')+related.a,true,'Gemini was unavailable; showing the local answer instead.');
+  else offline('Live AI unavailable: '+m+'. Try a related topic below, or check the saved shared API key and its quota.',!own&&(st===429||st===400||st===403||(e&&e.name==='AbortError')));
+ }finally{clearTimeout(timer);if(ctrl===my)setBtn(false)}
+};
+
+/* warm up the connection when the user starts typing */
+qEl.addEventListener('focus',function(){if(document.getElementById('ux-preconnect'))return;var l=document.createElement('link');l.id='ux-preconnect';l.rel='preconnect';l.href='https://generativelanguage.googleapis.com';document.head.appendChild(l)},{once:true});
+})();
+
+</script>
+
+
+
+
+
+
+<style id="ai-related-topic-styles">
+#ai-related-topics{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--line);white-space:normal}
+#ai-related-topics h4{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.25rem}
+#ai-related-topics p{font-size:.75rem;color:var(--ink-2);margin-bottom:.65rem}
+#ai-related-topics .ai-topic-btn{border:1px solid var(--line-2);background:var(--panel-2);color:var(--ink-2);border-radius:999px;padding:.42rem .7rem;font-size:.72rem;text-align:left;cursor:pointer}
+#ai-related-topics .ai-topic-btn:hover,#ai-related-topics .ai-topic-btn:focus{border-color:var(--accent);color:var(--ink);outline:none}
+#ai-related-topic-detail{margin-top:.8rem;padding:.85rem;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;background:var(--panel);white-space:normal}
+#ai-related-topic-detail h5{font-weight:700;color:var(--ink);margin-bottom:.35rem}
+#ai-related-topic-detail p{white-space:pre-wrap;margin:0;color:var(--ink-2);line-height:1.6}
+</style>
+<script id="ai-related-topic-fallback">
+(()=>{
+ const box=document.getElementById('ai-response-box'); if(!box)return;
+ const topics=[
+  {id:'ph',name:'pH and alkalinity',body:'pH indicates the hydrogen-ion activity of water, while alkalinity describes its acid-neutralising capacity. They are related but are not interchangeable. A pH change does not, by itself, tell you the alkalinity. In treatment processes, interpret pH together with alkalinity, raw-water quality and the response seen in jar testing.'},
+  {id:'coag',name:'Coagulation and flocculation',body:'Coagulation destabilises colloidal particles so they can come together. Flocculation provides controlled mixing that encourages destabilised particles to form larger flocs. Poor chemical dispersion, unsuitable dose, pH/alkalinity changes or excessive mixing can reduce clarification performance. Use jar tests and observe floc formation and settling before changing the process.'},
+  {id:'jar',name:'Jar testing',body:'A jar test compares several treatment conditions using representative raw water. Vary coagulant dose and, where appropriate, pH or mixing conditions in a controlled way. Compare floc formation, settling and clarified-water appearance/turbidity. Use the result as a process decision aid, then confirm the response in the plant.'},
+  {id:'ufro',name:'UF and RO process',body:'Ultrafiltration primarily removes suspended and colloidal material. Reverse osmosis removes dissolved constituents by membrane separation. UF performance is commonly followed through filtrate quality, transmembrane pressure and cleaning response; RO performance is assessed using feed/permeate quality, differential pressure, flow and salt rejection. Interpret trends together rather than relying on one reading.'},
+  {id:'scale',name:'RO scaling and antiscalant',body:'Scaling occurs when sparingly soluble salts become supersaturated and precipitate on membrane surfaces. Risk depends on feed-water composition, recovery, pH, temperature and concentration at the membrane surface. Antiscalant can delay precipitation but does not remove the need for proper pretreatment, recovery control and feed-water analysis.'},
+  {id:'chlorine',name:'Chlorination and residual',body:'Chlorination provides disinfection and may also control biological growth in selected process locations. The measured residual depends on dose, demand, contact time, pH and water quality. Confirm the sampling point and instrument method, and follow site chlorine handling, ventilation, leak response and emergency procedures.'},
+  {id:'ix',name:'Ion-exchange regeneration',body:'Cation resin regeneration restores exchange sites using an acid regenerant; anion resin regeneration uses an alkaline regenerant. Regeneration performance depends on resin condition, regenerant concentration and quantity, flow/distribution, contact time and rinse completion. Evaluate leakage and product-water quality after regeneration rather than judging only by chemical consumption.'},
+  {id:'cwt',name:'Cooling-water treatment',body:'Cooling-water treatment aims to control scale, corrosion and biological growth. Chemical selection and feed rates depend on cooling-water chemistry, metallurgy, cycles of concentration, operating conditions and monitoring results. Track conductivity, pH, hardness/alkalinity, corrosion indicators and microbiological control as applicable to the plant programme.'},
+  {id:'avt',name:'AVT(R), AVT(O) and OT',body:'AVT(R) is an all-volatile reducing treatment, AVT(O) is an all-volatile oxidising treatment, and OT is oxygenated treatment. The suitable regime depends on cycle metallurgy, plant configuration, water purity and operating conditions. Do not select a treatment regime or setpoint from a generic rule without checking the applicable IAPWS TGD3-10(2015) Technical Standard and plant-specific chemistry programme.'},
+  {id:'cace',name:'Cation conductivity (CACE)',body:'Cation conductivity is used to detect ionic contamination after a cation exchanger removes the influence of alkalising agents. It is a sensitive indicator of anions such as chloride, sulfate and organic-acid anions. Interpret the value with sample location, degassing where relevant, instrument condition and the applicable IAPWS TGD3-10(2015) Technical Standard.'},
+  {id:'steam',name:'Steam purity and carryover',body:'Steam purity is affected by mechanical carryover of boiler water and by volatile or non-volatile contaminants transported into steam. For drum units, drum level, load, water chemistry and separation performance can influence carryover. Use representative sampling and the relevant limits and actions defined for the actual unit.'}
+ ];
+ function clear(){const old=box.querySelector('#ai-related-topics');if(old)old.remove();}
+ function show(){clear();const panel=document.createElement('section');panel.id='ai-related-topics';panel.innerHTML='<h4>Related topics to explore</h4><p>The live answer was unavailable or no close offline match was found. Select a related topic to open a short learning explanation.</p><div class="flex flex-wrap gap-2" id="ai-related-topic-buttons"></div><div id="ai-related-topic-detail" hidden aria-live="polite"></div>';
+  const buttons=panel.querySelector('#ai-related-topic-buttons'),detail=panel.querySelector('#ai-related-topic-detail');
+  topics.forEach(t=>{const b=document.createElement('button');b.type='button';b.className='ai-topic-btn';b.textContent=t.name;b.addEventListener('click',()=>{detail.hidden=false;detail.innerHTML='';const h=document.createElement('h5');h.textContent=t.name;const p=document.createElement('p');p.textContent=t.body;detail.append(h,p);});buttons.appendChild(b);});
+  box.appendChild(panel);
+ }
+ const original=window.askStandardizedAi;
+ if(typeof original!=='function')return;
+ window.askStandardizedAi=async function(){clear();await original.apply(this,arguments);const txt=(box.innerText||'').toLowerCase();const failed=/no direct offline match|could not reach live ai|live ai unavailable|api unavailable|returned no text|request failed|quota is used up|api key was rejected|took too long|http\s*\d{3}/i.test(txt);const empty=!(box.innerText||'').trim();if(failed||empty)show();};
+})();
+</script>
+
+
+
 
 </body>
 </html>
