@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>try{if(localStorage.getItem("sw-theme")!=="dark")document.documentElement.classList.add("light");}catch(e){document.documentElement.classList.add("light");}</script>
   <link rel="preconnect" href="https://generativelanguage.googleapis.com" crossorigin>
+  <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <title>Once-Through & Supercritical Steam-Water Chemistry Simulator (IAPWS TGD3-10)</title>
@@ -3883,6 +3884,7 @@ $('cw-qr').onclick=()=>{qi=0;sc=0;$('cw-qs').textContent=0;$('cw-qt').textConten
 
 <script>
   window.updateDmCalc = function() {
+    if (!document.getElementById('dm-calc-results') || !document.getElementById('dm-vc')) return; // legacy calculator no longer on page
     const vc = parseFloat(document.getElementById('dm-vc').value) || 12;
     const va = parseFloat(document.getElementById('dm-va').value) || 10;
     const ccap = parseFloat(document.getElementById('dm-ccap').value) || 1.8;
@@ -3911,6 +3913,7 @@ $('cw-qr').onclick=()=>{qi=0;sc=0;$('cw-qs').textContent=0;$('cw-qt').textConten
   };
 
   window.updatePtCalc = function() {
+    if (!document.getElementById('pt-calc-results') || !document.getElementById('pt-flow')) return; // legacy calculator no longer on page
     const flow = parseFloat(document.getElementById('pt-flow').value) || 2500;
     const alumDose = parseFloat(document.getElementById('pt-alum-dose').value) || 35;
     const polyDose = parseFloat(document.getElementById('pt-poly-dose').value) || 0.25;
@@ -4854,8 +4857,11 @@ if(tag&&!$('ai-len')){var w=document.createElement('div');w.id='ai-len';w.classN
  tag.parentNode.classList.add('ai-toolbar')}
 
 /* =================== Fast live answers: streaming + low latency =================== */
-var MODELS=['gemini-flash-latest','gemini-2.5-flash','gemini-3.8-flash'];
+var MODELS=['gemini-flash-latest','gemini-flash-lite-latest','gemini-2.5-flash','gemini-3.8-flash'];
+var HEDGE_MS=3500,FIRST_TOKEN_MS=25000,CACHE_K='sw-ai-cache-v1';
 var cache=new Map(),ctrl=null;
+try{JSON.parse(ls('g',CACHE_K)||'[]').forEach(function(p){cache.set(p[0],p[1])})}catch(e){}
+function saveCache(){try{ls('s',CACHE_K,JSON.stringify(Array.from(cache.entries()).slice(-30)))}catch(e){}}
 function stdName(){var s=$('ai-standard-select');return s&&s.selectedOptions[0]?s.selectedOptions[0].textContent.trim():'IAPWS TGD3-10'}
 function sysPrompt(l){return 'You are a power-plant water-chemistry tutor for plant operators and chemists (AVT/OT boiler cycle, DM plant, PT plant, cooling-water treatment). Active reference standard: '+stdName()+'.\n'+
  'Write for fast reading in Markdown. Start with a one-sentence direct answer. Then at most '+(l==='detailed'?'8':'5')+' short bullets or a short numbered procedure. '+
@@ -4865,18 +4871,45 @@ function sysPrompt(l){return 'You are a power-plant water-chemistry tutor for pl
  'For ion exchange, consider regenerant strength/quantity, rinse endpoint, raw-water ionic load, resin capacity/bed depth, channeling, fines, resin fouling and instrument accuracy. For UF, consider flow reduction, pressure drop, microbial trend, biofilm, fibre integrity, valves/actuator air, pretreatment quality and membrane-compatible cleaning/sanitisation. For RO, distinguish metal oxide, colloidal, biological, organic and mineral/silica fouling from oxidant or pH damage and seal leaks; interpret normalised pressure drop, feed pressure and salt passage together. For cooling water, consider cycles of concentration, blowdown, pH, hardness/alkalinity, inhibitor/biocide feed and biological fouling. For clarification and filtration, consider jar-test response, floc quality, settling, sludge withdrawal, filter head loss, backwash and media condition. ' +
  'Keep maintenance advice generic and safe; require site-approved isolation, chemical compatibility and operating limits before intrusive work or chemical cleaning. Be concise: about '+(l==='detailed'?'300':'140')+' words, no preamble, no closing summary.'}
 function apiErr(r,body){var m='';try{m=(JSON.parse(body).error||{}).message||''}catch(e){}return{status:r.status,message:m||('HTTP '+r.status)}}
-async function openStream(key,q,l,signal){
- var pref=ls('g','sw-ai-model'),list=pref?[pref].concat(MODELS.filter(function(m){return m!==pref})):MODELS.slice(),last;
- for(var i=0;i<list.length;i++){var think=true;
-  for(;;){var g={temperature:.3,maxOutputTokens:(l==='detailed'?1400:700)*(think?1:2)};if(think)g.thinkingConfig={thinkingBudget:0};
-   var r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+list[i]+':streamGenerateContent?alt=sse',{method:'POST',signal:signal,
-    headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify({systemInstruction:{parts:[{text:sysPrompt(l)}]},contents:[{role:'user',parts:[{text:q}]}],generationConfig:g})});
-   if(r.ok){ls('s','sw-ai-model',list[i]);return r}
-   var txt=await r.text();last=apiErr(r,txt);
-   if(r.status===400&&think&&/think/i.test(last.message)){think=false;continue}
-   break}
-  if(last.status!==404)throw last}
+/* Thinking control differs by model family: Gemini 3.x uses thinkingLevel, 2.5 uses thinkingBudget.
+   Sending the wrong one gives HTTP 400 - the old code then fell back to NO limit (slow, deep thinking). Try each form, remember what works. */
+var THINK_FORMS=[{thinkingLevel:'minimal'},{thinkingBudget:0},null];
+function tfKey(m){return 'sw-ai-think-'+m}
+async function tryModel(model,key,q,l,sig){
+ var saved=ls('g',tfKey(model)),order=THINK_FORMS.map(function(_,i){return i});
+ if(saved!==null&&order[+saved]!==undefined){order=[+saved].concat(order.filter(function(i){return i!==+saved}))}
+ var last;
+ for(var n=0;n<order.length;n++){var idx=order[n],tf=THINK_FORMS[idx];
+  var g={temperature:.3,maxOutputTokens:(l==='detailed'?1400:700)*(tf?1:2)};if(tf)g.thinkingConfig=tf;
+  var r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+model+':streamGenerateContent?alt=sse',{method:'POST',signal:sig,
+   headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify({systemInstruction:{parts:[{text:sysPrompt(l)}]},contents:[{role:'user',parts:[{text:q}]}],generationConfig:g})});
+  if(r.ok){ls('s',tfKey(model),String(idx));return r}
+  var txt=await r.text();last=apiErr(r,txt);
+  if(r.status===400&&/think/i.test(last.message))continue;
+  break}
  throw last}
+/* Hedged request: start the best model; if it is slow (or fails with overload/quota/404) start the next one at once.
+   The first model to answer wins and the others are cancelled. */
+function openFast(key,q,l,signal){
+ return new Promise(function(resolve,reject){
+  var pref=ls('g','sw-ai-model'),list=pref?[pref].concat(MODELS.filter(function(m){return m!==pref})):MODELS.slice();
+  var started=0,failed=0,done=false,lastErr,hedge,ctrls=[];
+  function stop(){done=true;clearTimeout(hedge)}
+  signal.addEventListener('abort',function(){if(done)return;stop();ctrls.forEach(function(c){c.abort()});reject({name:'AbortError',message:'aborted'})});
+  function launch(){
+   if(done||started>=list.length)return;
+   var m=list[started++],c=new AbortController();ctrls.push(c);
+   tryModel(m,key,q,l,c.signal).then(function(r){
+    if(done){try{c.abort()}catch(e){}return}
+    stop();ctrls.forEach(function(x){if(x!==c)x.abort()});ls('s','sw-ai-model',m);resolve(r)
+   },function(e){
+    if(done)return;lastErr=e;failed++;
+    var fatal=e&&(e.status===401||e.status===403||(e.status===400&&!/think/i.test(e.message||'')));
+    if(fatal){stop();ctrls.forEach(function(x){x.abort()});reject(e);return}
+    if(failed>=list.length){stop();reject(lastErr);return}
+    launch()});
+   clearTimeout(hedge);if(started<list.length)hedge=setTimeout(launch,HEDGE_MS)}
+  launch()})}
 async function readStream(r,onText){var full='';
  if(!r.body||!r.body.getReader){var t=await r.text();t.split('\n').forEach(function(l){if(l.indexOf('data:')===0){try{pick(JSON.parse(l.slice(5)))}catch(e){}}});onText(full);return full}
  var rd=r.body.getReader(),dec=new TextDecoder(),buf='';
@@ -4929,16 +4962,16 @@ window.askStandardizedAi=async function(){
  var ck=stdName()+'|'+len+'|'+q.toLowerCase();
  if(cache.has(ck)){paint(cache.get(ck),true,'Generated by Gemini • instant (repeat question). Verify plant-specific targets with approved procedures.');return}
  if(ctrl)ctrl.abort();ctrl=new AbortController();var my=ctrl,t0=performance.now(),first=0;
- setBtn(true);skeleton('No close local match. Connecting to the saved Gemini API key…');
- var timer=setTimeout(function(){my.abort()},30000);
+ setBtn(true);skeleton('No close local match. Asking Gemini…');
+ var timer=setTimeout(function(){my.abort()},FIRST_TOKEN_MS);
  try{
-  var r=await openStream(key,q,len,my.signal),text=await readStream(r,function(t){
+  var r=await openFast(key,q,len,my.signal),text=await readStream(r,function(t){
    if(!first){first=performance.now();clearTimeout(timer)}
    pending=t;if(!raf)raf=requestAnimationFrame(function(){raf=0;if(pending!=null&&ctrl===my)paint(pending,false)});
   });
   if(raf){cancelAnimationFrame(raf);raf=0}
   if(!text.trim())throw{message:'Gemini returned no text.'};
-  cache.set(ck,text);if(cache.size>40)cache.delete(cache.keys().next().value);
+  cache.set(ck,text);if(cache.size>40)cache.delete(cache.keys().next().value);saveCache();
   paint(text,true,'Generated live by Gemini in '+((performance.now()-t0)/1000).toFixed(1)+' s. Verify plant-specific targets with approved procedures.');
  }catch(e){
   if(ctrl!==my)return;
@@ -4954,7 +4987,7 @@ window.askStandardizedAi=async function(){
 };
 
 /* warm up the connection when the user starts typing */
-qEl.addEventListener('focus',function(){if(document.getElementById('ux-preconnect'))return;var l=document.createElement('link');l.id='ux-preconnect';l.rel='preconnect';l.href='https://generativelanguage.googleapis.com';document.head.appendChild(l)},{once:true});
+qEl.addEventListener('focus',function(){try{fetch('https://generativelanguage.googleapis.com/',{mode:'no-cors',cache:'no-store'}).catch(function(){})}catch(e){}if(document.getElementById('ux-preconnect'))return;var l=document.createElement('link');l.id='ux-preconnect';l.rel='preconnect';l.href='https://generativelanguage.googleapis.com';document.head.appendChild(l)},{once:true});
 })();
 
 </script>
